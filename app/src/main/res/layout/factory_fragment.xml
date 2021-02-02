@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,12 +12,75 @@
         android:layout_height="match_parent"
         tools:context=".FactoryFragment">
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="这是制作视频的地方"
-            android:textSize="24sp" />
+            android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/buttonNew"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:background="#FFEB3B"
+                android:text="新建"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline15"
+                app:layout_constraintEnd_toStartOf="@+id/guideline19"
+                app:layout_constraintStart_toStartOf="@+id/guideline18" />
+
+            <Button
+                android:id="@+id/buttonManage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="#00BCD4"
+                android:text="管理"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/guideline19"
+                app:layout_constraintStart_toStartOf="@+id/guideline18"
+                app:layout_constraintTop_toTopOf="@+id/guideline15" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.2" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="这里制作和管理互动视频"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline17"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -12,6 +12,8 @@ public class VideoCut {
     @PrimaryKey(autoGenerate = true)
     private int id;
     //主要属性
+    @ColumnInfo(name = "isCut")
+    private boolean isCut;
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "description")
@@ -23,6 +25,14 @@ public class VideoCut {
         this.name = name;
         this.description = description;
         this.lenth = lenth;
+    }
+
+    public boolean isCut() {
+        return isCut;
+    }
+
+    public void setCut(boolean cut) {
+        isCut = cut;
     }
 
     public int getId() {
