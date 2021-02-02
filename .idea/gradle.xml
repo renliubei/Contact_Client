@@ -5,17 +5,18 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
+        <option name="testRunner" value="PLATFORM" />
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$USER_HOME$/.gradle/wrapper/dists/gradle-6.7.1-all" />
-        <option name="gradleJvm" value="14" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+        <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
