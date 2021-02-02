@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/communityFragment"
+        android:icon="@drawable/ic_baseline_emoji_people_24"
+        android:title="社区" />
+    <item
+        android:id="@+id/factoryFragment"
+        android:icon="@drawable/ic_baseline_plumbing_24"
+        android:title="制作" />
+    <item
+        android:id="@+id/userFragment"
+        android:icon="@drawable/ic_baseline_face_24"
+        android:title="我的" />
+</menu>
