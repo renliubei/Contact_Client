@@ -1,7 +1,5 @@
 package com.example.contact_client;
 
-import android.widget.ImageView;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 

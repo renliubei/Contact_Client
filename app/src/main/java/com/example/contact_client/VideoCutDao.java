@@ -1,4 +1,4 @@
-package com.example.contact_client.Room;
+package com.example.contact_client;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

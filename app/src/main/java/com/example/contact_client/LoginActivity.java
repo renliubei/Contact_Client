@@ -1,4 +1,4 @@
-package com.example.contact_client.Login;
+package com.example.contact_client;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -9,9 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.contact_client.MainActivity;
-import com.example.contact_client.R;
-import com.example.contact_client.UserViewModel;
 import com.example.contact_client.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

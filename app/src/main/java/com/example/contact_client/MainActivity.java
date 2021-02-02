@@ -9,11 +9,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
+import com.example.contact_client.databinding.FactoryFragmentBinding;
 
 public class MainActivity extends AppCompatActivity {
+    FactoryFragmentBinding factoryFragmentBinding;
     ActivityMainBinding activityMainBinding;
     UserViewModel userViewModel;
     @Override
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //相关绑定
-        activityMainBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         //
 //
