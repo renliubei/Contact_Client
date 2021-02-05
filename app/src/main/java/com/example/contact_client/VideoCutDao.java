@@ -1,5 +1,6 @@
 package com.example.contact_client;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -24,6 +25,6 @@ public interface VideoCutDao {
     void deleteAllVideoCuts();
 
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
-    List<VideoCut> getAllVideoCuts();
+    LiveData<List<VideoCut>> getAllVideoCuts();
 }
 
