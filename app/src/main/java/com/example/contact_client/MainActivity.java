@@ -8,6 +8,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
@@ -37,5 +38,7 @@ public class MainActivity extends AppCompatActivity {
         userViewModel.getAccount().setValue(bundle.getString("account"));
         userViewModel.getName().setValue("Antonio");
         //
+
+
     }
 }

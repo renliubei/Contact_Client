@@ -9,17 +9,19 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 @Dao
 public interface VideoCutDao {
     //用于对数据库中VideoCut表进行操作
     @Insert
-    void insertVideoCuts(VideoCut... videoCuts);
+    Single<List<Long>> insertVideoCuts(VideoCut... videoCuts);
 
     @Update
-    void updateVideoCuts(VideoCut... videoCuts);
+    Single<Integer> updateVideoCuts(VideoCut... videoCuts);
 
     @Delete
-    void deleteVideoCuts(VideoCut... videoCuts);
+    Single<Integer> deleteVideoCuts(VideoCut... videoCuts);
 
     @Query("DELETE FROM VideoCut")
     void deleteAllVideoCuts();
