@@ -23,56 +23,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.7" />
+            app:layout_constraintGuide_percent="0.8" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.85" />
-
-        <ScrollView
-            android:id="@+id/scrollView2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline21"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/textViewData"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
-        </ScrollView>
+            app:layout_constraintGuide_percent="0.9" />
 
         <Button
             android:id="@+id/buttonInsert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="添加"
+            android:text="@string/Insert"
             app:layout_constraintBottom_toTopOf="@+id/guideline22"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/buttonDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="删除"
+            android:text="@string/Delete"
             app:layout_constraintBottom_toTopOf="@+id/guideline22"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline23"
-            app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+            app:layout_constraintStart_toStartOf="@+id/guideline23" />
 
         <Button
             android:id="@+id/buttonClear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="清空"
+            android:text="@string/DeleteAll"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,10 +64,19 @@
             android:id="@+id/buttonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="修改"
+            android:text="@string/Update"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline23"
             app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/videoCutsRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline21"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
