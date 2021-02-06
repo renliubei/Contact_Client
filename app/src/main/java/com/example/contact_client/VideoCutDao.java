@@ -9,6 +9,7 @@ import androidx.room.Update;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @Dao
@@ -24,7 +25,7 @@ public interface VideoCutDao {
     Single<Integer> deleteVideoCuts(VideoCut... videoCuts);
 
     @Query("DELETE FROM VideoCut")
-    void deleteAllVideoCuts();
+    Completable deleteAllVideoCuts();
 
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
     LiveData<List<VideoCut>> getAllVideoCuts();

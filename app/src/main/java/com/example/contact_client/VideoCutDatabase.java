@@ -14,7 +14,6 @@ public abstract class VideoCutDatabase extends RoomDatabase {
     static synchronized VideoCutDatabase getVideoCutDatabase(Context context) {
         if (videoCutDatabase == null) {
             videoCutDatabase = Room.databaseBuilder(context.getApplicationContext(), VideoCutDatabase.class, "videoCutDatabase")
-                    .allowMainThreadQueries()
                     .build();
         }
         return videoCutDatabase;
