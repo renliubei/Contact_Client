@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.video_manager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.contact_client.R;
+import com.example.contact_client.VideoCut;
 
 import java.util.ArrayList;
 import java.util.List;

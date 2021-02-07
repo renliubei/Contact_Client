@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.contact_client.databinding.FactoryFragmentBinding;
+import com.example.contact_client.video_manager.VideoManagerActivity;
 
 public class FactoryFragment extends Fragment {
     private FactoryFragmentBinding factoryFragmentBinding;

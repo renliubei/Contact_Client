@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.video_manager;
 
 import android.os.Bundle;
 
@@ -8,6 +8,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.contact_client.R;
+import com.example.contact_client.VideoCut;
 import com.example.contact_client.databinding.ActivityVideoManagerBinding;
 
 import java.util.List;

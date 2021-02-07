@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.video_manager;
 
 import android.app.Application;
 import android.widget.Toast;
@@ -6,6 +6,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.contact_client.VideoCut;
+import com.example.contact_client.VideoCutDao;
+import com.example.contact_client.VideoCutDatabase;
 
 import java.util.List;
 
