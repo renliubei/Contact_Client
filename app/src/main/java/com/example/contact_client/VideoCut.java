@@ -1,5 +1,6 @@
 package com.example.contact_client;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -18,25 +19,33 @@ public class VideoCut {
     private String name;
     @ColumnInfo(name = "description")
     private String description;
-    @ColumnInfo(name = "duration" )
-    private int duration;
-    @ColumnInfo(name = "uriString" )
-    private String uriString;
+    @ColumnInfo(name = "urlString")
+    private String urlString;
+    @ColumnInfo(name = "thumbnailPath")
+    private String thumbnailPath;
 
-    public VideoCut(boolean isCut, String name, String description, int duration, String uriString) {
+    public VideoCut(boolean isCut, String name, String description, String urlString, String thumbnailPath) {
         this.isCut = isCut;
         this.name = name;
         this.description = description;
-        this.duration = duration;
-        this.uriString = uriString;
+        this.urlString = urlString;
+        this.thumbnailPath = thumbnailPath;
     }
 
-    public String getUriString() {
-        return uriString;
+    public String getThumbnailPath() {
+        return thumbnailPath;
     }
 
-    public void setUriString(String uriString) {
-        this.uriString = uriString;
+    public void setThumbnailPath(String thumbnailPath) {
+        this.thumbnailPath = thumbnailPath;
+    }
+
+    public String getUrlString() {
+        return urlString;
+    }
+
+    public void setUrlString(String urlString) {
+        this.urlString = urlString;
     }
 
     public boolean isCut() {
@@ -71,11 +80,9 @@ public class VideoCut {
         this.description = description;
     }
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
+    @NonNull
+    @Override
+    public String toString() {
+        return name + " " + description + " " + urlString + " " + thumbnailPath;
     }
 }
