@@ -2,11 +2,15 @@ package com.example.contact_client.video_manager;
 
 import android.Manifest;
 import android.content.ContentUris;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,7 +45,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
             videoCutList = getLocalVideoCut();
-            Log.d("mylo", videoCutList.toString());
+//            Log.d("mylo", videoCutList.toString());
             //设置视图
             RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
             VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
@@ -50,6 +54,25 @@ public class GetVideoCutActivity extends AppCompatActivity {
             recyclerView.setAdapter(videoGalleryAdapter);
         }
         //
+        Button button = findViewById(R.id.buttonDecide);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<VideoCut> returnList = new ArrayList<VideoCut>();
+                for (int i = 0; i < videoCutList.size(); i++) {
+                    if (videoCutList.get(i).isCut()) {
+                        returnList.add(videoCutList.get(i));
+                    }
+                }
+                Log.d("mylo", "returnList is \n" + returnList.toString());
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("videoCuts", (ArrayList<? extends Parcelable>) returnList);
+                Intent intent = new Intent();
+                intent.putExtra("videoCuts", bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -59,7 +82,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
                     videoCutList = getLocalVideoCut();
-                    Log.d("mylo", videoCutList.toString());
+//                    Log.d("mylo", videoCutList.toString());
                     //设置视图
                     RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
                     VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
@@ -106,7 +129,9 @@ public class GetVideoCutActivity extends AppCompatActivity {
                 String name = cursor.getString(nameColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-                list.add(new VideoCut(true, name, "is a VideoCut", contentUri.toString(), videoThumbnailPath));
+                VideoCut videoCut = new VideoCut(false, name, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
+                videoCut.setId(id);
+                list.add(videoCut);
             }
         }
         return list;

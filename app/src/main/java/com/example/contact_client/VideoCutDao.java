@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,8 +16,8 @@ import io.reactivex.Single;
 @Dao
 public interface VideoCutDao {
     //用于对数据库中VideoCut表进行操作
-    @Insert
-    Single<List<Long>> insertVideoCuts(VideoCut... videoCuts);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Single<List<Long>> insertVideoCuts(List<VideoCut> list);
 
     @Update
     Single<Integer> updateVideoCuts(VideoCut... videoCuts);
