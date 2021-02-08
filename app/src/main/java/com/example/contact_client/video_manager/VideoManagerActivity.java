@@ -2,8 +2,9 @@ package com.example.contact_client.video_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -45,8 +46,6 @@ public class VideoManagerActivity extends AppCompatActivity {
         //为button添加事件
         binding.buttonInsert.setOnClickListener(v -> InsertVideoCuts());
         binding.buttonClear.setOnClickListener(v -> ClearVideoCuts());
-        binding.buttonUpdate.setOnClickListener(v -> UpdateVideoCuts());
-        binding.buttonDelete.setOnClickListener(v -> DeleteVideoCuts());
     }
 
     @Override
@@ -92,23 +91,34 @@ public class VideoManagerActivity extends AppCompatActivity {
     }
 
     private void ClearVideoCuts() {
-//        mDisposable.add(videoCutsViewModel.ClearVideoCuts()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe()
-//        );
+        mDisposable.add(videoCutsViewModel.ClearVideoCuts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        );
     }
 
     private void InsertVideoCuts() {
-        Intent intent = new Intent(this,GetVideoCutActivity.class);
-        startActivity(intent);
-//        VideoCut videoCut1 = new VideoCut("ydm", "god", 3);
-//        VideoCut videoCut2 = new VideoCut("mdy", "dog", 2);
-//        mDisposable.add(videoCutsViewModel.InsertVideoCuts(videoCut1, videoCut2)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe()
-//        );
+        Intent intent = new Intent(this, GetVideoCutActivity.class);
+        startActivityForResult(intent, 1);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getBundleExtra("videoCuts");
+                    List<VideoCut> list = bundle.getParcelableArrayList("videoCuts");
+                    Log.d("mylo", "data get!");
+                    Log.d("mylo", "I get data " + list.toString());
+                    mDisposable.add(videoCutsViewModel.InsertVideoCuts(list)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe()
+                    );
+                }
+        }
+    }
 }

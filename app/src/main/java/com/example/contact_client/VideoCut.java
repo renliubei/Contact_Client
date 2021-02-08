@@ -1,17 +1,28 @@
 package com.example.contact_client;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class VideoCut {
+public class VideoCut implements Parcelable {
     //视频片段，数据库的成员
 
-    //自动生成id
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    public static final Creator<VideoCut> CREATOR = new Creator<VideoCut>() {
+        @Override
+        public VideoCut createFromParcel(Parcel in) {
+            return new VideoCut(in);
+        }
+
+        @Override
+        public VideoCut[] newArray(int size) {
+            return new VideoCut[size];
+        }
+    };
     //主要属性
     @ColumnInfo(name = "isCut")
     private boolean isCut;
@@ -30,6 +41,34 @@ public class VideoCut {
         this.description = description;
         this.urlString = urlString;
         this.thumbnailPath = thumbnailPath;
+    }
+
+    //自动生成id
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    protected VideoCut(Parcel in) {
+        id = in.readLong();
+        isCut = in.readByte() != 0;
+        name = in.readString();
+        description = in.readString();
+        urlString = in.readString();
+        thumbnailPath = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeByte((byte) (isCut ? 1 : 0));
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(urlString);
+        dest.writeString(thumbnailPath);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getThumbnailPath() {
@@ -56,11 +95,11 @@ public class VideoCut {
         isCut = cut;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

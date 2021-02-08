@@ -1,7 +1,6 @@
 package com.example.contact_client.video_manager;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -34,7 +33,7 @@ public class VideoCutsViewModel extends AndroidViewModel {
         return allLiveDataVideoCuts;
     }
 
-    public Single<List<Long>> InsertVideoCuts(VideoCut... videoCuts) {
+    public Single<List<Long>> InsertVideoCuts(List<VideoCut> videoCuts) {
         return videoCutDao.insertVideoCuts(videoCuts);
     }
 

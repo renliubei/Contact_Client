@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +35,21 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = layoutInflater.inflate(R.layout.gallery_cell, parent, false);
-        return new MyViewHolder(itemView);
+        MyViewHolder myViewHolder = new MyViewHolder(itemView);
+
+        myViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myViewHolder.checkbox.isChecked()) {
+                    allVideoCuts.get(myViewHolder.getAdapterPosition()).setCut(false);
+                    myViewHolder.checkbox.setChecked(false);
+                } else {
+                    allVideoCuts.get(myViewHolder.getAdapterPosition()).setCut(true);
+                    myViewHolder.checkbox.setChecked(true);
+                }
+            }
+        });
+        return myViewHolder;
     }
 
     @Override
@@ -59,7 +73,7 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        Button checkbox;
+        CheckBox checkbox;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,16 +1,20 @@
 package com.example.contact_client.video_manager;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.VideoCut;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +40,10 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
-        holder.textViewId.setText(String.valueOf(videoCut.getId()));
+        Glide.with(holder.itemView)
+                .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
+                .placeholder(R.drawable.ic_baseline_face_24)
+                .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
     }
@@ -47,11 +54,12 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewId, textViewName, textViewDescription;
+        TextView textViewName, textViewDescription;
+        ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewId = itemView.findViewById(R.id.textViewId);
+            imageView = itemView.findViewById(R.id.thumbnailOfCardView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewDescription = itemView.findViewById(R.id.textViewDesc);
         }
