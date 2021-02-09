@@ -38,7 +38,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acitivity_get_video);
-        Toast.makeText(this, "successfully open GetVideoCut", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "successfully open GetVideoCut", Toast.LENGTH_SHORT).show();
 
         //获取本地视频列表
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {

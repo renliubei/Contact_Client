@@ -59,7 +59,7 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
         try {
             Glide.with(holder.itemView)
                     .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
-                    .placeholder(R.drawable.ic_baseline_face_24)
+                    .placeholder(R.mipmap.ic_launcher_round)
                     .into(holder.imageView);
         } catch (Exception e) {
             e.printStackTrace();

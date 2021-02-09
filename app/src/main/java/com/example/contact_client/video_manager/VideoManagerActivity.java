@@ -2,7 +2,7 @@ package com.example.contact_client.video_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class VideoManagerActivity extends AppCompatActivity {
+    //用于进行异步操作
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     private VideoCutsViewModel videoCutsViewModel;
@@ -43,8 +44,8 @@ public class VideoManagerActivity extends AppCompatActivity {
         binding.videoCutsRecycleView.setLayoutManager(new LinearLayoutManager(this));
         binding.videoCutsRecycleView.setAdapter(videoCutsAdapter);
 
-        //为button添加事件
-        binding.buttonInsert.setOnClickListener(v -> InsertVideoCuts());
+        //为button注册事件
+        binding.buttonInsert.setOnClickListener(v -> StartGetVideoCutActivity());
         binding.buttonClear.setOnClickListener(v -> ClearVideoCuts());
     }
 
@@ -64,43 +65,58 @@ public class VideoManagerActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //清空disposable防止内存泄漏
         mDisposable.clear();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //清空disposable防止内存泄漏
+        mDisposable.dispose();
+    }
+
     //编写按钮逻辑
-    //是否能把mDisposable的相关操作移动到数据库中？
-    private void DeleteVideoCuts() {
-//        VideoCut videoCut1 = new VideoCut("", "", 1);
-//        videoCut1.setId(5);
-//        mDisposable.add(videoCutsViewModel.DeleteVideoCuts(videoCut1)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe()
-//        );
-    }
+    //能否把mDisposable的相关操作移动到数据库中？
 
-    private void UpdateVideoCuts() {
-//        VideoCut videoCut1 = new VideoCut("hhhhhhh", "I am updated！", 1);
-//        videoCut1.setId(15);
-//        mDisposable.add(videoCutsViewModel.UpdateVideoCuts(videoCut1)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe()
-//        );
-    }
-
-    private void ClearVideoCuts() {
+    public void ClearVideoCuts() {
         mDisposable.add(videoCutsViewModel.ClearVideoCuts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> Toast.makeText(this, "清空列表成功", Toast.LENGTH_SHORT).show(),
+                        throwable -> {
+                            Toast.makeText(this, "清空列表失败", Toast.LENGTH_SHORT).show();
+                        })
+        );
+    }
+
+    public void UpdateVideoCut(VideoCut... videoCuts) {
+        mDisposable.add(videoCutsViewModel.UpdateVideoCuts(videoCuts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         );
     }
 
-    private void InsertVideoCuts() {
-        Intent intent = new Intent(this, GetVideoCutActivity.class);
-        startActivityForResult(intent, 1);
+    public void InsertVideoCuts(List<VideoCut> videoCutList) {
+        mDisposable.add(videoCutsViewModel.InsertVideoCuts(videoCutList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list1 -> Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show(), throwable -> {
+                    Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
+                })
+        );
+    }
+
+    public void DeleteVideoCuts(VideoCut... videoCuts) {
+        mDisposable.add(videoCutsViewModel.UpdateVideoCuts(videoCuts)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        );
+    }
+
+    private void StartGetVideoCutActivity() {
+        startActivityForResult(new Intent(this, GetVideoCutActivity.class), 1);
     }
 
     @Override
@@ -109,15 +125,13 @@ public class VideoManagerActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
-                    Bundle bundle = data.getBundleExtra("videoCuts");
-                    List<VideoCut> list = bundle.getParcelableArrayList("videoCuts");
-                    Log.d("mylo", "data get!");
-                    Log.d("mylo", "I get data " + list.toString());
-                    mDisposable.add(videoCutsViewModel.InsertVideoCuts(list)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe()
-                    );
+                    try {
+                        List<VideoCut> list = data.getBundleExtra("videoCuts").getParcelableArrayList("videoCuts");
+                        InsertVideoCuts(list);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
+                    }
                 }
         }
     }
