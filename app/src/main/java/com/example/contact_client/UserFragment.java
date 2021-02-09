@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +28,11 @@ public class UserFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         //绑定binding和viewmodel
-        binding = DataBindingUtil.inflate(inflater,R.layout.user_fragment,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.user_fragment, container, false);
         mViewModel = new ViewModelProvider(getActivity()).get(UserViewModel.class);
-        binding.UserAccount.setText(mViewModel.getAccount().getValue());
         binding.setUserData(mViewModel);
         binding.setLifecycleOwner(getActivity());
-        Log.d("MainActivity","In UserFragment is "+mViewModel.getAccount().getValue());
         //
-
         return binding.getRoot();
     }
 

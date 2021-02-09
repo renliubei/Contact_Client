@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/video_manager_edit"
+    app:startDestination="@id/bottomOptionFragment">
+
+    <fragment
+        android:id="@+id/editorFragment"
+        android:name="com.example.contact_client.video_manager.editorFragment"
+        android:label="fragment_editor"
+        tools:layout="@layout/fragment_editor" />
+    <fragment
+        android:id="@+id/bottomOptionFragment"
+        android:name="com.example.contact_client.video_manager.bottomOptionFragment"
+        android:label="fragment_bottom_option"
+        tools:layout="@layout/fragment_bottom_option">
+        <action
+            android:id="@+id/action_bottomOptionFragment_to_editorFragment"
+            app:destination="@id/editorFragment" />
+    </fragment>
+</navigation>
