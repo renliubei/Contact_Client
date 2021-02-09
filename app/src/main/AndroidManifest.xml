@@ -9,16 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".video_manager.GetVideoCutActivity"/>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".video_manager.GetVideoCutActivity" />
         <activity android:name=".video_manager.VideoManagerActivity" />
-        <activity android:name=".loginactivity.LoginActivity">
+        <activity android:name=".loginactivity.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
