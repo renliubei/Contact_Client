@@ -41,11 +41,11 @@ public class VideoCutsViewModel extends AndroidViewModel {
         return videoCutDao.deleteAllVideoCuts();
     }
 
-    public Single<Integer> DeleteVideoCuts(VideoCut videoCut) {
-        return videoCutDao.deleteVideoCuts(videoCut);
+    public Single<Integer> DeleteVideoCuts(VideoCut... videoCuts) {
+        return videoCutDao.deleteVideoCuts(videoCuts);
     }
 
-    public Single<Integer> UpdateVideoCuts(VideoCut videoCut) {
-        return videoCutDao.updateVideoCuts(videoCut);
+    public Single<Integer> UpdateVideoCuts(VideoCut... videoCuts) {
+        return videoCutDao.updateVideoCuts(videoCuts);
     }
 }

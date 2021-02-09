@@ -37,6 +37,13 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         return new MyViewHolder(itemview);
     }
 
+    private onClickItem onClickItem;
+
+    @Override
+    public int getItemCount() {
+        return allVideoCuts.size();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
@@ -46,22 +53,45 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
+        holder.imageViewEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItem != null) {
+                    onClickItem.onClickEdit(v, position);
+                }
+            }
+        });
+        holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickItem != null) {
+                    onClickItem.onClickDelete(v, position);
+                }
+            }
+        });
     }
 
-    @Override
-    public int getItemCount() {
-        return allVideoCuts.size();
+    public void setOnClickItem(VideoCutsAdapter.onClickItem onClickItem) {
+        this.onClickItem = onClickItem;
+    }
+
+    public interface onClickItem {
+        void onClickDelete(View v, int position);
+
+        void onClickEdit(View v, int position);
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewDescription;
-        ImageView imageView;
+        ImageView imageView, imageViewEdit, imageViewDelete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
             textViewName = itemView.findViewById(R.id.textViewName);
             textViewDescription = itemView.findViewById(R.id.textViewDesc);
+            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
+            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }
 }

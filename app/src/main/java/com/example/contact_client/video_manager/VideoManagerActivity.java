@@ -2,6 +2,7 @@ package com.example.contact_client.video_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -43,7 +44,22 @@ public class VideoManagerActivity extends AppCompatActivity {
         videoCutsAdapter = new VideoCutsAdapter();
         binding.videoCutsRecycleView.setLayoutManager(new LinearLayoutManager(this));
         binding.videoCutsRecycleView.setAdapter(videoCutsAdapter);
+        binding.videoCutsRecycleView.post(new Runnable() {
+            @Override
+            public void run() {
+                videoCutsAdapter.setOnClickItem(new VideoCutsAdapter.onClickItem() {
+                    @Override
+                    public void onClickDelete(View v, int position) {
+                        DeleteVideoCuts(videoCutsAdapter.getAllVideoCuts().get(position));
+                    }
 
+                    @Override
+                    public void onClickEdit(View v, int position) {
+                        Toast.makeText(v.getContext(), "you click Editor", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         //为button注册事件
         binding.buttonInsert.setOnClickListener(v -> StartGetVideoCutActivity());
         binding.buttonClear.setOnClickListener(v -> ClearVideoCuts());
@@ -108,7 +124,7 @@ public class VideoManagerActivity extends AppCompatActivity {
     }
 
     public void DeleteVideoCuts(VideoCut... videoCuts) {
-        mDisposable.add(videoCutsViewModel.UpdateVideoCuts(videoCuts)
+        mDisposable.add(videoCutsViewModel.DeleteVideoCuts(videoCuts)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()

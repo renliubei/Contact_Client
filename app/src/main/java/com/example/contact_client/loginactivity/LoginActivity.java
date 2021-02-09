@@ -1,14 +1,17 @@
-package com.example.contact_client;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
+package com.example.contact_client.loginactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.contact_client.MainActivity;
+import com.example.contact_client.R;
+import com.example.contact_client.UserViewModel;
 import com.example.contact_client.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {

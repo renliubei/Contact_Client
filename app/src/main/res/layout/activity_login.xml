@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+        tools:context=".loginactivity.LoginActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -85,7 +85,9 @@
                 app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline" />
+                app:layout_constraintTop_toTopOf="@+id/guideline"
+                app:srcCompat="@drawable/ic_baseline_face_24"
+                tools:srcCompat="@drawable/ic_baseline_sentiment_satisfied_alt_24" />
 
             <TextView
                 android:id="@+id/account"

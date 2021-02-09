@@ -1,7 +1,6 @@
 package com.example.contact_client.video_manager;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,6 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
-        Log.d("mylo", videoCut.toString());
         try {
             Glide.with(holder.itemView)
                     .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
@@ -64,6 +62,7 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     @Override

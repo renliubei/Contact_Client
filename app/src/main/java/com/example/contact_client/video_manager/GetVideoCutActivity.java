@@ -129,7 +129,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
                 String name = cursor.getString(nameColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-                VideoCut videoCut = new VideoCut(false, name, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
+                VideoCut videoCut = new VideoCut(false, "VideoCut" + id, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
                 videoCut.setId(id);
                 list.add(videoCut);
             }
