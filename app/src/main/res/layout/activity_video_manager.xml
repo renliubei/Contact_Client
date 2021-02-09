@@ -11,38 +11,11 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline23"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.50121653" />
-
-        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9" />
-
-        <Button
-            android:id="@+id/buttonInsert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Insert"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline23"
-            app:layout_constraintTop_toTopOf="@+id/guideline22" />
-
-        <Button
-            android:id="@+id/buttonClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/DeleteAll"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline23"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline22" />
+            app:layout_constraintGuide_percent="0.85" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/videoCutsRecycleView"
@@ -52,5 +25,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/DeleteAll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonInsert"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <Button
+            android:id="@+id/buttonInsert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Insert"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/buttonClear"
+            app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

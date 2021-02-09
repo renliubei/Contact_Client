@@ -27,6 +27,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.30" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.25" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -41,15 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.76" />
+                app:layout_constraintGuide_percent="0.8" />
 
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:maxLength="8"
+                android:maxLength="12"
+                android:maxLines="2"
                 android:text="TextView"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline26"
@@ -61,8 +67,7 @@
                 android:id="@+id/textViewDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:maxLength="20"
+                android:maxLength="25"
                 android:maxLines="2"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -83,11 +88,11 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/imageViewEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView7"
+                app:layout_constraintBottom_toTopOf="@+id/imageViewDelete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/guideline24"
@@ -95,14 +100,14 @@
                 app:srcCompat="@drawable/ic_baseline_create_24" />
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/imageViewDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline24"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewEdit"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
