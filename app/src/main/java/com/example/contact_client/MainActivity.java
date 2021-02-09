@@ -34,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(activityMainBinding.bottomNavigationView,navController);
 
         //取回登录数据
-        Bundle bundle = getIntent().getBundleExtra("userdata");
-        userViewModel.getAccount().setValue(bundle.getString("account"));
-        userViewModel.getName().setValue("Antonio");
+//        Bundle bundle = getIntent().getBundleExtra("userdata");
+//        userViewModel.getAccount().setValue(bundle.getString("account"));
+//        userViewModel.getName().setValue("Antonio");
         //
 
 

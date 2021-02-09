@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".loginactivity.RegisterFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline26"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.95"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline28"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.05"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline34"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.66"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline29"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.1"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline30"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.22"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline31"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.34"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline32"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.46"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline33"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.58"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline35"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.76"/>
+
+            <androidx.constraintlayout.widget.Guideline
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/guideline36"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.27"/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:ems="10"
+                    android:id="@+id/editTextPhone2"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline30"
+                    app:layout_constraintTop_toTopOf="@+id/guideline29"
+                    android:hint="@string/enterPhoneNumber"
+                    android:textSize="@dimen/hintSize"
+                    android:autofillHints=""/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:ems="10"
+                    android:id="@+id/editTextName"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline31"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    app:layout_constraintTop_toTopOf="@+id/guideline30"
+                    android:hint="@string/enterName"
+                    android:textSize="@dimen/hintSize"
+                    android:autofillHints=""/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="@integer/PasswordMaxlen"
+                    android:id="@+id/editTextPassword"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline32"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintTop_toTopOf="@+id/guideline31"
+                    android:hint="@string/enterPassword"
+                    android:textSize="@dimen/hintSize"
+                    android:autofillHints=""/>
+
+            <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="@integer/PasswordMaxlen"
+                    android:id="@+id/editPasswordCheck"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline33"
+                    app:layout_constraintTop_toTopOf="@+id/guideline32"
+                    android:hint="@string/checkPassword"
+                    android:textSize="@dimen/hintSize"
+                    android:autofillHints=""/>
+
+            <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline34"
+                    app:layout_constraintTop_toTopOf="@+id/guideline34"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintStart_toStartOf="@+id/guideline36"
+                    android:id="@+id/sexRadioGroup">
+
+                <RadioButton
+                        android:text="@string/sexMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioMale"
+                        android:layout_weight="0.33"
+                        android:textSize="@dimen/hintSize"
+                        android:checked="true"/>
+
+                <RadioButton
+                        android:text="@string/sexFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioFemale"
+                        android:layout_weight="0.33"
+                        android:textSize="@dimen/hintSize"/>
+
+                <RadioButton
+                        android:text="@string/sexUnknown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioUnknown"
+                        android:layout_weight="0.34"
+                        android:textSize="@dimen/hintSize"/>
+            </RadioGroup>
+
+            <Button
+                    android:text="@string/register"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/registerButton"
+                    app:layout_constraintTop_toTopOf="@+id/guideline35"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline35"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    android:textSize="@dimen/hintSize"
+                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorOrange"/>
+
+            <TextView
+                    android:text="@string/chooseSex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/guideline34"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline34"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline36"
+                    app:layout_constraintVertical_bias="0.894"
+                    app:layout_constraintStart_toStartOf="@+id/guideline28"
+                    android:textSize="@dimen/hintSize"
+                    android:textColor="@color/colorBlack"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

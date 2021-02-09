@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hintSize">25sp</dimen>
+    <dimen name="sexChooseSpace">40sp</dimen>
+    <dimen name="smallSize">20sp</dimen>
+</resources>

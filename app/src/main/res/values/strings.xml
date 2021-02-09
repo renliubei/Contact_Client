@@ -12,5 +12,11 @@
     <string name="Insert">添加</string>
     <string name="Delete">删除</string>
     <string name="DeleteAll">清空</string>
-    <string name="Update">修改</string>
+    <string name="Update">修改</string>  
+    <string name="enterName">请输入用户名</string>
+    <string name="checkPassword">请确认密码</string>
+    <string name="sexMale">男</string>
+    <string name="sexFemale">女</string>
+    <string name="sexUnknown">未知</string>
+    <string name="chooseSex">性别</string>  
 </resources>
