@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.contact_client.R;
-import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.databinding.ActivityVideoManagerBinding;
+import com.example.contact_client.repository.VideoCut;
 
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class VideoManagerActivity extends AppCompatActivity {
     }
 
     private void StartGetVideoCutActivity() {
-        startActivityForResult(new Intent(this, GetVideoCutActivity.class), 1);
+        startActivityForResult(new Intent(this, GetLocalVideoCutActivity.class), 1);
     }
     private void StartEditActivity(){
         startActivityForResult(new Intent(this, EditActivity.class), 2);

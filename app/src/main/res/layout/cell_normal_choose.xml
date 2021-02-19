@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/deleteSonButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline20"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_delete_24" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline16"
         android:layout_width="wrap_content"
@@ -28,37 +17,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.75" />
 
     <TextView
-        android:id="@+id/sonName"
+        android:id="@+id/videoCutName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
+        android:maxLength="12"
         android:text="TextView"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/sonDesc"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/videoCutDesc"
         app:layout_constraintEnd_toStartOf="@+id/guideline20"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline16"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/sonDesc"
+        android:id="@+id/videoCutDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:maxLength="25"
+        android:maxLines="2"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/sonName"
-        app:layout_constraintTop_toBottomOf="@+id/sonName" />
+        app:layout_constraintStart_toStartOf="@+id/videoCutName"
+        app:layout_constraintTop_toBottomOf="@+id/videoCutName" />
 
     <ImageView
-        android:id="@+id/sonIcon"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/VideoCutIcon"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_margin="5dp"
         android:adjustViewBounds="true"
         android:scaleType="center"
@@ -69,5 +61,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSonDecided"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="选中"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline20"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

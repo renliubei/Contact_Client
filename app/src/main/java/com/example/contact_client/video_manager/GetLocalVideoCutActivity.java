@@ -28,7 +28,7 @@ import java.util.List;
 
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
-public class GetVideoCutActivity extends AppCompatActivity {
+public class GetLocalVideoCutActivity extends AppCompatActivity {
 
     private final String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
 

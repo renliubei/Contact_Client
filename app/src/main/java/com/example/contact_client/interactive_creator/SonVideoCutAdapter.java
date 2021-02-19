@@ -1,9 +1,10 @@
-package com.example.contact_client.video_manager;
+package com.example.contact_client.interactive_creator;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyViewHolder> {
+public class SonVideoCutAdapter extends RecyclerView.Adapter<SonVideoCutAdapter.MyViewHolder> {
     List<VideoCut> allVideoCuts = new ArrayList<>();
 
     public List<VideoCut> getAllVideoCuts() {
@@ -33,11 +34,9 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemview = layoutInflater.inflate(R.layout.cell_cardview, parent, false);
-        return new MyViewHolder(itemview);
+        View itemView = layoutInflater.inflate(R.layout.cell_normal_choose, parent, false);
+        return new MyViewHolder(itemView);
     }
-
-    private onClickItem onClickItem;
 
     @Override
     public int getItemCount() {
@@ -53,45 +52,18 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
-        holder.imageViewEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickItem != null) {
-                    onClickItem.onClickEdit(v, position);
-                }
-            }
-        });
-        holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickItem != null) {
-                    onClickItem.onClickDelete(v, position);
-                }
-            }
-        });
-    }
-
-    public void setOnClickItem(onClickItem onClickItem) {
-        this.onClickItem = onClickItem;
-    }
-
-    public interface onClickItem {
-        void onClickDelete(View v, int position);
-
-        void onClickEdit(View v, int position);
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewDescription;
-        ImageView imageView, imageViewEdit, imageViewDelete;
-
+        ImageView imageView;
+        CheckBox checkBox;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.thumbnailOfCardView);
+            imageView = itemView.findViewById(R.id.VideoCutIcon);
             textViewName = itemView.findViewById(R.id.videoCutName);
             textViewDescription = itemView.findViewById(R.id.videoCutDesc);
-            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
-            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+            checkBox = itemView.findViewById(R.id.checkBoxSonDecided);
         }
     }
 }
