@@ -65,6 +65,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
                     }
                 }
                 Log.d("mylo", "returnList is \n" + returnList.toString());
+                //返回获取到的数据
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("videoCuts", (ArrayList<? extends Parcelable>) returnList);
                 Intent intent = new Intent();

@@ -71,7 +71,7 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         });
     }
 
-    public void setOnClickItem(VideoCutsAdapter.onClickItem onClickItem) {
+    public void setOnClickItem(onClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
 
@@ -88,8 +88,8 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-            textViewDescription = itemView.findViewById(R.id.textViewDesc);
+            textViewName = itemView.findViewById(R.id.sonName);
+            textViewDescription = itemView.findViewById(R.id.sonDesc);
             imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }

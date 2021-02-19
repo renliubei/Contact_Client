@@ -2,6 +2,7 @@ package com.example.contact_client.video_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class VideoManagerActivity extends AppCompatActivity {
 
     private VideoCutsAdapter videoCutsAdapter;
 
+    private VideoCut videoCutEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,9 @@ public class VideoManagerActivity extends AppCompatActivity {
                     @Override
                     public void onClickEdit(View v, int position) {
                         Toast.makeText(v.getContext(), "you click Editor", Toast.LENGTH_SHORT).show();
+                        //使得editor指向需要更新的videoCut，并调用获取新名字和描述的activity，在回调中实现更新
+                        videoCutEditor = videoCutsAdapter.getAllVideoCuts().get(position);
+                        StartEditActivity();
                     }
                 });
             }
@@ -68,7 +74,7 @@ public class VideoManagerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //为Livedata添加observer
+        //添加observer
         videoCutsViewModel.getAllLiveDataVideoCuts().observe(this, new Observer<List<VideoCut>>() {
             @Override
             public void onChanged(List<VideoCut> videoCuts) {
@@ -134,7 +140,9 @@ public class VideoManagerActivity extends AppCompatActivity {
     private void StartGetVideoCutActivity() {
         startActivityForResult(new Intent(this, GetVideoCutActivity.class), 1);
     }
-
+    private void StartEditActivity(){
+        startActivityForResult(new Intent(this, EditActivity.class), 2);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -144,9 +152,28 @@ public class VideoManagerActivity extends AppCompatActivity {
                     try {
                         List<VideoCut> list = data.getBundleExtra("videoCuts").getParcelableArrayList("videoCuts");
                         InsertVideoCuts(list);
-                    } catch (NullPointerException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case 2:
+                if(resultCode == RESULT_OK){
+                    try {
+                        String newName,newDes;
+                        newName = data.getStringExtra("newName");
+                        newDes = data.getStringExtra("newDes");
+                        if(newName != null){
+                            videoCutEditor.setName(newName);
+                        }
+                        if(newDes != null){
+                            videoCutEditor.setDescription(newDes);
+                        }
+                        UpdateVideoCut(videoCutEditor);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(this, "更新失败", Toast.LENGTH_SHORT).show();
                     }
                 }
         }
