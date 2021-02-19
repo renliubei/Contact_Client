@@ -71,7 +71,7 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         });
     }
 
-    public void setOnClickItem(VideoCutsAdapter.onClickItem onClickItem) {
+    public void setOnClickItem(onClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
 
