@@ -11,11 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".video_manager.EditActivity"
-            android:theme="@style/Theme.MaterialComponents.Dialog"
+        <activity android:name=".interactive_creator.InteractiveCreatorActivity"></activity>
+        <activity
+            android:name=".video_manager.EditActivity"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"/>
+            android:theme="@style/Theme.MaterialComponents.Dialog" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask" />

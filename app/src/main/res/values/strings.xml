@@ -19,4 +19,6 @@
     <string name="sexFemale">女</string>
     <string name="sexUnknown">未知</string>
     <string name="chooseSex">性别</string>
+    <string name="Save">保存</string>
+    <string name="goBack">返回</string>
 </resources>

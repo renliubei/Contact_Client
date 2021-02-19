@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -17,21 +17,21 @@ import io.reactivex.Single;
 public interface VideoCutDao {
     //用于对数据库中VideoCut表进行操作
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Single<List<Long>> insertVideoCuts(List<VideoCut> list);
+    public Single<List<Long>> insertVideoCuts(List<VideoCut> list);
 
     @Update
-    Single<Integer> updateVideoCuts(VideoCut... videoCuts);
+    public Single<Integer> updateVideoCuts(VideoCut... videoCuts);
 
     @Delete
-    Single<Integer> deleteVideoCuts(VideoCut... videoCuts);
+    public Single<Integer> deleteVideoCuts(VideoCut... videoCuts);
 
     @Query("DELETE FROM VideoCut")
-    Completable deleteAllVideoCuts();
+    public Completable deleteAllVideoCuts();
 
     @Delete
-    Single<Integer> deleteUsers(VideoCut... videoCuts);
+    public Single<Integer> deleteUsers(VideoCut... videoCuts);
 
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
-    LiveData<List<VideoCut>> getAllVideoCuts();
+    public LiveData<List<VideoCut>> getAllVideoCuts();
 }
 

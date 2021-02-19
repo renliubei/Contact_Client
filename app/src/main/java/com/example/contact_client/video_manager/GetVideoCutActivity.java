@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
-import com.example.contact_client.VideoCut;
+import com.example.contact_client.repository.VideoCut;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,6 @@ public class GetVideoCutActivity extends AppCompatActivity {
         String[] projection = new String[]{
                 MediaStore.Video.Thumbnails.DATA,
                 MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.DISPLAY_NAME,
         };
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
 
@@ -121,13 +120,11 @@ public class GetVideoCutActivity extends AppCompatActivity {
         )) {
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
-            int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
             int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA);
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
                 long id = cursor.getLong(idColumn);
                 String videoThumbnailPath = cursor.getString(dataColumn);
-                String name = cursor.getString(nameColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
                 VideoCut videoCut = new VideoCut(false, "VideoCut" + id, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);

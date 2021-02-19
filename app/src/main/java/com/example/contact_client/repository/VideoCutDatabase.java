@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.repository;
 
 import android.content.Context;
 

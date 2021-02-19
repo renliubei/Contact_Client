@@ -2,7 +2,6 @@ package com.example.contact_client.video_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.contact_client.R;
-import com.example.contact_client.VideoCut;
+import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.databinding.ActivityVideoManagerBinding;
 
 import java.util.List;
