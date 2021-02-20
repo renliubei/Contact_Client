@@ -1,17 +1,22 @@
 package com.example.contact_client.interactive_creator;
 
+import java.util.List;
+
 public class VideoNode {
     //父亲在列表中的index
     private long fatherVideoCutIndex;
+    //自身在列表中的index
+    private long currentIndex;
     //定位到当前应该视频的在数据库中的Id
     private long currentId;
-    //应该跳转到的视频在表中的Index
-    private String[] sonsListIndex;
+    //
+    private List<String> sons;
 
-    public VideoNode(long fatherVideoCutIndex, long currentId, String[] sonsListIndex) {
+    public VideoNode(long fatherVideoCutIndex, long currentIndex, long currentId, List<String> sons) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
+        this.currentIndex = currentIndex;
         this.currentId = currentId;
-        this.sonsListIndex = sonsListIndex;
+        this.sons = sons;
     }
 
     public long getFatherVideoCutIndex() {
@@ -22,11 +27,27 @@ public class VideoNode {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
     }
 
-    public String[] getSonsListIndex() {
-        return sonsListIndex;
+    public long getCurrentIndex() {
+        return currentIndex;
     }
 
-    public void setSonsListIndex(String[] sonsListIndex) {
-        this.sonsListIndex = sonsListIndex;
+    public void setCurrentIndex(long currentIndex) {
+        this.currentIndex = currentIndex;
+    }
+
+    public long getCurrentId() {
+        return currentId;
+    }
+
+    public void setCurrentId(long currentId) {
+        this.currentId = currentId;
+    }
+
+    public List<String> getSons() {
+        return sons;
+    }
+
+    public void setSons(List<String> sons) {
+        this.sons = sons;
     }
 }

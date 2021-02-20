@@ -39,7 +39,7 @@ public class CreatorViewModel extends AndroidViewModel {
 
     public VideoNode getVideoNode() {
         if(videoNode==null){
-            videoNode = new VideoNode(-1,-1,null);
+            videoNode = new VideoNode(-1,0,-1,null);
         }
         return videoNode;
     }

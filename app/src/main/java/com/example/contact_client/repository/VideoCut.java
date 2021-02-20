@@ -122,6 +122,6 @@ public class VideoCut implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return name + " " + description + " " + urlString + " " + thumbnailPath;
+        return name;
     }
 }

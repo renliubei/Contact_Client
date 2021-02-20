@@ -33,8 +33,8 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemview = layoutInflater.inflate(R.layout.cell_cardview, parent, false);
-        return new MyViewHolder(itemview);
+        View itemView = layoutInflater.inflate(R.layout.cell_cardview, parent, false);
+        return new MyViewHolder(itemView);
     }
 
     private onClickItem onClickItem;
