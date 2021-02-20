@@ -149,7 +149,7 @@ public class VideoManagerActivity extends AppCompatActivity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     try {
-                        List<VideoCut> list = data.getBundleExtra("videoCuts").getParcelableArrayList("videoCuts");
+                        List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                         InsertVideoCuts(list);
                     } catch (Exception e) {
                         e.printStackTrace();
