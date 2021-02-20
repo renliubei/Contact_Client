@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +18,23 @@ import com.example.contact_client.repository.VideoCut;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class SonVideoCutAdapter extends RecyclerView.Adapter<SonVideoCutAdapter.MyViewHolder> {
-    List<VideoCut> allVideoCuts = new ArrayList<>();
+public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVideoCutAdapter.MyViewHolder> {
+
+    private Map<Integer,Boolean> checkStatus = new HashMap<>();
+
+    private List<VideoCut> allVideoCuts = new ArrayList<>();
+
+    public Map<Integer, Boolean> getCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(Map<Integer, Boolean> checkStatus) {
+        this.checkStatus = checkStatus;
+    }
 
     public List<VideoCut> getAllVideoCuts() {
         return allVideoCuts;
@@ -52,6 +66,20 @@ public class SonVideoCutAdapter extends RecyclerView.Adapter<SonVideoCutAdapter.
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
+
+        if(!checkStatus.containsKey(position)){ checkStatus.put(position,false);}
+        try {
+            holder.checkBox.setOnCheckedChangeListener(null);
+            holder.checkBox.setChecked(checkStatus.get(position));
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    checkStatus.put(position,isChecked);
+                }
+            });
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

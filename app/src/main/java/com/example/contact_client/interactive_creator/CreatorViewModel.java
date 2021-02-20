@@ -8,18 +8,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.contact_client.repository.VideoCut;
-import com.example.contact_client.repository.VideoCutDao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreatorViewModel extends AndroidViewModel {
 
     //互动视频的路径
     private String[] path;
-    //访问数据库数据
-    private VideoCutDao videoCutDao;
     //显示添加的子节点
-    private LiveData<List<VideoCut>> sonLiveDataVideoCuts;
+    private MutableLiveData<List<VideoCut>> sonVideoCuts;
     //当前节点
     private VideoNode videoNode;
 
@@ -27,11 +25,22 @@ public class CreatorViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<List<VideoCut>> getSonLiveDataVideoCuts() {
-        return sonLiveDataVideoCuts;
+    public LiveData<List<VideoCut>> getSonVideoCuts() {
+        if(sonVideoCuts==null){
+            sonVideoCuts = new MutableLiveData<>();
+            sonVideoCuts.setValue(new ArrayList<>());
+        }
+        return sonVideoCuts;
     }
 
-    public void setSonLiveDataVideoCuts(LiveData<List<VideoCut>> sonLiveDataVideoCuts) {
-        this.sonLiveDataVideoCuts = sonLiveDataVideoCuts;
+    public String[] getPath() {
+        return path;
+    }
+
+    public VideoNode getVideoNode() {
+        if(videoNode==null){
+            videoNode = new VideoNode(-1,-1,null);
+        }
+        return videoNode;
     }
 }
