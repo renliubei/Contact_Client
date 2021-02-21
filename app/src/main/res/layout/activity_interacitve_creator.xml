@@ -38,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Insert"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonSave"
             app:layout_constraintHorizontal_bias="0.5"
@@ -49,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Save"
+            android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -84,45 +86,51 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.3" />
+                    app:layout_constraintGuide_percent="0.25" />
 
                 <ImageView
                     android:id="@+id/fatherIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="fatherIcon"
+                    android:scaleType="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline44"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_sentiment_satisfied_alt_24"
                     tools:src="@tools:sample/avatars" />
-
-                <TextView
-                    android:id="@+id/fatherName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="单击视频空白处进入"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline44"
-                    app:layout_constraintTop_toBottomOf="@+id/fatherDescription"
-                    tools:text="这是父节点的描述" />
 
                 <TextView
                     android:id="@+id/fatherDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLength="25"
+                    android:maxLines="2"
+                    android:text="单击视频空白处进入"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline44"
+                    app:layout_constraintTop_toBottomOf="@+id/fatherName"
+                    tools:text="这是父节点的描述" />
+
+                <TextView
+                    android:id="@+id/fatherName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLength="12"
                     android:text="@string/startVideos"
                     android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/fatherName"
+                    app:layout_constraintBottom_toTopOf="@+id/fatherDescription"
                     app:layout_constraintStart_toStartOf="@+id/guideline44"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="这是父节点的名字" />
 
                 <Button
-                    android:id="@+id/button5"
+                    android:id="@+id/buttonBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/goBack"
+                    android:textColor="@color/colorPrimary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -147,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="TextView"
+                    android:textColor="@color/colorOrange"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

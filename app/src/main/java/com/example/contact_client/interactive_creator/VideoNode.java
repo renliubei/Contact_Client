@@ -1,5 +1,6 @@
 package com.example.contact_client.interactive_creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VideoNode {
@@ -9,14 +10,14 @@ public class VideoNode {
     private long currentIndex;
     //定位到当前应该视频的在数据库中的Id
     private long currentId;
-    //
-    private List<String> sons;
+    //子节点在列表中的index
+    private List<Long> sons;
 
-    public VideoNode(long fatherVideoCutIndex, long currentIndex, long currentId, List<String> sons) {
+    public VideoNode(long fatherVideoCutIndex, long currentIndex, long currentId) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
         this.currentIndex = currentIndex;
         this.currentId = currentId;
-        this.sons = sons;
+        sons = new ArrayList<>();
     }
 
     public long getFatherVideoCutIndex() {
@@ -43,11 +44,11 @@ public class VideoNode {
         this.currentId = currentId;
     }
 
-    public List<String> getSons() {
+    public List<Long> getSons() {
         return sons;
     }
 
-    public void setSons(List<String> sons) {
+    public void setSons(List<Long> sons) {
         this.sons = sons;
     }
 }

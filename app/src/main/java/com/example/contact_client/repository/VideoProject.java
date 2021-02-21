@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 import com.example.contact_client.interactive_creator.VideoNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,14 @@ public class VideoProject {
     }
 
     public List<VideoNode> getVideoNodeList() {
+        if(videoNodeList==null){
+            videoNodeList = new ArrayList<>();
+        }
         return videoNodeList;
     }
 
     public void setVideoNodeList(List<VideoNode> videoNodeList) {
         this.videoNodeList = videoNodeList;
     }
+
 }

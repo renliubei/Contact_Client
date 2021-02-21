@@ -1,6 +1,7 @@
 package com.example.contact_client.interactive_creator;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,16 +13,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
 import com.example.contact_client.repository.VideoCut;
-import com.example.contact_client.repository.VideoProject;
 
+import java.io.File;
 import java.util.List;
 
 public class InteractiveCreatorActivity extends AppCompatActivity {
-    //保存互动视频
-    private VideoProject videoProject;
     //当前activity的binding
     ActivityInteracitveCreatorBinding mBinding;
     //绑定ViewModel
@@ -37,8 +37,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mBinding.setLifecycleOwner(this);
         //
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
-        //
-        videoProject = new VideoProject();
         //
         sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
         mBinding.recyclerView.setAdapter(sonVideoCutsAdapter);
@@ -56,8 +54,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v, int position) {
-                        saveVideoNode();
-                        sonVideoCutsAdapter.clearData();
+                        //更新父亲节点
+                        VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
+                        updateFatherVideoCut(videoCut);
+                        saveProject(videoCut);
+                        //保存子节点
+                        //清空列表
+//                        sonVideoCutsAdapter.clearData();
                     }
                 });
             }
@@ -85,7 +88,15 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    void saveVideoNode(){
+    void updateFatherVideoCut(VideoCut videoCut){
+        mBinding.fatherName.setText(videoCut.getName());
+        mBinding.fatherDescription.setText(videoCut.getDescription());
+        Glide.with(this)
+                .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
+                .placeholder(R.drawable.ic_baseline_face_24)
+                .into(mBinding.fatherIcon);
+    }
+    void saveProject(VideoCut videoCut){
 
     }
 }

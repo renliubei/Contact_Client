@@ -6,6 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.contact_client.repository.VideoCut;
+import com.example.contact_client.repository.VideoCutDao;
+import com.example.contact_client.repository.VideoCutDatabase;
+import com.example.contact_client.repository.VideoProject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +21,17 @@ public class CreatorViewModel extends AndroidViewModel {
     private final List<VideoCut> sonVideoCuts;
     //当前节点
     private VideoNode videoNode;
+    //
+    private VideoCutDao videoCutDao;
+    //
+    private VideoProject videoProject;
 
     public CreatorViewModel(@NonNull Application application) {
         super(application);
         sonVideoCuts = new ArrayList<>();
+        videoProject = new VideoProject();
+        VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
+        videoCutDao = videoCutDatabase.getVideoCutDao();
     }
 
     public List<VideoCut> getSonVideoCuts() {
@@ -33,9 +43,26 @@ public class CreatorViewModel extends AndroidViewModel {
     }
 
     public VideoNode getVideoNode() {
+        //起始的根节点
         if(videoNode==null){
-            videoNode = new VideoNode(-1,0,-1,null);
+            videoNode = new VideoNode(-1,0,-1);
         }
         return videoNode;
+    }
+
+    public void setPath(String[] path) {
+        this.path = path;
+    }
+
+    public void setVideoNode(VideoNode videoNode) {
+        this.videoNode = videoNode;
+    }
+
+    public VideoProject getVideoProject() {
+        return videoProject;
+    }
+
+    public void setVideoProject(VideoProject videoProject) {
+        this.videoProject = videoProject;
     }
 }

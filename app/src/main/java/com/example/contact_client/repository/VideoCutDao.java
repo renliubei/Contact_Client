@@ -33,5 +33,8 @@ public interface VideoCutDao {
 
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
     public LiveData<List<VideoCut>> getAllVideoCuts();
+
+    @Query("select * from VideoCut where id=:id")
+    public LiveData<VideoCut> findById(long id);
 }
 

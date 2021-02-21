@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapter.MyViewHolder> {
-    List<VideoCut> allVideoCuts = new ArrayList<>();
+    private List<VideoCut> allVideoCuts = new ArrayList<>();
 
     public List<VideoCut> getAllVideoCuts() {
         return allVideoCuts;
