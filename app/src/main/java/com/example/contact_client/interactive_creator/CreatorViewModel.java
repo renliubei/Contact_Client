@@ -4,8 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.contact_client.repository.VideoCut;
 
@@ -17,19 +15,16 @@ public class CreatorViewModel extends AndroidViewModel {
     //互动视频的路径
     private String[] path;
     //显示添加的子节点
-    private MutableLiveData<List<VideoCut>> sonVideoCuts;
+    private final List<VideoCut> sonVideoCuts;
     //当前节点
     private VideoNode videoNode;
 
     public CreatorViewModel(@NonNull Application application) {
         super(application);
+        sonVideoCuts = new ArrayList<>();
     }
 
-    public LiveData<List<VideoCut>> getSonVideoCuts() {
-        if(sonVideoCuts==null){
-            sonVideoCuts = new MutableLiveData<>();
-            sonVideoCuts.setValue(new ArrayList<>());
-        }
+    public List<VideoCut> getSonVideoCuts() {
         return sonVideoCuts;
     }
 

@@ -94,13 +94,14 @@
                     app:layout_constraintEnd_toStartOf="@+id/guideline44"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_baseline_sentiment_satisfied_alt_24"
                     tools:src="@tools:sample/avatars" />
 
                 <TextView
                     android:id="@+id/fatherName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="单击视频空白处进入"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline44"
                     app:layout_constraintTop_toBottomOf="@+id/fatherDescription"
@@ -110,7 +111,7 @@
                     android:id="@+id/fatherDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="@string/startVideos"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toTopOf="@+id/fatherName"
                     app:layout_constraintStart_toStartOf="@+id/guideline44"

@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -41,7 +40,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         //
         videoProject = new VideoProject();
         //
-        sonVideoCutsAdapter = new SonVideoCutsAdapter();
+        sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
         mBinding.recyclerView.setAdapter(sonVideoCutsAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //注册按键功能
@@ -52,35 +51,15 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
                     @Override
                     public void onClickDelete(View v, int position) {
-                        //删除
-                        mViewModel.getSonVideoCuts().getValue().remove(position);
-                        sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts().getValue());
-                        sonVideoCutsAdapter.notifyDataSetChanged();
-                        Log.d("mylo","List Deleted : "+mViewModel.getSonVideoCuts().getValue().toString());
+                        sonVideoCutsAdapter.removeData(position);
                     }
 
                     @Override
                     public void onClick(View v, int position) {
-                        mViewModel.getSonVideoCuts().getValue().clear();
-                        sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts().getValue());
-                        sonVideoCutsAdapter.notifyDataSetChanged();
-                        Log.d("mylo","List Deleted : "+mViewModel.getSonVideoCuts().getValue().toString());
+                        saveVideoNode();
+                        sonVideoCutsAdapter.clearData();
                     }
                 });
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mViewModel.getSonVideoCuts().observe(this, new Observer<List<VideoCut>>() {
-            @Override
-            public void onChanged(List<VideoCut> videoCuts) {
-                //为什么在删除的时候没有反馈？
-                Log.d("mylo","List Update : "+mViewModel.getSonVideoCuts().getValue().toString());
-                sonVideoCutsAdapter.setAllVideoCuts(videoCuts);
-                sonVideoCutsAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -95,7 +74,8 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         //添加从数据库中获取的data
                         List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                         Log.d("mylo","Receive Data from Room : "+list.toString());
-                        mViewModel.getSonVideoCuts().getValue().addAll(list);
+                        //添加数据
+                        sonVideoCutsAdapter.insertData(list);
                         Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         e.printStackTrace();
@@ -103,5 +83,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     }
                 }
         }
+    }
+
+    void saveVideoNode(){
+
     }
 }

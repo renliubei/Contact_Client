@@ -66,7 +66,6 @@ public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVi
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
-
         if(!checkStatus.containsKey(position)){ checkStatus.put(position,false);}
         try {
             holder.checkBox.setOnCheckedChangeListener(null);
@@ -80,6 +79,12 @@ public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVi
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.checkBox.performClick();
+            }
+        });
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {

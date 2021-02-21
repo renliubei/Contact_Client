@@ -27,6 +27,11 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
 
     public void setAllVideoCuts(List<VideoCut> allVideoCuts) {
         this.allVideoCuts = allVideoCuts;
+        notifyDataSetChanged();
+    }
+
+    public SonVideoCutsAdapter(List<VideoCut> allVideoCuts) {
+        this.allVideoCuts = allVideoCuts;
     }
 
     @NonNull
@@ -81,6 +86,24 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         void onClick(View v,int position);
     }
 
+    public void removeData(int position){
+        allVideoCuts.remove(position);
+        notifyItemRemoved(position);
+        if (position != getItemCount()) {
+           notifyItemRangeChanged(position, getItemCount() - position);
+        }
+    }
+
+    public void clearData(){
+        allVideoCuts.clear();
+        notifyDataSetChanged();
+    }
+
+    public void insertData(List<VideoCut> videoCuts){
+        int start = getItemCount();
+        allVideoCuts.addAll(videoCuts);
+        notifyItemRangeInserted(start,videoCuts.size());
+    }
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewDescription;
         ImageView imageView,imageViewDelete;
