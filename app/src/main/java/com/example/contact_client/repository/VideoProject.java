@@ -36,4 +36,19 @@ public class VideoProject {
         this.videoNodeList = videoNodeList;
     }
 
+    public void addNode(VideoNode videoNode){
+        getVideoNodeList().add(videoNode);
+    }
+
+    public void deleteNode(VideoNode videoNode){
+        getVideoNodeList().remove(videoNode);
+    }
+
+    public void deleteNodeById(int id){
+        getVideoNodeList().remove(id);
+    }
+
+    public int getListSize(){
+        return getVideoNodeList().size();
+    }
 }

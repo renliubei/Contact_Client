@@ -57,10 +57,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         //更新父亲节点
                         VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
                         updateFatherVideoCut(videoCut);
-                        saveProject(videoCut);
+                        saveNodes(position);
                         //保存子节点
                         //清空列表
-//                        sonVideoCutsAdapter.clearData();
+                        sonVideoCutsAdapter.clearData();
                     }
                 });
             }
@@ -96,7 +96,24 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_baseline_face_24)
                 .into(mBinding.fatherIcon);
     }
-    void saveProject(VideoCut videoCut){
 
+    void saveNodes(int position){
+        //储存节点！
+        try {
+            VideoNode currentNode = mViewModel.getVideoNode();
+            for(int i=0;i<mViewModel.getSonVideoCuts().size();i++){
+                VideoNode videoNode = new VideoNode(mViewModel.getVideoNode().getCurrentIndex(),mViewModel.getVideoProject().getListSize(),mViewModel.getSonVideoCuts().get(i).getId());
+                currentNode.addSons(mViewModel.getVideoProject().getListSize());
+                mViewModel.getVideoProject().addNode(videoNode);
+                if(i==position){
+                    mViewModel.setVideoNode(videoNode);
+                }
+            }
+            Log.d("mylo",mViewModel.getVideoProject().getVideoNodeList().toString());
+            Log.d("mylo",currentNode.getSons().toString());
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this,"保存失败",Toast.LENGTH_SHORT).show();
+        }
     }
 }

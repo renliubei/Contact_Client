@@ -11,7 +11,7 @@ public class VideoNode {
     //定位到当前应该视频的在数据库中的Id
     private long currentId;
     //子节点在列表中的index
-    private List<Long> sons;
+    private List<Integer> sons;
 
     public VideoNode(long fatherVideoCutIndex, long currentIndex, long currentId) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
@@ -44,11 +44,15 @@ public class VideoNode {
         this.currentId = currentId;
     }
 
-    public List<Long> getSons() {
+    public List<Integer> getSons() {
         return sons;
     }
 
-    public void setSons(List<Long> sons) {
+    public void setSons(List<Integer> sons) {
         this.sons = sons;
+    }
+
+    public void addSons(int sonIndex){
+        sons.add(sonIndex);
     }
 }
