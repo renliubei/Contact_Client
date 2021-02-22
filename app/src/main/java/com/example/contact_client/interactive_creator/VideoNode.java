@@ -7,16 +7,16 @@ public class VideoNode {
     //父亲在列表中的index
     private long fatherVideoCutIndex;
     //自身在列表中的index
-    private long currentIndex;
+    private long Index;
     //定位到当前应该视频的在数据库中的Id
-    private long currentId;
+    private long Id;
     //子节点在列表中的index
     private List<Integer> sons;
 
-    public VideoNode(long fatherVideoCutIndex, long currentIndex, long currentId) {
+    public VideoNode(long fatherVideoCutIndex, long Index, long Id) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
-        this.currentIndex = currentIndex;
-        this.currentId = currentId;
+        this.Index = Index;
+        this.Id = Id;
         sons = new ArrayList<>();
     }
 
@@ -28,20 +28,20 @@ public class VideoNode {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
     }
 
-    public long getCurrentIndex() {
-        return currentIndex;
+    public long getIndex() {
+        return Index;
     }
 
-    public void setCurrentIndex(long currentIndex) {
-        this.currentIndex = currentIndex;
+    public void setIndex(long index) {
+        this.Index = index;
     }
 
-    public long getCurrentId() {
-        return currentId;
+    public long getId() {
+        return Id;
     }
 
-    public void setCurrentId(long currentId) {
-        this.currentId = currentId;
+    public void setId(long id) {
+        this.Id = id;
     }
 
     public List<Integer> getSons() {

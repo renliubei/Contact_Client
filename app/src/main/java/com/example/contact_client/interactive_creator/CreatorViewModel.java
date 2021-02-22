@@ -13,6 +13,8 @@ import com.example.contact_client.repository.VideoProject;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Single;
+
 public class CreatorViewModel extends AndroidViewModel {
 
     //互动视频的路径
@@ -64,5 +66,9 @@ public class CreatorViewModel extends AndroidViewModel {
 
     public void setVideoProject(VideoProject videoProject) {
         this.videoProject = videoProject;
+    }
+
+    public Single<List<VideoCut>> getAllById(List<Long> ids) {
+        return videoCutDao.getAllById(ids);
     }
 }

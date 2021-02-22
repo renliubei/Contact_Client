@@ -32,9 +32,12 @@ public interface VideoCutDao {
     public Single<Integer> deleteUsers(VideoCut... videoCuts);
 
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
-    public LiveData<List<VideoCut>> getAllVideoCuts();
+    public LiveData<List<VideoCut>> getAllLiveDataVideoCuts();
 
     @Query("select * from VideoCut where id=:id")
     public LiveData<VideoCut> findById(long id);
+
+    @Query("SELECT * FROM VideoCut WHERE id IN (:Ids)")
+    public Single<List<VideoCut>> getAllById(List<Long> Ids);
 }
 

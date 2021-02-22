@@ -26,7 +26,7 @@ public class VideoCutsViewModel extends AndroidViewModel {
         super(application);
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
         videoCutDao = videoCutDatabase.getVideoCutDao();
-        allLiveDataVideoCuts = videoCutDao.getAllVideoCuts();
+        allLiveDataVideoCuts = videoCutDao.getAllLiveDataVideoCuts();
     }
 
     public LiveData<List<VideoCut>> getAllLiveDataVideoCuts() {
