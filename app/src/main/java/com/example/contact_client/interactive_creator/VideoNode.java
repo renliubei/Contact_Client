@@ -12,11 +12,14 @@ public class VideoNode {
     private long Id;
     //子节点在列表中的index
     private List<Integer> sons;
+    //
+    private boolean deleted;
 
     public VideoNode(int fatherVideoCutIndex, int Index, long Id) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
         this.Index = Index;
         this.Id = Id;
+        this.deleted = false;
         sons = new ArrayList<>();
     }
 
@@ -54,5 +57,13 @@ public class VideoNode {
 
     public void setSons(List<Integer> sons) {
         this.sons = sons;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

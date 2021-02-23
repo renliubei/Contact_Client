@@ -58,10 +58,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
                     @Override
                     public void onClickDelete(View v, int position) {
+                        //需要写对数据的删除
                         sonVideoCutsAdapter.removeData(position);
+                        int pos = mViewModel.getVideoNode().getSons().get(position);
+                        deleteNode(mViewModel.getVideoProject().getVideoNodeList().get(pos));
                     }
                     @Override
                     public void onClick(View v, int position) {
+                        Log.d("mylo","you click position :"+position);
                         //更新父亲节点
                         updateFatherVideoCut(sonVideoCutsAdapter.getAllVideoCuts().get(position));
                         //保存子节点
@@ -125,6 +129,19 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
 
     }
 
+    public void deleteNode(VideoNode videoNode){
+        //父亲删除
+        VideoNode father = mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getFatherVideoCutIndex());
+        for(int i=0;i<father.getSons().size();i++){
+            if(father.getSons().get(i)==videoNode.getIndex()){
+                father.getSons().remove(i);
+                break;
+            }
+        }
+        //儿子删除
+        videoNode.setDeleted(true);
+    }
+
     public void updateFatherVideoCut(VideoCut videoCut){
         mBinding.fatherName.setText(videoCut.getName());
         mBinding.fatherDescription.setText(videoCut.getDescription());
@@ -153,7 +170,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videoCuts -> {
                     mViewModel.getSonVideoCuts().clear();
-                    mViewModel.getSonVideoCuts().addAll(videoCuts);
+                    for(int i=0;i<ids.size();i++){
+                        for(int j=0;j<videoCuts.size();j++){
+                            if(videoCuts.get(j).getId()==ids.get(i)){
+                                mViewModel.getSonVideoCuts().add(videoCuts.get(j));
+                                break;
+                            }
+                        }
+                    }
                     sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts());
                     Log.d("mylo","update VideoCuts: "+mViewModel.getSonVideoCuts().toString());
                 }, throwable -> Log.d("mylo", "accept: Unable to get sons by id!")));
