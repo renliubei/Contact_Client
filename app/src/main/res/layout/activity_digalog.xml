@@ -107,7 +107,7 @@
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入新的名称和描述，留空则不修改"
+            android:text="请输入新的名称和描述"
             app:layout_constraintBottom_toTopOf="@+id/guideline38"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
