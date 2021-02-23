@@ -9,10 +9,12 @@ import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.repository.VideoCutDao;
 import com.example.contact_client.repository.VideoCutDatabase;
 import com.example.contact_client.repository.VideoProject;
+import com.example.contact_client.repository.VideoProjectDao;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class CreatorViewModel extends AndroidViewModel {
@@ -24,7 +26,8 @@ public class CreatorViewModel extends AndroidViewModel {
     //当前节点
     private VideoNode videoNode;
     //
-    private VideoCutDao videoCutDao;
+    private final VideoCutDao videoCutDao;
+    private final VideoProjectDao videoProjectDao;
     //
     private VideoProject videoProject;
 
@@ -39,6 +42,7 @@ public class CreatorViewModel extends AndroidViewModel {
         //绑定数据库
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
         videoCutDao = videoCutDatabase.getVideoCutDao();
+        videoProjectDao = videoCutDatabase.getVideoProjectDao();
     }
 
     public List<VideoCut> getSonVideoCuts() {
@@ -76,4 +80,7 @@ public class CreatorViewModel extends AndroidViewModel {
 
     public Single<VideoCut> getById(long id){return videoCutDao.findById(id);}
 
+    public Completable insertVideoProject(VideoProject videoProject){
+        return videoProjectDao.insertVideoProject(videoProject);
+    }
 }

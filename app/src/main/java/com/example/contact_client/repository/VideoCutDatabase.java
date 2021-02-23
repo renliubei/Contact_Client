@@ -21,4 +21,5 @@ public abstract class VideoCutDatabase extends RoomDatabase {
 
     //有多个Dao则要写多个getDao
     public abstract VideoCutDao getVideoCutDao();
+    public abstract VideoProjectDao getVideoProjectDao();
 }

@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -50,8 +52,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mBinding.recyclerView.setAdapter(sonVideoCutsAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //注册按键功能
-        mBinding.buttonAdd.setOnClickListener(v-> startActivityForResult(new Intent(v.getContext(), SearchRoomForVideoCutActivity.class),1));
+        mBinding.buttonAdd.setOnClickListener(this::showPopupMenu);
         mBinding.buttonBack.setOnClickListener(v->goBack());
+        mBinding.buttonSave.setOnClickListener(v->saveToDataBase());
         mBinding.recyclerView.post(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +135,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     public void deleteNode(VideoNode videoNode){
         //父亲删除
         VideoNode father = mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getFatherVideoCutIndex());
+        //在sons中删除
         for(int i=0;i<father.getSons().size();i++){
             if(father.getSons().get(i)==videoNode.getIndex()){
                 father.getSons().remove(i);
@@ -215,5 +219,35 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplication(),"保存失败",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    void searchRoomForAdd(){
+        startActivityForResult(new Intent(this, SearchRoomForVideoCutActivity.class),1);
+    }
+
+    void saveToDataBase(){
+        mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe());
+    }
+
+    void showPopupMenu(View view){
+        PopupMenu popupMenu = new PopupMenu(this,view);
+        popupMenu.getMenuInflater().inflate(R.menu.popup_menu_for_creator,popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                searchRoomForAdd();
+                return false;
+            }
+        });
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+
+            }
+        });
+        popupMenu.show();
     }
 }
