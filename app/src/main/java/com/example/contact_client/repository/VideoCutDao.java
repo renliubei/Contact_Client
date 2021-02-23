@@ -35,7 +35,7 @@ public interface VideoCutDao {
     public LiveData<List<VideoCut>> getAllLiveDataVideoCuts();
 
     @Query("select * from VideoCut where id=:id")
-    public LiveData<VideoCut> findById(long id);
+    public Single<VideoCut> findById(long id);
 
     @Query("SELECT * FROM VideoCut WHERE id IN (:Ids)")
     public Single<List<VideoCut>> getAllById(List<Long> Ids);

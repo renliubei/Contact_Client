@@ -5,35 +5,39 @@ import java.util.List;
 
 public class VideoNode {
     //父亲在列表中的index
-    private long fatherVideoCutIndex;
+    private int fatherVideoCutIndex;
     //自身在列表中的index
-    private long Index;
+    private int Index;
     //定位到当前应该视频的在数据库中的Id
     private long Id;
     //子节点在列表中的index
     private List<Integer> sons;
 
-    public VideoNode(long fatherVideoCutIndex, long Index, long Id) {
+    public VideoNode(int fatherVideoCutIndex, int Index, long Id) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
         this.Index = Index;
         this.Id = Id;
         sons = new ArrayList<>();
     }
 
-    public long getFatherVideoCutIndex() {
+    public int getFatherVideoCutIndex() {
         return fatherVideoCutIndex;
     }
 
-    public void setFatherVideoCutIndex(long fatherVideoCutIndex) {
+    public void setFatherVideoCutIndex(int fatherVideoCutIndex) {
         this.fatherVideoCutIndex = fatherVideoCutIndex;
     }
 
-    public long getIndex() {
+    public void addSons(int sonIndex){
+        sons.add(sonIndex);
+    }
+
+    public int getIndex() {
         return Index;
     }
 
-    public void setIndex(long index) {
-        this.Index = index;
+    public void setIndex(int index) {
+        Index = index;
     }
 
     public long getId() {
@@ -41,7 +45,7 @@ public class VideoNode {
     }
 
     public void setId(long id) {
-        this.Id = id;
+        Id = id;
     }
 
     public List<Integer> getSons() {
@@ -50,9 +54,5 @@ public class VideoNode {
 
     public void setSons(List<Integer> sons) {
         this.sons = sons;
-    }
-
-    public void addSons(int sonIndex){
-        sons.add(sonIndex);
     }
 }
