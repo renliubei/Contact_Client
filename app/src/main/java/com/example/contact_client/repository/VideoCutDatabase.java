@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {VideoCut.class}, version = 1, exportSchema = false)
+@Database(entities = {VideoCut.class,VideoProject.class}, version = 1, exportSchema = false)
 public abstract class VideoCutDatabase extends RoomDatabase {
     //单例化
     private static VideoCutDatabase videoCutDatabase;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class InteractiveCreatorActivity extends AppCompatActivity {
@@ -63,16 +63,19 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     public void onClickDelete(View v, int position) {
                         //需要写对数据的删除
                         sonVideoCutsAdapter.removeData(position);
-                        int pos = mViewModel.getVideoNode().getSons().get(position);
-                        deleteNode(mViewModel.getVideoProject().getVideoNodeList().get(pos));
+                        //没有保存的情况下删除会出错！
+                        try {
+                            deleteNode(mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position)));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                     @Override
                     public void onClick(View v, int position) {
-                        Log.d("mylo","you click position :"+position);
-                        //更新父亲节点
-                        updateFatherVideoCut(sonVideoCutsAdapter.getAllVideoCuts().get(position));
-                        //保存子节点
+                        //保存子节点并设置新节点
                         saveNodeList(position);
+                        //更新父亲节点
+                        updateFatherVideoCut(sonVideoCutsAdapter.getAllVideoCuts().get(position),mViewModel.getVideoNode().getIndex());
                         //更新列表并通知Adapter
                         rebuildSonList(mViewModel.getVideoNode());
                     }
@@ -96,7 +99,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     try {
                         //添加从数据库中获取的data
                         List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
-                        Log.d("mylo","Receive Data from Room : "+list.toString());
                         //添加数据
                         sonVideoCutsAdapter.insertData(list);
                         Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
@@ -119,12 +121,17 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             if(fatherIndex==0){
                 //返回根节点
                 returnToRoot();
-                Toast.makeText(this,"返回根节点!",Toast.LENGTH_SHORT).show();
             }else{
+                //返回父节点
                 mDisposable.add(mViewModel.getById(fatherNode.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::updateFatherVideoCut, Throwable::printStackTrace));
+                        .subscribe(new Consumer<VideoCut>() {
+                            @Override
+                            public void accept(VideoCut videoCut) throws Exception {
+                                updateFatherVideoCut(videoCut,fatherNode.getIndex());
+                            }
+                        }, Throwable::printStackTrace));
             }
             mViewModel.setVideoNode(fatherNode);
             rebuildSonList(fatherNode);
@@ -146,18 +153,21 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         videoNode.setDeleted(true);
     }
 
-    public void updateFatherVideoCut(VideoCut videoCut){
+    public void updateFatherVideoCut(VideoCut videoCut,int newIndex){
         mBinding.fatherName.setText(videoCut.getName());
         mBinding.fatherDescription.setText(videoCut.getDescription());
+        mBinding.textViewIndex.setText("P"+newIndex);
         Glide.with(this)
                 .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
                 .placeholder(R.drawable.ic_baseline_face_24)
                 .into(mBinding.fatherIcon);
     }
 
+
     public void returnToRoot(){
         mBinding.fatherName.setText(R.string.startVideos);
         mBinding.fatherDescription.setText(R.string.startHint);
+        mBinding.textViewIndex.setText(R.string.Root);
         Glide.with(this)
                 .load(R.drawable.ic_baseline_home_48)
                 .into(mBinding.fatherIcon);
@@ -174,6 +184,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videoCuts -> {
                     mViewModel.getSonVideoCuts().clear();
+                    //存在较大的性能隐患，可以考虑添加进度条显示
                     for(int i=0;i<ids.size();i++){
                         for(int j=0;j<videoCuts.size();j++){
                             if(videoCuts.get(j).getId()==ids.get(i)){
@@ -224,7 +235,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void searchRoomForAdd(){
         startActivityForResult(new Intent(this, SearchRoomForVideoCutActivity.class),1);
     }
+    void searchVideoProjectForAdd(){
 
+    }
     void saveToDataBase(){
         mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
                 .subscribeOn(Schedulers.io())
@@ -235,18 +248,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void showPopupMenu(View view){
         PopupMenu popupMenu = new PopupMenu(this,view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu_for_creator,popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if(item.getItemId()==R.id.newOne){
                 searchRoomForAdd();
-                return false;
+            }else if(item.getItemId()==R.id.fromOld){
+                searchVideoProjectForAdd();
             }
-        });
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-
-            }
+            return false;
         });
         popupMenu.show();
     }

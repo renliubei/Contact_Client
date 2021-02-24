@@ -3,6 +3,7 @@ package com.example.contact_client.repository;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import com.example.contact_client.interactive_creator.VideoNode;
 
@@ -10,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@TypeConverters(VideoNodeListConverter.class)
 public class VideoProject {
+
     @PrimaryKey(autoGenerate = true)
     private long Id;
 

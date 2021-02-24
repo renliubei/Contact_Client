@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVideoCutAdapter.MyViewHolder> {
+public class SearchVideoCutAdapter extends RecyclerView.Adapter<SearchVideoCutAdapter.MyViewHolder> {
 
     private Map<Integer,Boolean> checkStatus = new HashMap<>();
 

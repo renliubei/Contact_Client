@@ -23,4 +23,5 @@
     <string name="goBack">返回</string>
     <string name="startVideos">初始播放列表</string>
     <string name="startHint">单击视频进入</string>
+    <string name="Root">根结点</string>
 </resources>

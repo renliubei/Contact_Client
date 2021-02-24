@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class SearchRoomForVideoCutActivity extends AppCompatActivity {
     private VideoCutsViewModel videoCutsViewModel;
-    private SearchRoomVideoCutAdapter myAdapter;
+    private SearchVideoCutAdapter myAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class SearchRoomForVideoCutActivity extends AppCompatActivity {
         //绑定recyclerView
         RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new SearchRoomVideoCutAdapter();
+        myAdapter = new SearchVideoCutAdapter();
         recyclerView.setAdapter(myAdapter);
         //设置button
         Button button = findViewById(R.id.buttonDecide);
