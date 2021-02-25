@@ -3,6 +3,7 @@ package com.example.contact_client.interactive_creator;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -101,6 +102,25 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                         //添加数据
                         sonVideoCutsAdapter.insertData(list);
+                        saveNodeList(-1);
+                        Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(this,"添加失败",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case 2:
+                if(resultCode==RESULT_OK){
+                    try {
+                        List<Integer> oldlist = mViewModel.getVideoNode().getSons();
+                        List<Integer> newlist = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                        for(int i=0;i<newlist.size();i++){
+                            if(!oldlist.contains(newlist.get(i))){
+                                oldlist.add(newlist.get(i));
+                            }
+                        }
+                        rebuildSonList(mViewModel.getVideoNode());
                         Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         e.printStackTrace();
@@ -215,7 +235,8 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     Toast.makeText(this,"覆盖",Toast.LENGTH_SHORT).show();
                 }else{
                     //新增
-                    videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),mViewModel.getSonVideoCuts().get(i).getId());
+                    VideoCut videoCut = mViewModel.getSonVideoCuts().get(i);
+                    videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),videoCut.getId(),videoCut.getName());
                     fatherNode.addSons(mViewModel.getVideoProject().getListSize());
                     mViewModel.getVideoProject().addNode(videoNode);
                 }
@@ -235,9 +256,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void searchRoomForAdd(){
         startActivityForResult(new Intent(this, SearchRoomForVideoCutActivity.class),1);
     }
-    void searchVideoProjectForAdd(){
 
+    void searchVideoProjectForAdd(){
+        Intent intent = new Intent(this, SearchVideoNodeActivity.class);
+        intent.putParcelableArrayListExtra(getString(R.string.videoNodes), (ArrayList<? extends Parcelable>) mViewModel.getVideoProject().getVideoNodeList());
+        startActivityForResult(intent,2);
     }
+
     void saveToDataBase(){
         mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
                 .subscribeOn(Schedulers.io())

@@ -111,8 +111,8 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.videoCutName);
-            textViewDescription = itemView.findViewById(R.id.videoCutDesc);
+            textViewName = itemView.findViewById(R.id.videoNodeName);
+            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }

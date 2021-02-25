@@ -37,7 +37,7 @@ public class CreatorViewModel extends AndroidViewModel {
         sonVideoCuts = new ArrayList<>();
         videoProject = new VideoProject();
         //最初的根节点
-        videoNode = new VideoNode(-1,0,-1);
+        videoNode = new VideoNode(-1,0,-1,"root");
         videoProject.addNode(videoNode);
         //绑定数据库
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);

@@ -27,10 +27,10 @@ public class SearchRoomForVideoCutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_get_video);
+        setContentView(R.layout.acitivity_get);
         videoCutsViewModel = new ViewModelProvider(this).get(VideoCutsViewModel.class);
         //绑定recyclerView
-        RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
+        RecyclerView recyclerView = findViewById(R.id.getRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         myAdapter = new SearchVideoCutAdapter();
         recyclerView.setAdapter(myAdapter);
