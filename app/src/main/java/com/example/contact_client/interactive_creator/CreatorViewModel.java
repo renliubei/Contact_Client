@@ -14,7 +14,6 @@ import com.example.contact_client.repository.VideoProjectDao;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class CreatorViewModel extends AndroidViewModel {
@@ -80,7 +79,7 @@ public class CreatorViewModel extends AndroidViewModel {
 
     public Single<VideoCut> getById(long id){return videoCutDao.findById(id);}
 
-    public Completable insertVideoProject(VideoProject videoProject){
+    public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);
     }
 }

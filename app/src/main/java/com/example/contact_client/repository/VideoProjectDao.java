@@ -8,7 +8,6 @@ import androidx.room.Query;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 @Dao
@@ -18,7 +17,7 @@ public interface VideoProjectDao {
     public Single<VideoProject> findById(long id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public Completable insertVideoProject(VideoProject videoProject);
+    public Single<Long> insertVideoProject(VideoProject videoProject);
 
     @Query("SELECT * FROM VideoProject ORDER BY ID DESC")
     public LiveData<List<VideoProject>> getAllLiveDataVideoProjects();

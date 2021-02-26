@@ -111,4 +111,8 @@ public class VideoNode implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setFatherVideoCutIndex(int fatherVideoCutIndex) {
+        this.fatherVideoCutIndex = fatherVideoCutIndex;
+    }
 }

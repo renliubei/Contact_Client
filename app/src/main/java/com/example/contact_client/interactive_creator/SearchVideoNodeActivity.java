@@ -32,7 +32,7 @@ public class SearchVideoNodeActivity extends AppCompatActivity {
         //设置button
         Button button = findViewById(R.id.buttonDecide);
         button.setOnClickListener(v -> {
-            List<Integer> list = new ArrayList<>();
+            ArrayList<Integer> list = new ArrayList<>();
             Map<Integer,Boolean> checkStatus = myAdapter.getCheckStatus();
             for(int i=0;i<myAdapter.getItemCount();i++){
                 //如果某个位置上的条目被选中，则添加
@@ -46,7 +46,7 @@ public class SearchVideoNodeActivity extends AppCompatActivity {
             }
             Log.d("mylo","send data index: "+list.toString());
             Intent intent = new Intent();
-            intent.putIntegerArrayListExtra(getString(R.string.videoNodeIndexes), (ArrayList<Integer>) list);
+            intent.putIntegerArrayListExtra(getString(R.string.videoNodeIndexes), list);
             setResult(RESULT_OK, intent);
             finish();
         });

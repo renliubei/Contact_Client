@@ -56,20 +56,21 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickItem != null) {
-                    onClickItem.onClick(v, position);
-                }
+
+        holder.imageViewEdit.setOnClickListener(v->{
+            if (onClickItem != null) {
+                onClickItem.onClickEdit(v, position);
             }
         });
-        holder.imageViewDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onClickItem != null) {
-                    onClickItem.onClickDelete(v, position);
-                }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onClickItem != null) {
+                onClickItem.onClick(v, position);
+            }
+        });
+        holder.imageViewDelete.setOnClickListener(v -> {
+            if (onClickItem != null) {
+                onClickItem.onClickDelete(v, position);
             }
         });
     }
@@ -82,7 +83,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
 
     public interface onClickItem {
         void onClickDelete(View v, int position);
-
+        void onClickEdit(View v,int position);
         void onClick(View v,int position);
     }
 
@@ -106,13 +107,14 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewName, textViewDescription;
-        ImageView imageView,imageViewDelete;
+        ImageView imageView,imageViewDelete,imageViewEdit;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
             textViewName = itemView.findViewById(R.id.videoNodeName);
             textViewDescription = itemView.findViewById(R.id.videoNodeSons);
+            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }
