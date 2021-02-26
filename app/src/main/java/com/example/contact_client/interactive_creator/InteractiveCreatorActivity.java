@@ -57,11 +57,11 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v,1,2));
         mBinding.buttonBack.setOnClickListener(v->goBack());
         mBinding.buttonSave.setOnClickListener(v->saveToDataBase());
+        mBinding.buttonJumpTo.setOnClickListener(v->Jump());
         mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
 
             @Override
             public void onClickEdit(View v, int position) {
-                Toast.makeText(getApplicationContext(),"请选择一个新的视频",Toast.LENGTH_LONG).show();
                 nodeEditor = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
                 showPopupMenu(v,3,4);
             }
@@ -159,12 +159,36 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                break;
+            case 5:
+                if(resultCode==RESULT_OK){
+                    try{
+                        List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                        if(list.get(0)!=null){
+                            int index = list.get(0);
+                            VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(list.get(0));
+                            newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
+                            if(index==0){
+                                updateRootNodeUI();
+                            }else{
+                                mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(videoCut -> updateFatherVideoCutUI(videoCut,newNode.getIndex())));
+                            }
+                            mViewModel.setVideoNode(newNode);
+                            rebuildSonList(newNode);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
         }
     }
 
     public void goBack(){
         saveNodeList(-1);
-        int fatherIndex = mViewModel.getVideoNode().getFatherIndex();
+        int fatherIndex = mViewModel.getVideoNode().getLastNodeIndex();
         if(fatherIndex==-1){
             Toast.makeText(this,"没有上一层!",Toast.LENGTH_SHORT).show();
         }else{
@@ -172,10 +196,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             Log.d("mylo", fatherNode.getId() +" "+ fatherIndex);
             if(fatherIndex==0){
                 //返回根节点
-                returnToRoot();
+                updateRootNodeUI();
             }else{
                 //返回父节点
-                mDisposable.add(mViewModel.getById(fatherNode.getId())
+                mDisposable.add(mViewModel.getVideoCutById(fatherNode.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(videoCut -> updateFatherVideoCutUI(videoCut,fatherNode.getIndex()), Throwable::printStackTrace));
@@ -188,7 +212,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
 
     public void deleteNode(VideoNode videoNode){
         //父亲删除
-        VideoNode father = mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getFatherIndex());
+        VideoNode father = mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getLastNodeIndex());
         //在sons中删除
         for(int i=0;i<father.getSons().size();i++){
             if(father.getSons().get(i)==videoNode.getIndex()){
@@ -209,7 +233,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
 
-    public void returnToRoot(){
+    public void updateRootNodeUI(){
         mBinding.fatherName.setText(R.string.startVideos);
         mBinding.fatherDescription.setText(R.string.startHint);
         mBinding.textViewIndex.setText(R.string.Root);
@@ -309,5 +333,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             return false;
         });
         popupMenu.show();
+    }
+
+    private void Jump() {
+        searchVideoNodeForIndexes(5);
     }
 }

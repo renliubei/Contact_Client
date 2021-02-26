@@ -77,7 +77,7 @@ public class CreatorViewModel extends AndroidViewModel {
         return videoCutDao.getAllById(ids);
     }
 
-    public Single<VideoCut> getById(long id){return videoCutDao.findById(id);}
+    public Single<VideoCut> getVideoCutById(long id){return videoCutDao.findById(id);}
 
     public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);

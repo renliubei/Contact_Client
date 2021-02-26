@@ -8,7 +8,7 @@ import java.util.List;
 
 public class VideoNode implements Parcelable {
     //最后一个到达这个Node的Node在列表中的index
-    private int fatherIndex;
+    private int lastNodeIndex;
     //自身在列表中的index
     private int Index;
     //定位到当前应该视频的在数据库中的Id
@@ -18,8 +18,8 @@ public class VideoNode implements Parcelable {
     //
     private String name;
 
-    public VideoNode(int fatherIndex, int Index, long Id, String name) {
-        this.fatherIndex = fatherIndex;
+    public VideoNode(int lastNodeIndex, int Index, long Id, String name) {
+        this.lastNodeIndex = lastNodeIndex;
         this.Index = Index;
         this.Id = Id;
         this.name = name;
@@ -27,7 +27,7 @@ public class VideoNode implements Parcelable {
     }
 
     protected VideoNode(Parcel in) {
-        fatherIndex = in.readInt();
+        lastNodeIndex = in.readInt();
         Index = in.readInt();
         Id = in.readLong();
         name = in.readString();
@@ -35,7 +35,7 @@ public class VideoNode implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(fatherIndex);
+        dest.writeInt(lastNodeIndex);
         dest.writeInt(Index);
         dest.writeLong(Id);
         dest.writeString(name);
@@ -58,8 +58,8 @@ public class VideoNode implements Parcelable {
         }
     };
 
-    public int getFatherIndex() {
-        return fatherIndex;
+    public int getLastNodeIndex() {
+        return lastNodeIndex;
     }
 
 
@@ -99,7 +99,7 @@ public class VideoNode implements Parcelable {
         this.name = name;
     }
 
-    public void setFatherIndex(int fatherIndex) {
-        this.fatherIndex = fatherIndex;
+    public void setLastNodeIndex(int lastNodeIndex) {
+        this.lastNodeIndex = lastNodeIndex;
     }
 }

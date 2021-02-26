@@ -19,15 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:background="@color/skyblue"
             android:text="@string/goBack"
-            android:textColor="@color/darkblue"
-            app:layout_constraintBottom_toTopOf="@+id/guideline40"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="@+id/guideline41"
-            app:layout_constraintTop_toTopOf="@+id/guideline39" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonJumpTo" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline39"
@@ -58,7 +60,7 @@
             android:layout_marginBottom="10dp"
             android:background="@color/skyblue"
             android:text="@string/Insert"
-            android:textColor="@color/darkblue"
+            android:textColor="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonSave"
             app:layout_constraintHorizontal_bias="0.5"
@@ -73,7 +75,7 @@
             android:layout_marginBottom="10dp"
             android:background="@color/skyblue"
             android:text="@string/Save"
-            android:textColor="@color/darkblue"
+            android:textColor="@color/colorBlack"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -166,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/Root"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/crimson"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -177,6 +179,7 @@
         </androidx.cardview.widget.CardView>
 
         <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline39"
@@ -194,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="(:3[▓▓]快醒醒开学了"
-                    android:textColor="@color/chocolate"
+                    android:textColor="@color/crimson"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -208,6 +211,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.8" />
+
+        <Button
+            android:id="@+id/buttonJumpTo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@color/cyan"
+            android:text="@string/Jump"
+            app:layout_constraintBottom_toTopOf="@+id/buttonBack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="@+id/guideline41"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

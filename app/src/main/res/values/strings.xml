@@ -25,4 +25,5 @@
     <string name="startHint">单击视频进入</string>
     <string name="videoNodeSons">Sons: %s</string>
     <string name="Root">P0</string>
+    <string name="Jump">跳转</string>
 </resources>
