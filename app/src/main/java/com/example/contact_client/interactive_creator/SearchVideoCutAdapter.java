@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVideoCutAdapter.MyViewHolder> {
+public class SearchVideoCutAdapter extends RecyclerView.Adapter<SearchVideoCutAdapter.MyViewHolder> {
 
     private Map<Integer,Boolean> checkStatus = new HashMap<>();
 
@@ -94,9 +94,9 @@ public class SearchRoomVideoCutAdapter extends RecyclerView.Adapter<SearchRoomVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.VideoCutIcon);
-            textViewName = itemView.findViewById(R.id.videoCutName);
-            textViewDescription = itemView.findViewById(R.id.videoCutDesc);
-            checkBox = itemView.findViewById(R.id.checkBoxSonDecided);
+            textViewName = itemView.findViewById(R.id.videoNodeName);
+            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
+            checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);
         }
     }
 }

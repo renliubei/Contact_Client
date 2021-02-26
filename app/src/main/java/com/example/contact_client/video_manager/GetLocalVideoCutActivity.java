@@ -37,7 +37,7 @@ public class GetLocalVideoCutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_get_video);
+        setContentView(R.layout.acitivity_get);
 //        Toast.makeText(this, "successfully open GetVideoCut", Toast.LENGTH_SHORT).show();
 
         //获取本地视频列表
@@ -47,7 +47,7 @@ public class GetLocalVideoCutActivity extends AppCompatActivity {
             videoCutList = getLocalVideoCut();
 //            Log.d("mylo", videoCutList.toString());
             //设置视图
-            RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
+            RecyclerView recyclerView = findViewById(R.id.getRecycleView);
             VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
             videoGalleryAdapter.setAllVideoCuts(videoCutList);
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -83,7 +83,7 @@ public class GetLocalVideoCutActivity extends AppCompatActivity {
                     videoCutList = getLocalVideoCut();
 //                    Log.d("mylo", videoCutList.toString());
                     //设置视图
-                    RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
+                    RecyclerView recyclerView = findViewById(R.id.getRecycleView);
                     VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
                     videoGalleryAdapter.setAllVideoCuts(videoCutList);
                     recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
