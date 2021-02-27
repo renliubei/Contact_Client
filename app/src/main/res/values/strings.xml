@@ -26,4 +26,5 @@
     <string name="videoNodeSons">Sons: %s</string>
     <string name="Root">P0</string>
     <string name="Jump">跳转</string>
+    <string name="Index">P%d</string>
 </resources>

@@ -3,10 +3,14 @@ package com.example.contact_client.interactive_creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class VideoNode implements Parcelable {
+    //
+    private List<Integer> fathers;
     //最后一个到达这个Node的Node在列表中的index
     private int lastNodeIndex;
     //自身在列表中的index
@@ -18,12 +22,11 @@ public class VideoNode implements Parcelable {
     //
     private String name;
 
-    public VideoNode(int lastNodeIndex, int Index, long Id, String name) {
+    public VideoNode(int lastNodeIndex, int index, long id, String name) {
         this.lastNodeIndex = lastNodeIndex;
-        this.Index = Index;
-        this.Id = Id;
+        Index = index;
+        Id = id;
         this.name = name;
-        sons = new ArrayList<>();
     }
 
     protected VideoNode(Parcel in) {
@@ -31,6 +34,8 @@ public class VideoNode implements Parcelable {
         Index = in.readInt();
         Id = in.readLong();
         name = in.readString();
+        in.readList(getSons(),Integer.class.getClassLoader());
+        in.readList(getFathers(),Integer.class.getClassLoader());
     }
 
     @Override
@@ -39,6 +44,8 @@ public class VideoNode implements Parcelable {
         dest.writeInt(Index);
         dest.writeLong(Id);
         dest.writeString(name);
+        dest.writeList(getSons());
+        dest.writeList(getFathers());
     }
 
     @Override
@@ -58,48 +65,72 @@ public class VideoNode implements Parcelable {
         }
     };
 
-    public int getLastNodeIndex() {
-        return lastNodeIndex;
+    public List<Integer> getFathers() {
+        if(fathers ==null){
+            fathers = new ArrayList<>();
+        }
+        return fathers;
     }
 
-
-    public void addSons(int sonIndex){
-        sons.add(sonIndex);
+    public int getLastNodeIndex() {
+        return lastNodeIndex;
     }
 
     public int getIndex() {
         return Index;
     }
 
-    public void setIndex(int index) {
-        Index = index;
-    }
-
     public long getId() {
         return Id;
     }
 
-    public void setId(long id) {
-        Id = id;
-    }
-
     public List<Integer> getSons() {
+        if(sons==null){
+            sons = new ArrayList<>();
+        }
         return sons;
-    }
-
-    public void setSons(List<Integer> sons) {
-        this.sons = sons;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFathers(List<Integer> fathers) {
+        this.fathers = fathers;
     }
 
     public void setLastNodeIndex(int lastNodeIndex) {
         this.lastNodeIndex = lastNodeIndex;
     }
+
+    public void setIndex(int index) {
+        Index = index;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
+
+    public void setSons(List<Integer> sons) {
+        this.sons = sons;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getName()+", sons: "+getSons().toString();
+    }
+
+    public void addSon(int sonIndex){
+        getSons().add(sonIndex);
+    }
+
+    public void addFather(int fatherIndex){
+        getFathers().add(fatherIndex);
+    }
+
 }

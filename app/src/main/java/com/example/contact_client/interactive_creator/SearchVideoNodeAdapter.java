@@ -51,7 +51,7 @@ public class SearchVideoNodeAdapter extends RecyclerView.Adapter<SearchVideoNode
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoNode videoNode = videoNodeList.get(position);
         holder.textViewName.setText(videoNode.getName());
-        String sons = "sons: ";
+        String sons = "sons: "+videoNode.getSons().toString();
         holder.textViewSons.setText(sons);
         String index = "P" + videoNode.getIndex();
         holder.textViewIndex.setText(index);

@@ -15,11 +15,12 @@ import com.example.contact_client.R;
 import com.example.contact_client.repository.VideoCut;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapter.MyViewHolder> {
-    private List<VideoCut> allVideoCuts = new ArrayList<>();
+
+
+    private List<VideoCut> allVideoCuts;
 
     public List<VideoCut> getAllVideoCuts() {
         return allVideoCuts;
@@ -56,7 +57,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
                 .into(holder.imageView);
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
-
+        holder.textViewOrder.setText(String.valueOf(position+1));
         holder.imageViewEdit.setOnClickListener(v->{
             if (onClickItem != null) {
                 onClickItem.onClickEdit(v, position);
@@ -106,7 +107,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         notifyItemRangeInserted(start,videoCuts.size());
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewDescription;
+        TextView textViewName, textViewDescription,textViewOrder;
         ImageView imageView,imageViewDelete,imageViewEdit;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -116,6 +117,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
             textViewDescription = itemView.findViewById(R.id.videoNodeSons);
             imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+            textViewOrder = itemView.findViewById(R.id.textViewOrder);
         }
     }
 }
