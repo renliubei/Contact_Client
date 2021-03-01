@@ -60,7 +60,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             goBack();
         });
         mBinding.buttonSave.setOnClickListener(v->saveToDataBase());
-        mBinding.buttonJumpTo.setOnClickListener(v->Jump());
+        mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(5));
         mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
             @Override
             public void onClickEdit(View v, int position) {
@@ -174,28 +174,31 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             case 5:
                 if(resultCode==RESULT_OK){
                     try{
-                        List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-                        if(list.get(0)!=null){
-                            int index = list.get(0);
-                            VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(list.get(0));
-                            newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
-                            if(index==0){
-                                updateRootNodeUI();
-                            }else{
-                                mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
-                                        .subscribeOn(Schedulers.io())
-                                        .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe(videoCut -> updateFatherNodeUI(videoCut,newNode.getIndex())));
-                            }
-                            mViewModel.setVideoNode(newNode);
-                            rebuildSonList(newNode);
-                            Toast.makeText(this,"跳转成功",Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e){
+                            Jump(data);
+                        } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(this,"跳转失败",Toast.LENGTH_SHORT).show();
                     }
                 }
+        }
+    }
+
+    public void Jump(Intent data) {
+        List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+        if (list.get(0) != null) {
+            int index = list.get(0);
+            VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(list.get(0));
+            newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
+            if (index == 0) {
+                updateRootNodeUI();
+            } else {
+                mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
+            }
+            mViewModel.setVideoNode(newNode);
+            rebuildSonList(newNode);
+            Toast.makeText(this, "跳转成功", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -349,9 +352,5 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             return false;
         });
         popupMenu.show();
-    }
-
-    private void Jump() {
-        searchVideoNodeForIndexes(5);
     }
 }
