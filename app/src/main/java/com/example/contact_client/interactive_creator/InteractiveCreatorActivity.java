@@ -39,6 +39,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     private SonVideoCutsAdapter sonVideoCutsAdapter;
     //用于指向需要编辑的VideoNode
     private VideoNode nodeEditor;
+    //
+    private static final int ISOLATED = -2;
+    private static final int ISROOT = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,6 +245,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         //如果此结点已经没有任何父亲
         if(videoNode.getFathers().size()==0){
             //移动到被删除列表
+            videoNode.setId(ISOLATED);
             mViewModel.getVideoProject().getIsolatedNodes().add(videoNode);
             Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + mViewModel.getVideoProject().getIsolatedNodes().toString());
             //递归判断其儿子是否也被孤立
@@ -287,7 +291,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     mViewModel.getSonVideoCuts().clear();
                     //存在较大的性能隐患，可以考虑添加进度条显示
                     for(int i=0;i<ids.size();i++){
-                        if(ids.get(i)==-1){
+                        if(ids.get(i)==ISROOT){
                             mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
                         }else{
                             for(int j=0;j<videoCuts.size();j++){
@@ -355,7 +359,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
 
     void searchVideoNodeForIndexes(int requestCode){
         Intent intent = new Intent(this, SearchVideoNodeActivity.class);
-        intent.putParcelableArrayListExtra(getString(R.string.videoNodes), (ArrayList<? extends Parcelable>) mViewModel.getVideoProject().getVideoNodeList());
+        List<VideoNode> notIsolatedNodes = new ArrayList<>();
+        List<VideoNode> allNodes = mViewModel.getVideoProject().getVideoNodeList();
+        for(int i=0;i<allNodes.size();i++){
+            if(allNodes.get(i).getId()!=ISOLATED){
+                notIsolatedNodes.add(allNodes.get(i));
+            }
+        }
+        intent.putParcelableArrayListExtra(getString(R.string.videoNodes), (ArrayList<? extends Parcelable>) notIsolatedNodes);
         startActivityForResult(intent,requestCode);
         overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
     }
