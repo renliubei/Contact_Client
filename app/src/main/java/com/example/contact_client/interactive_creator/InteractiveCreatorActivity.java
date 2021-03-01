@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
 import com.example.contact_client.repository.VideoCut;
+import com.example.contact_client.repository.VideoProject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,7 +74,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 sonVideoCutsAdapter.removeData(position);
                 //没有保存的情况下删除会出错！
                 try {
-                    deleteNode(mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position)),mViewModel.getVideoNode());
+                    VideoNode targetNode = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
+                    deleteLinks(targetNode,mViewModel.getVideoNode());
+                    //下一步考虑判断该点是否为孤立点
+                    moveDeleted(targetNode,mViewModel.getVideoProject());
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -174,7 +178,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             case 5:
                 if(resultCode==RESULT_OK){
                     try{
-                            Jump(data);
+                            List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                            if(list.get(0)!=null){
+                                Jump(list.get(0));
+                            }
                         } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -182,24 +189,20 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    public void Jump(Intent data) {
-        List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-        if (list.get(0) != null) {
-            int index = list.get(0);
-            VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(list.get(0));
-            newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
-            if (index == 0) {
-                updateRootNodeUI();
-            } else {
-                mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
-            }
-            mViewModel.setVideoNode(newNode);
-            rebuildSonList(newNode);
-            Toast.makeText(this, "跳转成功", Toast.LENGTH_SHORT).show();
+    public void Jump(int index) {
+        VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(index);
+        newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
+        if (index == 0) {
+            updateRootNodeUI();
+        } else {
+            mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
         }
+        mViewModel.setVideoNode(newNode);
+        rebuildSonList(newNode);
+        Toast.makeText(this, "跳转成功", Toast.LENGTH_SHORT).show();
     }
 
     public void goBack(){
@@ -224,7 +227,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteNode(VideoNode videoNode,VideoNode fatherNode){
+    public void deleteLinks(VideoNode videoNode, VideoNode fatherNode){
         //自身删除father
         videoNode.getFathers().remove((Integer) fatherNode.getIndex());
         //father删除son
@@ -234,8 +237,17 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 break;
             }
         }
-        //下一步考虑判断该点是否为孤立点
-        //CheckIsolated(videoNode);
+    }
+
+    void moveDeleted(VideoNode videoNode, VideoProject videoProject){
+        if(videoNode.getFathers().size()==0){
+            videoProject.getDeletedNodes().add(videoNode);
+            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + videoProject.getDeletedNodes().toString());
+            for(int i=0;i<videoNode.getSons().size();i++){
+                deleteLinks(videoProject.getVideoNodeList().get(videoNode.getSons().get(i)),videoNode);
+                moveDeleted(videoProject.getVideoNodeList().get(videoNode.getSons().get(i)),videoProject);
+            }
+        }
     }
 
     public void updateFatherNodeUI(VideoCut videoCut, int newIndex){
