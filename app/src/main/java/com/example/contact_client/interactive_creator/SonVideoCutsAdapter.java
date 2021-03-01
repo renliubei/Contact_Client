@@ -51,10 +51,17 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
-        Glide.with(holder.itemView)
-                .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
-                .placeholder(R.drawable.ic_baseline_face_24)
-                .into(holder.imageView);
+        if(videoCut.getId()==-1){
+            Glide.with(holder.itemView)
+                    .load(R.drawable.ic_baseline_home_48)
+                    .placeholder(R.drawable.ic_baseline_face_24)
+                    .into(holder.imageView);
+        }else{
+            Glide.with(holder.itemView)
+                    .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
+                    .placeholder(R.drawable.ic_baseline_face_24)
+                    .into(holder.imageView);
+        }
         holder.textViewName.setText(videoCut.getName());
         holder.textViewDescription.setText(videoCut.getDescription());
         holder.textViewOrder.setText(String.valueOf(position+1));

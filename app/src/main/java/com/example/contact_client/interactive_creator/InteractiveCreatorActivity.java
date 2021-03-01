@@ -37,19 +37,18 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     private CreatorViewModel mViewModel;
     //适配器
     private SonVideoCutsAdapter sonVideoCutsAdapter;
-    //
+    //用于指向需要编辑的VideoNode
     private VideoNode nodeEditor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //
+        //绑定binding
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_interacitve_creator);
         mBinding.setLifecycleOwner(this);
-        //
+        //绑定viewModel
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
-        //
+        //绑定recyclerView
         sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
         mBinding.recyclerView.setAdapter(sonVideoCutsAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -88,7 +87,12 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 //保存子节点并设置新节点
                 saveVideoCutsToNodes(position);
                 //更新父亲节点
-                updateFatherNodeUI(sonVideoCutsAdapter.getAllVideoCuts().get(position),mViewModel.getVideoNode().getIndex());
+                VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
+                if(videoCut.getId()==-1){
+                    updateRootNodeUI();
+                }else{
+                    updateFatherNodeUI(videoCut,mViewModel.getVideoNode().getIndex());
+                }
                 //更新列表并通知Adapter
                 rebuildSonList(mViewModel.getVideoNode());
             }
@@ -231,6 +235,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void deleteFatherAndCheckIsolation(VideoNode videoNode, VideoNode fatherNode){
         //删除父亲
         videoNode.getFathers().remove((Integer)fatherNode.getIndex());
+        //根节点不能被孤立
+        if(videoNode.getIndex()==0){
+            return;
+        }
         //如果此结点已经没有任何父亲
         if(videoNode.getFathers().size()==0){
             //移动到被删除列表
@@ -279,10 +287,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     mViewModel.getSonVideoCuts().clear();
                     //存在较大的性能隐患，可以考虑添加进度条显示
                     for(int i=0;i<ids.size();i++){
-                        for(int j=0;j<videoCuts.size();j++){
-                            if(videoCuts.get(j).getId()==ids.get(i)){
-                                mViewModel.getSonVideoCuts().add(videoCuts.get(j));
-                                break;
+                        if(ids.get(i)==-1){
+                            mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
+                        }else{
+                            for(int j=0;j<videoCuts.size();j++){
+                                if(videoCuts.get(j).getId()==ids.get(i)){
+                                    mViewModel.getSonVideoCuts().add(videoCuts.get(j));
+                                    break;
+                                }
                             }
                         }
                     }
@@ -355,14 +367,18 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .subscribe(aLong -> mViewModel.getVideoProject().setId(aLong)));
     }
 
-    void showPopupMenu(View view,int requestCodeNewOne,int requestCodeFromOld){
+    void showPopupMenu(View view,int requestCodeVideoCut,int requestCodeVideoNode){
         PopupMenu popupMenu = new PopupMenu(this,view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu_for_creator,popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
             if(item.getItemId()==R.id.newOne){
-                searchRoom(requestCodeNewOne);
+                if(requestCodeVideoCut==3&&nodeEditor.getIndex()==0){
+                    Toast.makeText(this,"无法改变根结点视频",Toast.LENGTH_SHORT).show();
+                }else{
+                    searchRoom(requestCodeVideoCut);
+                }
             }else if(item.getItemId()==R.id.fromOld){
-                searchVideoNodeForIndexes(requestCodeFromOld);
+                searchVideoNodeForIndexes(requestCodeVideoNode);
             }
             return false;
         });

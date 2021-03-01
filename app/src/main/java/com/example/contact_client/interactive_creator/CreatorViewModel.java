@@ -24,11 +24,13 @@ public class CreatorViewModel extends AndroidViewModel {
     private final List<VideoCut> sonVideoCuts;
     //当前节点
     private VideoNode videoNode;
-    //
+    //访问数据库
     private final VideoCutDao videoCutDao;
     private final VideoProjectDao videoProjectDao;
-    //
+    //当前的互动视频
     private VideoProject videoProject;
+    //根节点的VideoCut
+    private final VideoCut rootVideoCut;
 
     public CreatorViewModel(@NonNull Application application) {
         super(application);
@@ -42,6 +44,9 @@ public class CreatorViewModel extends AndroidViewModel {
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
         videoCutDao = videoCutDatabase.getVideoCutDao();
         videoProjectDao = videoCutDatabase.getVideoProjectDao();
+        //
+        rootVideoCut = new VideoCut(true,"根结点","这是根节点",null,null);
+        rootVideoCut.setId(-1);
     }
 
     public List<VideoCut> getSonVideoCuts() {
@@ -55,6 +60,10 @@ public class CreatorViewModel extends AndroidViewModel {
     public VideoNode getVideoNode() {
         //起始的根节点
         return videoNode;
+    }
+
+    public VideoCut getRootVideoCut() {
+        return rootVideoCut;
     }
 
     public void setPath(String[] path) {
@@ -82,4 +91,5 @@ public class CreatorViewModel extends AndroidViewModel {
     public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);
     }
+
 }
