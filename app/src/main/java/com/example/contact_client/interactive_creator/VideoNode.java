@@ -132,5 +132,4 @@ public class VideoNode implements Parcelable {
     public void addFather(int fatherIndex){
         getFathers().add(fatherIndex);
     }
-
 }

@@ -19,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
 import com.example.contact_client.repository.VideoCut;
-import com.example.contact_client.repository.VideoProject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,10 +56,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         //注册按键功能
         mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v,1,2));
         mBinding.buttonBack.setOnClickListener(v -> {
-            saveNodeList(-1);
+            saveVideoCutsToNodes(-1);
             goBack();
         });
-        mBinding.buttonSave.setOnClickListener(v->saveToDataBase());
+        mBinding.buttonSave.setOnClickListener(v-> saveProjectToDataBase());
         mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(5));
         mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
             @Override
@@ -75,9 +74,11 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 //没有保存的情况下删除会出错！
                 try {
                     VideoNode targetNode = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
-                    deleteLinks(targetNode,mViewModel.getVideoNode());
-                    //下一步考虑判断该点是否为孤立点
-                    moveDeleted(targetNode,mViewModel.getVideoProject());
+                    VideoNode fatherNode = mViewModel.getVideoNode();
+                    //移除此子节点
+                    fatherNode.getSons().remove((Integer)targetNode.getIndex());
+                    //如果子节点已经没有任何父亲则移动到孤立
+                    deleteFatherAndCheckIsolation(targetNode,fatherNode);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -85,7 +86,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v, int position) {
                 //保存子节点并设置新节点
-                saveNodeList(position);
+                saveVideoCutsToNodes(position);
                 //更新父亲节点
                 updateFatherNodeUI(sonVideoCutsAdapter.getAllVideoCuts().get(position),mViewModel.getVideoNode().getIndex());
                 //更新列表并通知Adapter
@@ -118,7 +119,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                         //添加数据
                         sonVideoCutsAdapter.insertData(list);
-                        saveNodeList(-1);
+                        saveVideoCutsToNodes(-1);
                         Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         e.printStackTrace();
@@ -227,26 +228,19 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    public void deleteLinks(VideoNode videoNode, VideoNode fatherNode){
-        //自身删除father
-        videoNode.getFathers().remove((Integer) fatherNode.getIndex());
-        //father删除son
-        for(int i=0;i<fatherNode.getSons().size();i++){
-            if(fatherNode.getSons().get(i)==videoNode.getIndex()){
-                fatherNode.getSons().remove(i);
-                break;
-            }
-        }
-    }
-
-    void moveDeleted(VideoNode videoNode, VideoProject videoProject){
+    void deleteFatherAndCheckIsolation(VideoNode videoNode, VideoNode fatherNode){
+        //删除父亲
+        videoNode.getFathers().remove((Integer)fatherNode.getIndex());
+        //如果此结点已经没有任何父亲
         if(videoNode.getFathers().size()==0){
-            videoProject.getDeletedNodes().add(videoNode);
-            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + videoProject.getDeletedNodes().toString());
+            //移动到被删除列表
+            mViewModel.getVideoProject().getIsolatedNodes().add(videoNode);
+            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + mViewModel.getVideoProject().getIsolatedNodes().toString());
+            //递归判断其儿子是否也被孤立
             for(int i=0;i<videoNode.getSons().size();i++){
-                deleteLinks(videoProject.getVideoNodeList().get(videoNode.getSons().get(i)),videoNode);
-                moveDeleted(videoProject.getVideoNodeList().get(videoNode.getSons().get(i)),videoProject);
+                deleteFatherAndCheckIsolation(mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getSons().get(i)),videoNode);
             }
+            videoNode.getSons().clear();
         }
     }
 
@@ -297,12 +291,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 }, throwable -> Log.d("mylo", "accept: Unable to get sons by id!")));
     }
 
-    public void saveNodeList(int newNodePosition){
+    public void saveVideoCutsToNodes(int newNodePosition){
         //储存节点！
         //策略:相同位置替换Id，超过原有sonList长度则添加
         //删除需要另写函数
         try {
             VideoNode videoNode;
+            VideoCut videoCut;
             VideoNode fatherNode = mViewModel.getVideoNode();
             for(int i=0;i<mViewModel.getSonVideoCuts().size();i++){
                 //替换Id
@@ -313,12 +308,20 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     videoNode.setId(mViewModel.getSonVideoCuts().get(i).getId());
                     Toast.makeText(this,"覆盖",Toast.LENGTH_SHORT).show();
                 }else{
-                    //新增
-                    VideoCut videoCut = mViewModel.getSonVideoCuts().get(i);
-                    videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),videoCut.getId(),videoCut.getName());
+                    videoCut = mViewModel.getSonVideoCuts().get(i);
+                    //如果有被删除结点，回收
+                    if(mViewModel.getVideoProject().getIsolatedNodes().size()>0){
+                        videoNode = mViewModel.getVideoProject().getIsolatedNodes().remove(0);
+                        videoNode.setId(videoCut.getId());
+                        videoNode.setName(videoCut.getName());
+                        videoNode.setLastNodeIndex(fatherNode.getIndex());
+                    }else{
+                    //不存在删除结点，新增
+                        videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),videoCut.getId(),videoCut.getName());
+                        mViewModel.getVideoProject().addNode(videoNode);
+                    }
                     videoNode.addFather(fatherNode.getIndex());
-                    fatherNode.addSon(mViewModel.getVideoProject().getListSize());
-                    mViewModel.getVideoProject().addNode(videoNode);
+                    fatherNode.addSon(videoNode.getIndex());
                 }
                 if(newNodePosition!=-1&&i==newNodePosition){
                     mViewModel.setVideoNode(videoNode);
@@ -345,7 +348,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
     }
 
-    void saveToDataBase(){
+    void saveProjectToDataBase(){
         mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

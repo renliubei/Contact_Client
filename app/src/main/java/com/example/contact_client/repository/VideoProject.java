@@ -21,7 +21,7 @@ public class VideoProject {
     private List<VideoNode> videoNodeList;
 
     @ColumnInfo
-    private List<VideoNode> deletedNodes;
+    private List<VideoNode> isolatedNodes;
 
     public long getId() {
         return Id;
@@ -42,15 +42,15 @@ public class VideoProject {
         this.videoNodeList = videoNodeList;
     }
 
-    public List<VideoNode> getDeletedNodes() {
-        if(deletedNodes==null){
-            deletedNodes = new ArrayList<>();
+    public List<VideoNode> getIsolatedNodes() {
+        if(isolatedNodes ==null){
+            isolatedNodes = new ArrayList<>();
         }
-        return deletedNodes;
+        return isolatedNodes;
     }
 
-    public void setDeletedNodes(List<VideoNode> deletedNodes) {
-        this.deletedNodes = deletedNodes;
+    public void setIsolatedNodes(List<VideoNode> isolatedNodes) {
+        this.isolatedNodes = isolatedNodes;
     }
 
     public void addNode(VideoNode videoNode){
