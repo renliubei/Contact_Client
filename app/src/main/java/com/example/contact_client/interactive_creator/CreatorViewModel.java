@@ -36,7 +36,7 @@ public class CreatorViewModel extends AndroidViewModel {
         super(application);
         //初始化列表
         sonVideoCuts = new ArrayList<>();
-        videoProject = new VideoProject();
+        videoProject = new VideoProject("VideoProject","I am a Project!");
         //最初的根节点
         videoNode = new VideoNode(-1,0,-1,"root");
         videoProject.addNode(videoNode);

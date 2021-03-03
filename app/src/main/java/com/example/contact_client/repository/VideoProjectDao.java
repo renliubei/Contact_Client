@@ -21,5 +21,4 @@ public interface VideoProjectDao {
 
     @Query("SELECT * FROM VideoProject ORDER BY ID DESC")
     public LiveData<List<VideoProject>> getAllLiveDataVideoProjects();
-
 }

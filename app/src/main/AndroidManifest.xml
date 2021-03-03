@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".project_manager.VideoProjectActivity"></activity>
         <activity android:name=".interactive_creator.SearchRoomForVideoCutActivity" />
         <activity android:name=".interactive_creator.SearchVideoNodeActivity" />
         <activity android:name=".interactive_creator.InteractiveCreatorActivity" />

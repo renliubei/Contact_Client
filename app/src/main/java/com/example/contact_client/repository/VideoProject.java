@@ -23,6 +23,17 @@ public class VideoProject {
     @ColumnInfo
     private List<VideoNode> isolatedNodes;
 
+    @ColumnInfo
+    private String name;
+
+    @ColumnInfo
+    private String description;
+
+    public VideoProject(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public long getId() {
         return Id;
     }
@@ -51,6 +62,22 @@ public class VideoProject {
 
     public void setIsolatedNodes(List<VideoNode> isolatedNodes) {
         this.isolatedNodes = isolatedNodes;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void addNode(VideoNode videoNode){

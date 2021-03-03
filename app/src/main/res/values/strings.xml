@@ -27,4 +27,5 @@
     <string name="Root">P0</string>
     <string name="Jump">跳转</string>
     <string name="Index">P%d</string>
+    <string name="manageProjects">我的互动视频</string>
 </resources>
