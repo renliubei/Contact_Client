@@ -19,4 +19,12 @@
     <string name="sexFemale">女</string>
     <string name="sexUnknown">未知</string>
     <string name="chooseSex">性别</string>
+    <string name="Save">保存</string>
+    <string name="goBack">返回</string>
+    <string name="startVideos">初始播放列表</string>
+    <string name="startHint">单击视频进入</string>
+    <string name="videoNodeSons">Sons: %s</string>
+    <string name="Root">P0</string>
+    <string name="Jump">跳转</string>
+    <string name="Index">P%d</string>
 </resources>

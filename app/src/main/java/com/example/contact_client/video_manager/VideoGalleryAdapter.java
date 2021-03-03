@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
-import com.example.contact_client.VideoCut;
+import com.example.contact_client.repository.VideoCut;
 
 import java.io.File;
 import java.util.ArrayList;

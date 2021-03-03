@@ -1,4 +1,4 @@
-package com.example.contact_client;
+package com.example.contact_client.repository;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -122,6 +122,6 @@ public class VideoCut implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return name + " " + description + " " + urlString + " " + thumbnailPath;
+        return name;
     }
 }

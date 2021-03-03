@@ -6,9 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.contact_client.VideoCut;
-import com.example.contact_client.VideoCutDao;
-import com.example.contact_client.VideoCutDatabase;
+import com.example.contact_client.repository.VideoCut;
+import com.example.contact_client.repository.VideoCutDao;
+import com.example.contact_client.repository.VideoCutDatabase;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class VideoCutsViewModel extends AndroidViewModel {
         super(application);
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
         videoCutDao = videoCutDatabase.getVideoCutDao();
-        allLiveDataVideoCuts = videoCutDao.getAllVideoCuts();
+        allLiveDataVideoCuts = videoCutDao.getAllLiveDataVideoCuts();
     }
 
     public LiveData<List<VideoCut>> getAllLiveDataVideoCuts() {

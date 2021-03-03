@@ -21,14 +21,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
-import com.example.contact_client.VideoCut;
+import com.example.contact_client.repository.VideoCut;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static androidx.core.content.PermissionChecker.PERMISSION_GRANTED;
 
-public class GetVideoCutActivity extends AppCompatActivity {
+public class GetLocalVideoCutActivity extends AppCompatActivity {
 
     private final String[] permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
 
@@ -37,7 +37,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acitivity_get_video);
+        setContentView(R.layout.acitivity_get);
 //        Toast.makeText(this, "successfully open GetVideoCut", Toast.LENGTH_SHORT).show();
 
         //获取本地视频列表
@@ -47,7 +47,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
             videoCutList = getLocalVideoCut();
 //            Log.d("mylo", videoCutList.toString());
             //设置视图
-            RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
+            RecyclerView recyclerView = findViewById(R.id.getRecycleView);
             VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
             videoGalleryAdapter.setAllVideoCuts(videoCutList);
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -66,10 +66,8 @@ public class GetVideoCutActivity extends AppCompatActivity {
                 }
                 Log.d("mylo", "returnList is \n" + returnList.toString());
                 //返回获取到的数据
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("videoCuts", (ArrayList<? extends Parcelable>) returnList);
                 Intent intent = new Intent();
-                intent.putExtra("videoCuts", bundle);
+                intent.putParcelableArrayListExtra("videoCuts", (ArrayList<? extends Parcelable>) returnList);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -85,7 +83,7 @@ public class GetVideoCutActivity extends AppCompatActivity {
                     videoCutList = getLocalVideoCut();
 //                    Log.d("mylo", videoCutList.toString());
                     //设置视图
-                    RecyclerView recyclerView = findViewById(R.id.getVideoCutRecycleView);
+                    RecyclerView recyclerView = findViewById(R.id.getRecycleView);
                     VideoGalleryAdapter videoGalleryAdapter = new VideoGalleryAdapter();
                     videoGalleryAdapter.setAllVideoCuts(videoCutList);
                     recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -108,7 +106,6 @@ public class GetVideoCutActivity extends AppCompatActivity {
         String[] projection = new String[]{
                 MediaStore.Video.Thumbnails.DATA,
                 MediaStore.Video.Media._ID,
-                MediaStore.Video.Media.DISPLAY_NAME,
         };
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
 
@@ -121,13 +118,11 @@ public class GetVideoCutActivity extends AppCompatActivity {
         )) {
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
-            int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
             int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA);
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
                 long id = cursor.getLong(idColumn);
                 String videoThumbnailPath = cursor.getString(dataColumn);
-                String name = cursor.getString(nameColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
                 VideoCut videoCut = new VideoCut(false, "VideoCut" + id, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
