@@ -29,6 +29,9 @@ public class VideoProject {
     @ColumnInfo
     private String description;
 
+    @ColumnInfo
+    private String coverUrl;
+
     public VideoProject(String name, String description) {
         this.name = name;
         this.description = description;
@@ -94,5 +97,13 @@ public class VideoProject {
 
     public int getListSize(){
         return getVideoNodeList().size();
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 }
