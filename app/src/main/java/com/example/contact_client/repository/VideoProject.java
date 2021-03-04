@@ -29,6 +29,7 @@ public class VideoProject {
     @ColumnInfo
     private String description;
 
+    //todo:change to internet url
     @ColumnInfo
     private String coverUrl;
 

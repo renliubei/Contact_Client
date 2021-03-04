@@ -42,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="TextView"
+                    android:textColor="@android:color/primary_text_light"
                     android:textSize="18sp" />
 
                 <TextView
@@ -50,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="TextView"
+                    android:textColor="@android:color/secondary_text_light"
                     android:textSize="14sp" />
             </LinearLayout>
             <!-- 以下都是侧滑菜单的内容依序排列 -->

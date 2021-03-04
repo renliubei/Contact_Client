@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.repository.VideoProject;
+import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class ProjectGalleryAdapter extends RecyclerView.Adapter<ProjectGalleryAd
         VideoProject videoProject = data.get(position);
         holder.name.setText(videoProject.getName()+videoProject.getId());
         holder.description.setText(videoProject.getDescription());
+        holder.swipeMenuLayout.setIos(true);
         if(videoProject.getCoverUrl()==null){
             Glide.with(holder.itemView)
                     .load(R.drawable.ic_baseline_home_48)
@@ -62,11 +64,13 @@ public class ProjectGalleryAdapter extends RecyclerView.Adapter<ProjectGalleryAd
     class mViewHolder extends RecyclerView.ViewHolder{
     ImageView thumbNail;
     TextView name,description;
+    SwipeMenuLayout swipeMenuLayout;
     public mViewHolder(@NonNull View itemView) {
         super(itemView);
         thumbNail = itemView.findViewById(R.id.imageViewProjectThumbnail);
         name = itemView.findViewById(R.id.textViewProjectName);
         description = itemView.findViewById(R.id.textViewProjectDesc);
+        swipeMenuLayout = itemView.findViewById(R.id.swipeMenu);
     }
 }
 

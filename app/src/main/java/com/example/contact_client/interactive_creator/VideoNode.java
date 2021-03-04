@@ -9,12 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VideoNode implements Parcelable {
-    //
+    //TODO:返回爹
     private List<Integer> fathers;
     //最后一个到达这个Node的Node在列表中的index
     private int lastNodeIndex;
     //自身在列表中的index
-    private int Index;
+    private int index;
     //定位到当前应该视频的在数据库中的Id
     private long Id;
     //子节点在列表中的index
@@ -24,14 +24,14 @@ public class VideoNode implements Parcelable {
 
     public VideoNode(int lastNodeIndex, int index, long id, String name) {
         this.lastNodeIndex = lastNodeIndex;
-        Index = index;
+        this.index = index;
         Id = id;
         this.name = name;
     }
 
     protected VideoNode(Parcel in) {
         lastNodeIndex = in.readInt();
-        Index = in.readInt();
+        index = in.readInt();
         Id = in.readLong();
         name = in.readString();
         in.readList(getSons(),Integer.class.getClassLoader());
@@ -41,7 +41,7 @@ public class VideoNode implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(lastNodeIndex);
-        dest.writeInt(Index);
+        dest.writeInt(index);
         dest.writeLong(Id);
         dest.writeString(name);
         dest.writeList(getSons());
@@ -77,7 +77,7 @@ public class VideoNode implements Parcelable {
     }
 
     public int getIndex() {
-        return Index;
+        return index;
     }
 
     public long getId() {
@@ -104,7 +104,7 @@ public class VideoNode implements Parcelable {
     }
 
     public void setIndex(int index) {
-        Index = index;
+        this.index = index;
     }
 
     public void setId(long id) {
