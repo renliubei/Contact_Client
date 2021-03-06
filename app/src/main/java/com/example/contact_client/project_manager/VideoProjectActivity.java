@@ -1,9 +1,10 @@
 package com.example.contact_client.project_manager;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
@@ -56,21 +57,25 @@ public class VideoProjectActivity extends AppCompatActivity {
         binding.recyclerViewProjects.addItemDecoration(new MarginItemDecoration());
         //修改text的内容
         binding.recyclerViewProjects.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (recyclerView.getChildCount() > 0 && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     try {
-                        View centerView = snapHelper.findSnapView(recyclerView.getLayoutManager());
-                        int position = recyclerView.getChildAdapterPosition(centerView);
+                        int position = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(recyclerView.getLayoutManager()));
                         VideoProject videoProject = adapter.getVideoProjects().get(position);
-                        binding.textViewProjectName.setText(videoProject.getName()+videoProject.getId());
-                        binding.textViewProjectDesc.setText(videoProject.getDescription());
+                        setBottomText(videoProject.getName()+videoProject.getId(),videoProject.getDescription());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         });
+    }
+
+    void setBottomText(String name,String desc){
+        binding.textViewProjectName.setText(name);
+        binding.textViewProjectDesc.setText(desc);
     }
 }

@@ -42,7 +42,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.mViewHol
         VideoProject videoProject = videoProjects.get(position);
         if (videoProject.getCoverUrl() == null) {
             Glide.with(holder.itemView)
-                    .load(R.drawable.ic_baseline_home_48)
+                    .load(R.drawable.defualt_project_cover)
                     .into(holder.imageView);
         } else {
             Glide.with(holder.itemView)
