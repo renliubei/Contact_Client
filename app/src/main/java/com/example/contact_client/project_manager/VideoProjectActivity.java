@@ -2,6 +2,7 @@ package com.example.contact_client.project_manager;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.animation.OvershootInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,6 +20,8 @@ import com.example.contact_client.databinding.ActivityVideoProjectBinding;
 import com.example.contact_client.repository.VideoProject;
 
 import java.util.List;
+
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class VideoProjectActivity extends AppCompatActivity {
     ProjectViewModel mViewModel;
@@ -46,9 +49,14 @@ public class VideoProjectActivity extends AppCompatActivity {
     }
 
     void modifyRecyclerView(){
-        //绑定adapter和layoutManager
         adapter = new GalleryAdapter();
-        binding.recyclerViewProjects.setAdapter(adapter);
+        //设置adapter动画
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(adapter);
+        scaleInAnimationAdapter.setDuration(2000);
+        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        scaleInAnimationAdapter.setFirstOnly(false);
+        //绑定adapter和layoutManager
+        binding.recyclerViewProjects.setAdapter(scaleInAnimationAdapter);
         binding.recyclerViewProjects.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         //绑定snapHelper
         SnapHelper snapHelper = new LinearSnapHelper();

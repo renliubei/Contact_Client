@@ -7,7 +7,7 @@ android {
     defaultConfig {
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         applicationId "com.example.contact_client"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -59,4 +59,6 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 }

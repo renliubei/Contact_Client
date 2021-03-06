@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import java.util.List;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 
 public class InteractiveCreatorActivity extends AppCompatActivity {
     //用于对数据库的异步操作
@@ -53,7 +55,11 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
         //绑定recyclerView
         sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
-        mBinding.recyclerView.setAdapter(sonVideoCutsAdapter);
+        SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(sonVideoCutsAdapter);
+        slideInLeftAnimationAdapter.setDuration(1000);
+        slideInLeftAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        slideInLeftAnimationAdapter.setFirstOnly(false);
+        mBinding.recyclerView.setAdapter(slideInLeftAnimationAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //注册按键功能
         mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v,1,2));
