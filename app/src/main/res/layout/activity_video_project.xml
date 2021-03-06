@@ -38,42 +38,42 @@
         <com.mcxtzhang.swipemenulib.SwipeMenuLayout
             android:id="@+id/swipeMenu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="0dp"
+            android:layout_margin="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerViewProjects"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline46">
 
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="4dp">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textViewProjectName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="TextView"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textViewProjectName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:text="TextView"
-                        android:textColor="@android:color/primary_text_light"
-                        android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/textViewProjectDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="TextView"
+                    android:textColor="@android:color/secondary_text_light"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/textViewProjectDesc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="TextView"
-                        android:textColor="@android:color/secondary_text_light"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- 以下都是侧滑菜单的内容依序排列 -->
             <Button
@@ -86,7 +86,7 @@
 
             <Button
                 android:id="@+id/btnUnRead"
-                android:layout_width="75dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="#ecd50a"
                 android:clickable="true"
@@ -95,7 +95,7 @@
 
             <Button
                 android:id="@+id/btnDelete"
-                android:layout_width="75dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="#ff4a57"
                 android:text="删除"

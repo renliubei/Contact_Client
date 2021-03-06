@@ -58,5 +58,7 @@ dependencies {
 
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
 }

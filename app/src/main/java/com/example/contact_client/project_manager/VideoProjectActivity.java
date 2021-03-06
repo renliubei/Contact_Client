@@ -1,6 +1,7 @@
 package com.example.contact_client.project_manager;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,19 +45,25 @@ public class VideoProjectActivity extends AppCompatActivity {
     }
 
     void modifyRecyclerView(){
+        //绑定adapter和layoutManager
         adapter = new GalleryAdapter();
         binding.recyclerViewProjects.setAdapter(adapter);
         binding.recyclerViewProjects.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        //绑定snapHelper
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(binding.recyclerViewProjects);
+        //修改首尾item的margin
+        binding.recyclerViewProjects.addItemDecoration(new MarginItemDecoration());
+        //修改text的内容
         binding.recyclerViewProjects.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (recyclerView.getChildCount() > 0) {
+                if (recyclerView.getChildCount() > 0 && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     try {
-                        int currentPosition = ((RecyclerView.LayoutParams) recyclerView.getChildAt(0).getLayoutParams()).getViewAdapterPosition();
-                        VideoProject videoProject = adapter.getVideoProjects().get(currentPosition);
+                        View centerView = snapHelper.findSnapView(recyclerView.getLayoutManager());
+                        int position = recyclerView.getChildAdapterPosition(centerView);
+                        VideoProject videoProject = adapter.getVideoProjects().get(position);
                         binding.textViewProjectName.setText(videoProject.getName()+videoProject.getId());
                         binding.textViewProjectDesc.setText(videoProject.getDescription());
                     } catch (Exception e) {

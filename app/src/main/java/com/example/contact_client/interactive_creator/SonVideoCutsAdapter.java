@@ -1,5 +1,6 @@
 package com.example.contact_client.interactive_creator;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.R;
 import com.example.contact_client.repository.VideoCut;
 
@@ -19,6 +23,7 @@ import java.util.List;
 
 public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapter.MyViewHolder> {
 
+    private Transformation<Bitmap> circleCrop = new CircleCrop();
 
     private List<VideoCut> allVideoCuts;
 
@@ -59,6 +64,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         }else{
             Glide.with(holder.itemView)
                     .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
+                    .apply(RequestOptions.bitmapTransform(circleCrop))
                     .placeholder(R.drawable.ic_baseline_face_24)
                     .into(holder.imageView);
         }
