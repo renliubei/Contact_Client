@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
 import com.example.contact_client.repository.VideoCut;
+import com.example.contact_client.repository.VideoProject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,71 +42,36 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     private SonVideoCutsAdapter sonVideoCutsAdapter;
     //用于指向需要编辑的VideoNode
     private VideoNode nodeEditor;
-    //
+    //定义常用量
     private static final int ISOLATED = -2;
-    private static final int ISROOT = -1;
+    private static final int ROOT_NODE = -1;
+    private static final int DO_NOT_CHANGE_NODE = -1;
+    private static final int ADD_VIDEO = 1;
+    private static final int ADD_NODE = 2;
+    private static final int CHANGE_VIDEO = 3;
+    private static final int CHANGE_NODE = 4;
+    private static final int JUMP = 5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //绑定binding
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_interacitve_creator);
         mBinding.setLifecycleOwner(this);
         //绑定viewModel
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
-        //绑定recyclerView
-        sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
-        SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(sonVideoCutsAdapter);
-        slideInLeftAnimationAdapter.setDuration(1000);
-        slideInLeftAnimationAdapter.setInterpolator(new OvershootInterpolator());
-        slideInLeftAnimationAdapter.setFirstOnly(false);
-        mBinding.recyclerView.setAdapter(slideInLeftAnimationAdapter);
-        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //绑定viewModel数据
+        bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
+        //配置recyclerView
+        modifyRecyclerView();
         //注册按键功能
-        mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v,1,2));
-        mBinding.buttonBack.setOnClickListener(v -> {
-            saveVideoCutsToNodes(-1);
-            goBack();
-        });
-        mBinding.buttonSave.setOnClickListener(v-> saveProjectToDataBase());
-        mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(5));
-        mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
-            @Override
-            public void onClickEdit(View v, int position) {
-                nodeEditor = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
-                showPopupMenu(v,3,4);
-            }
-            @Override
-            public void onClickDelete(View v, int position) {
-                //需要写对数据的删除
-                sonVideoCutsAdapter.removeData(position);
-                //没有保存的情况下删除会出错！
-                try {
-                    VideoNode targetNode = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
-                    VideoNode fatherNode = mViewModel.getVideoNode();
-                    //移除此子节点
-                    fatherNode.getSons().remove((Integer)targetNode.getIndex());
-                    //如果子节点已经没有任何父亲则移动到孤立
-                    deleteFatherAndCheckIsolation(targetNode,fatherNode);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onClick(View v, int position) {
-                //保存子节点并设置新节点
-                saveVideoCutsToNodes(position);
-                //更新父亲节点
-                VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
-                if(videoCut.getId()==-1){
-                    updateRootNodeUI();
-                }else{
-                    updateFatherNodeUI(videoCut,mViewModel.getVideoNode().getIndex());
-                }
-                //更新列表并通知Adapter
-                rebuildSonList(mViewModel.getVideoNode());
-            }
-        }));
+        registerButtonEvents();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initUI();
     }
 
     @Override
@@ -125,14 +91,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 4:修改儿子结点
                 5:跳转到某个结点
              */
-            case 1:
+            case ADD_VIDEO:
                 if(resultCode==RESULT_OK){
                     try {
                         //添加从数据库中获取的data
                         List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                         //添加数据
                         sonVideoCutsAdapter.insertData(list);
-                        saveVideoCutsToNodes(-1);
+                        saveVideoCutsToNodes(DO_NOT_CHANGE_NODE);
                         Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
                     }catch (Exception e){
                         e.printStackTrace();
@@ -140,7 +106,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 2:
+            case ADD_NODE:
                 if(resultCode==RESULT_OK){
                     try {
                         //直接添加儿子节点
@@ -159,7 +125,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 3:
+            case CHANGE_VIDEO:
                 if(resultCode==RESULT_OK){
                     try{
                         //修改儿子视频
@@ -173,7 +139,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 4:
+            case CHANGE_NODE:
                 if(resultCode==RESULT_OK){
                     try{
                         //修改儿子节点
@@ -189,12 +155,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 5:
+            case JUMP:
                 if(resultCode==RESULT_OK){
+                    //跳转
                     try{
                             List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
                             if(list.get(0)!=null){
-                                Jump(list.get(0));
+                                jumpToNode(list.get(0));
                             }
                         } catch (Exception e) {
                         e.printStackTrace();
@@ -203,7 +170,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    public void Jump(int index) {
+    public void jumpToNode(int index) {
         VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(index);
         newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
         if (index == 0) {
@@ -297,7 +264,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     mViewModel.getSonVideoCuts().clear();
                     //存在较大的性能隐患，可以考虑添加进度条显示
                     for(int i=0;i<ids.size();i++){
-                        if(ids.get(i)==ISROOT){
+                        if(ids.get(i)== ROOT_NODE){
                             mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
                         }else{
                             for(int j=0;j<videoCuts.size();j++){
@@ -316,7 +283,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     public void saveVideoCutsToNodes(int newNodePosition){
         //储存节点！
         //策略:相同位置替换Id，超过原有sonList长度则添加
-        //删除需要另写函数
+        //newPosition为-1时，不修改current videoNode
         try {
             VideoNode videoNode;
             VideoCut videoCut;
@@ -345,7 +312,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     videoNode.addFather(fatherNode.getIndex());
                     fatherNode.addSon(videoNode.getIndex());
                 }
-                if(newNodePosition!=-1&&i==newNodePosition){
+                if(newNodePosition!=DO_NOT_CHANGE_NODE&&i==newNodePosition){
                     mViewModel.setVideoNode(videoNode);
                 }
             }
@@ -389,7 +356,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu_for_creator,popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
             if(item.getItemId()==R.id.newOne){
-                if(requestCodeVideoCut==3&&nodeEditor.getIndex()==0){
+                if(requestCodeVideoCut== CHANGE_VIDEO &&nodeEditor.getIndex()==0){
                     Toast.makeText(this,"无法改变根结点视频",Toast.LENGTH_SHORT).show();
                 }else{
                     searchRoom(requestCodeVideoCut);
@@ -400,5 +367,92 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             return false;
         });
         popupMenu.show();
+    }
+
+    void bindDataToViewModel(VideoProject videoProject){
+        if(mViewModel==null){
+            Toast.makeText(this,"绑定数据失败",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(videoProject==null){
+            videoProject = new VideoProject("VideoProject","I am a Project!");
+            VideoNode videoNode = new VideoNode(-1,0,-1,"root");
+            videoProject.addNode(videoNode);
+        }
+        mViewModel.setVideoProject(videoProject);
+        mViewModel.setVideoNode(videoProject.getVideoNodeList().get(0));
+    }
+
+    void initUI(){
+        if(mViewModel.getVideoNode()==null){
+            jumpToNode(0);
+        }else{
+            jumpToNode(mViewModel.getVideoNode().getIndex());
+        }
+    }
+
+    void modifyRecyclerView(){
+        modifyRecyclerViewAdapter();
+        modifyRecyclerViewOnClick();
+    }
+
+    void modifyRecyclerViewAdapter(){
+        sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
+        SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(sonVideoCutsAdapter);
+        slideInLeftAnimationAdapter.setDuration(1000);
+        slideInLeftAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        slideInLeftAnimationAdapter.setFirstOnly(false);
+        mBinding.recyclerView.setAdapter(slideInLeftAnimationAdapter);
+        mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    void modifyRecyclerViewOnClick(){
+        mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
+            @Override
+            public void onClickEdit(View v, int position) {
+                nodeEditor = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
+                showPopupMenu(v, CHANGE_VIDEO, CHANGE_NODE);
+            }
+            @Override
+            public void onClickDelete(View v, int position) {
+                //需要写对数据的删除
+                sonVideoCutsAdapter.removeData(position);
+                //没有保存的情况下删除会出错！
+                try {
+                    VideoNode targetNode = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
+                    VideoNode fatherNode = mViewModel.getVideoNode();
+                    //移除此子节点
+                    fatherNode.getSons().remove((Integer)targetNode.getIndex());
+                    //如果子节点已经没有任何父亲则移动到孤立
+                    deleteFatherAndCheckIsolation(targetNode,fatherNode);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onClick(View v, int position) {
+                //保存子节点并设置新节点
+                saveVideoCutsToNodes(position);
+                //更新父亲节点
+                VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
+                if(videoCut.getId()==-1){
+                    updateRootNodeUI();
+                }else{
+                    updateFatherNodeUI(videoCut,mViewModel.getVideoNode().getIndex());
+                }
+                //更新列表并通知Adapter
+                rebuildSonList(mViewModel.getVideoNode());
+            }
+        }));
+    }
+
+    void registerButtonEvents(){
+        mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v, ADD_VIDEO, ADD_NODE));
+        mBinding.buttonBack.setOnClickListener(v -> {
+            saveVideoCutsToNodes(DO_NOT_CHANGE_NODE);
+            goBack();
+        });
+        mBinding.buttonSave.setOnClickListener(v-> saveProjectToDataBase());
+        mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(JUMP));
     }
 }

@@ -17,9 +17,10 @@ import java.util.List;
 import io.reactivex.Single;
 
 public class CreatorViewModel extends AndroidViewModel {
+    //todo：path的相关逻辑
 
     //互动视频的路径
-    private String[] path;
+    private List<String> path;
     //显示添加的子节点
     private final List<VideoCut> sonVideoCuts;
     //当前节点
@@ -36,15 +37,12 @@ public class CreatorViewModel extends AndroidViewModel {
         super(application);
         //初始化列表
         sonVideoCuts = new ArrayList<>();
-        videoProject = new VideoProject("VideoProject","I am a Project!");
-        //最初的根节点
-        videoNode = new VideoNode(-1,0,-1,"root");
-        videoProject.addNode(videoNode);
+        path = new ArrayList<>();
         //绑定数据库
         VideoCutDatabase videoCutDatabase = VideoCutDatabase.getVideoCutDatabase(application);
         videoCutDao = videoCutDatabase.getVideoCutDao();
         videoProjectDao = videoCutDatabase.getVideoProjectDao();
-        //
+        //用于显示根节点
         rootVideoCut = new VideoCut(true,"根结点","这是根节点",null,null);
         rootVideoCut.setId(-1);
     }
@@ -53,12 +51,7 @@ public class CreatorViewModel extends AndroidViewModel {
         return sonVideoCuts;
     }
 
-    public String[] getPath() {
-        return path;
-    }
-
     public VideoNode getVideoNode() {
-        //起始的根节点
         return videoNode;
     }
 
@@ -66,7 +59,13 @@ public class CreatorViewModel extends AndroidViewModel {
         return rootVideoCut;
     }
 
-    public void setPath(String[] path) {
+    public List<String> getPath() {
+        return path;
+    }
+
+    //setter
+    //
+    public void setPath(List<String> path) {
         this.path = path;
     }
 
@@ -81,7 +80,10 @@ public class CreatorViewModel extends AndroidViewModel {
     public void setVideoProject(VideoProject videoProject) {
         this.videoProject = videoProject;
     }
+    //
 
+    //对数据库的操作
+    //...
     public Single<List<VideoCut>> getAllById(List<Long> ids) {
         return videoCutDao.getAllById(ids);
     }
@@ -91,5 +93,5 @@ public class CreatorViewModel extends AndroidViewModel {
     public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);
     }
-
+    //...
 }
