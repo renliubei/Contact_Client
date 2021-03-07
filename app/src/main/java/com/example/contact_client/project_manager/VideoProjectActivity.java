@@ -94,6 +94,7 @@ public class VideoProjectActivity extends AppCompatActivity {
 
     void registerButtonEvents(){
         binding.btnEditProject.setOnClickListener(v -> startProjectCreator());
+        binding.btnDisplayProject.setOnClickListener(v -> Toast.makeText(v.getContext(),"尚未开发",Toast.LENGTH_SHORT).show());
     }
 
     void startProjectCreator(){
@@ -104,5 +105,10 @@ public class VideoProjectActivity extends AppCompatActivity {
             intent.putExtra(getString(R.string.videoProject),adapter.getVideoProjects().get(mViewModel.getPosition()).getId());
             startActivity(intent);
         }
+    }
+
+    void startProjectEditor(){
+        Intent intent = new Intent(this, takePhotoActivity.class);
+        startActivity(intent);
     }
 }
