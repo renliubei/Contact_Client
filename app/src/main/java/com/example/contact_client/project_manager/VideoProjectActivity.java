@@ -1,9 +1,10 @@
 package com.example.contact_client.project_manager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
@@ -20,14 +21,15 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityVideoProjectBinding;
 import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
-import com.example.contact_client.repository.VideoProject;
 
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 
 public class VideoProjectActivity extends AppCompatActivity {
-    ProjectViewModel mViewModel;
-    ActivityVideoProjectBinding binding;
-    GalleryAdapter adapter;
+    private ProjectViewModel mViewModel;
+    private ActivityVideoProjectBinding binding;
+    private GalleryAdapter galleryAdapter;
+    private BottomTextAdapter bottomTextAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,29 +40,59 @@ public class VideoProjectActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         //
         modifyRecyclerView();
-        //
-        registerButtonEvents();
-    }
+        }
 
     @Override
     protected void onStart() {
         super.onStart();
         mViewModel.getProjectsLiveDataList().observe(this, videoProjects -> {
-            Log.d("mylo","videoProject 0 are: "+videoProjects.get(0).toString());
-            adapter.setVideoProjects(videoProjects);
-            adapter.notifyDataSetChanged();
+
+            galleryAdapter.setVideoProjects(videoProjects);
+            galleryAdapter.notifyDataSetChanged();
+
+            bottomTextAdapter.setVideoProjects(videoProjects);
+            bottomTextAdapter.notifyDataSetChanged();
         });
     }
-
     void modifyRecyclerView(){
-        adapter = new GalleryAdapter();
+        modifyProjectsRecyclerView();
+        modifyBottomRecyclerView();
+    }
+
+    void modifyBottomRecyclerView(){
+        bottomTextAdapter = new BottomTextAdapter();
+        SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(bottomTextAdapter);
+        slideInLeftAnimationAdapter.setDuration(1000);
+        binding.recyclerViewBottomText.setLayoutManager(new ScrollSpeedLinearLayoutManger(this));
+        binding.recyclerViewBottomText.setAdapter(slideInLeftAnimationAdapter);
+        binding.recyclerViewBottomText.post(() -> bottomTextAdapter.setOnClickItem(new BottomTextAdapter.onClickItem() {
+            @Override
+            public void onClickDelete(View v, int position) {
+                Toast.makeText(v.getContext(),"you click delete",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onClickDisplay(View v, int position) {
+                Toast.makeText(v.getContext(),"you click display",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onClickEdit(View v, int position) {
+                mViewModel.setPosition(position);
+                startProjectCreator();
+            }
+        }));
+    }
+
+    void modifyProjectsRecyclerView(){
+        galleryAdapter = new GalleryAdapter();
         //设置adapter动画
-        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(adapter);
-        scaleInAnimationAdapter.setDuration(2000);
-        scaleInAnimationAdapter.setInterpolator(new OvershootInterpolator());
-        scaleInAnimationAdapter.setFirstOnly(false);
+        AlphaInAnimationAdapter animationAdapter = new AlphaInAnimationAdapter(galleryAdapter);
+        animationAdapter.setDuration(1500);
+        animationAdapter.setInterpolator(new OvershootInterpolator());
+        animationAdapter.setFirstOnly(false);
         //绑定adapter和layoutManager
-        binding.recyclerViewProjects.setAdapter(scaleInAnimationAdapter);
+        binding.recyclerViewProjects.setAdapter(animationAdapter);
         binding.recyclerViewProjects.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         //绑定snapHelper
         SnapHelper snapHelper = new LinearSnapHelper();
@@ -77,8 +109,7 @@ public class VideoProjectActivity extends AppCompatActivity {
                     try {
                         int position = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(recyclerView.getLayoutManager()));
                         mViewModel.setPosition(position);
-                        VideoProject videoProject = adapter.getVideoProjects().get(position);
-                        setBottomText(videoProject.getName()+videoProject.getId(),videoProject.getDescription());
+                        binding.recyclerViewBottomText.smoothScrollToPosition(position);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -87,22 +118,13 @@ public class VideoProjectActivity extends AppCompatActivity {
         });
     }
 
-    void setBottomText(String name,String desc){
-        binding.textViewProjectName.setText(name);
-        binding.textViewProjectDesc.setText(desc);
-    }
-
-    void registerButtonEvents(){
-        binding.btnEditProject.setOnClickListener(v -> startProjectCreator());
-        binding.btnDisplayProject.setOnClickListener(v -> Toast.makeText(v.getContext(),"尚未开发",Toast.LENGTH_SHORT).show());
-    }
 
     void startProjectCreator(){
         if(mViewModel.getPosition()==-1){
             Toast.makeText(this,"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(this, InteractiveCreatorActivity.class);
-            intent.putExtra(getString(R.string.videoProject),adapter.getVideoProjects().get(mViewModel.getPosition()).getId());
+            intent.putExtra(getString(R.string.videoProject), galleryAdapter.getVideoProjects().get(mViewModel.getPosition()).getId());
             startActivity(intent);
         }
     }
@@ -110,5 +132,20 @@ public class VideoProjectActivity extends AppCompatActivity {
     void startProjectEditor(){
         Intent intent = new Intent(this, takePhotoActivity.class);
         startActivity(intent);
+    }
+
+    class disScrollLinearLayoutManager extends LinearLayoutManager{
+        private boolean isScrollEnabled = true;
+        public disScrollLinearLayoutManager(Context context) {
+            super(context);
+        }
+        public void setScrollEnabled(boolean flag) {
+            this.isScrollEnabled = flag;
+        }
+        @Override
+        public boolean canScrollVertically() {
+            //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
+            return isScrollEnabled && super.canScrollVertically();
+        }
     }
 }

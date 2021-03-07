@@ -12,7 +12,7 @@ public class MarginItemDecoration extends RecyclerView.ItemDecoration {
     // 每一个页面默认页边距
     int mPageMargin = 10;
     // 中间页面左右两边的页面可见部分宽度
-    int mLeftPageVisibleWidth = 30;
+    int mLeftPageVisibleWidth = 35;
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
