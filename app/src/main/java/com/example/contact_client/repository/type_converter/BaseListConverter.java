@@ -1,4 +1,4 @@
-package com.example.contact_client.repository;
+package com.example.contact_client.repository.type_converter;
 
 import androidx.room.TypeConverter;
 

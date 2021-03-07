@@ -1,11 +1,14 @@
 package com.example.contact_client.repository;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.example.contact_client.interactive_creator.VideoNode;
+import com.example.contact_client.repository.type_converter.VideoNodeListConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,5 +109,13 @@ public class VideoProject {
 
     public void setCoverUrl(String coverUrl) {
         this.coverUrl = coverUrl;
+    }
+
+    @Ignore
+
+    @NonNull
+    @Override
+    public String toString() {
+        return Id + name + " " + videoNodeList.toString();
     }
 }

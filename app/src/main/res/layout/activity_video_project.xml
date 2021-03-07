@@ -77,7 +77,7 @@
 
             <!-- 以下都是侧滑菜单的内容依序排列 -->
             <Button
-                android:id="@+id/btnTop"
+                android:id="@+id/btnDisplayProject"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@color/blue"
@@ -85,7 +85,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btnUnRead"
+                android:id="@+id/btnEditProject"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="#ecd50a"
@@ -94,7 +94,7 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/btnDelete"
+                android:id="@+id/btnDeleteProject"
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="#ff4a57"

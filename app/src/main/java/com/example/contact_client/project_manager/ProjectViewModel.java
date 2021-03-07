@@ -17,6 +17,8 @@ public class ProjectViewModel extends AndroidViewModel {
     private final VideoProjectDao videoProjectDao;
     //保存访问到的project
     private final LiveData<List<VideoProject>>  projectsLiveDataList;
+    //保存中心item的position
+    private int position = -1;
 
     public ProjectViewModel(@NonNull Application application) {
         super(application);
@@ -28,5 +30,13 @@ public class ProjectViewModel extends AndroidViewModel {
 
     public LiveData<List<VideoProject>> getProjectsLiveDataList() {
         return projectsLiveDataList;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

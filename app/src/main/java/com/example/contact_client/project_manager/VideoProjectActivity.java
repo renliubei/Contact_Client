@@ -1,14 +1,16 @@
 package com.example.contact_client.project_manager;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -17,9 +19,8 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityVideoProjectBinding;
+import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
 import com.example.contact_client.repository.VideoProject;
-
-import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
@@ -30,21 +31,24 @@ public class VideoProjectActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
         binding = DataBindingUtil.setContentView(this,R.layout.activity_video_project);
         binding.setLifecycleOwner(this);
+        //
         mViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        //
         modifyRecyclerView();
+        //
+        registerButtonEvents();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mViewModel.getProjectsLiveDataList().observe(this, new Observer<List<VideoProject>>() {
-            @Override
-            public void onChanged(List<VideoProject> videoProjects) {
-                adapter.setVideoProjects(videoProjects);
-                adapter.notifyDataSetChanged();
-            }
+        mViewModel.getProjectsLiveDataList().observe(this, videoProjects -> {
+            Log.d("mylo","videoProject 0 are: "+videoProjects.get(0).toString());
+            adapter.setVideoProjects(videoProjects);
+            adapter.notifyDataSetChanged();
         });
     }
 
@@ -72,6 +76,7 @@ public class VideoProjectActivity extends AppCompatActivity {
                 if (recyclerView.getChildCount() > 0 && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     try {
                         int position = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(recyclerView.getLayoutManager()));
+                        mViewModel.setPosition(position);
                         VideoProject videoProject = adapter.getVideoProjects().get(position);
                         setBottomText(videoProject.getName()+videoProject.getId(),videoProject.getDescription());
                     } catch (Exception e) {
@@ -85,5 +90,19 @@ public class VideoProjectActivity extends AppCompatActivity {
     void setBottomText(String name,String desc){
         binding.textViewProjectName.setText(name);
         binding.textViewProjectDesc.setText(desc);
+    }
+
+    void registerButtonEvents(){
+        binding.btnEditProject.setOnClickListener(v -> startProjectCreator());
+    }
+
+    void startProjectCreator(){
+        if(mViewModel.getPosition()==-1){
+            Toast.makeText(this,"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(this, InteractiveCreatorActivity.class);
+            intent.putExtra(getString(R.string.videoProject),adapter.getVideoProjects().get(mViewModel.getPosition()).getId());
+            startActivity(intent);
+        }
     }
 }

@@ -93,5 +93,8 @@ public class CreatorViewModel extends AndroidViewModel {
     public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);
     }
+    public Single<VideoProject> findProjectById(long id){
+        return videoProjectDao.findById(id);
+    }
     //...
 }

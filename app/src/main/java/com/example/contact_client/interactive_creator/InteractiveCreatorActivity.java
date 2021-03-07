@@ -22,6 +22,8 @@ import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
 import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.repository.VideoProject;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,18 +62,8 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mBinding.setLifecycleOwner(this);
         //绑定viewModel
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
-        //绑定viewModel数据
-        bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
-        //配置recyclerView
-        modifyRecyclerView();
-        //注册按键功能
-        registerButtonEvents();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        initUI();
+        //初始化
+        init();
     }
 
     @Override
@@ -183,7 +175,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
         mViewModel.setVideoNode(newNode);
         rebuildSonList(newNode);
-        Toast.makeText(this, "跳转成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "跳转到结点P"+index, Toast.LENGTH_SHORT).show();
     }
 
     public void goBack(){
@@ -208,7 +200,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    void deleteFatherAndCheckIsolation(VideoNode videoNode, VideoNode fatherNode){
+    void deleteFatherAndCheckIsolation(@NotNull VideoNode videoNode, @NotNull VideoNode fatherNode){
         //删除父亲
         videoNode.getFathers().remove((Integer)fatherNode.getIndex());
         //根节点不能被孤立
@@ -229,7 +221,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    public void updateFatherNodeUI(VideoCut videoCut, int newIndex){
+    public void updateFatherNodeUI(@NotNull VideoCut videoCut, int newIndex){
         mBinding.fatherName.setText(videoCut.getName());
         mBinding.fatherDescription.setText(videoCut.getDescription());
         mBinding.textViewIndex.setText(getString(R.string.Index,newIndex));
@@ -238,7 +230,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_baseline_face_24)
                 .into(mBinding.fatherIcon);
     }
-
 
     public void updateRootNodeUI(){
         mBinding.fatherName.setText(R.string.startVideos);
@@ -249,7 +240,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .into(mBinding.fatherIcon);
     }
 
-    public void rebuildSonList(VideoNode fatherNode){
+    public void rebuildSonList(@NotNull VideoNode fatherNode){
         List<Long> ids = new ArrayList<>();
         List<Integer> sons = fatherNode.getSons();
         List<VideoNode> list = mViewModel.getVideoProject().getVideoNodeList();
@@ -295,7 +286,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     videoNode = mViewModel.getVideoProject().getVideoNodeList().get(fatherNode.getSons().get(i));
                     //将Id替换为点击的VideoCut的Id
                     videoNode.setId(mViewModel.getSonVideoCuts().get(i).getId());
-                    Toast.makeText(this,"覆盖",Toast.LENGTH_SHORT).show();
                 }else{
                     videoCut = mViewModel.getSonVideoCuts().get(i);
                     //如果有被删除结点，回收
@@ -316,7 +306,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     mViewModel.setVideoNode(videoNode);
                 }
             }
-            Toast.makeText(this,"保存成功",Toast.LENGTH_SHORT).show();
             Log.d("mylo","videoNodes are: "+mViewModel.getVideoProject().getVideoNodeList().toString());
             Log.d("mylo","sons are: "+fatherNode.getSons().toString());
         }catch (Exception e){
@@ -348,7 +337,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> mViewModel.getVideoProject().setId(aLong)));
+                .subscribe(aLong -> {mViewModel.getVideoProject().setId(aLong); Toast.makeText(this,"保存成功",Toast.LENGTH_SHORT).show();}));
     }
 
     void showPopupMenu(View view,int requestCodeVideoCut,int requestCodeVideoNode){
@@ -381,14 +370,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
         mViewModel.setVideoProject(videoProject);
         mViewModel.setVideoNode(videoProject.getVideoNodeList().get(0));
-    }
-
-    void initUI(){
-        if(mViewModel.getVideoNode()==null){
-            jumpToNode(0);
-        }else{
-            jumpToNode(mViewModel.getVideoNode().getIndex());
-        }
     }
 
     void modifyRecyclerView(){
@@ -454,5 +435,42 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         });
         mBinding.buttonSave.setOnClickListener(v-> saveProjectToDataBase());
         mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(JUMP));
+    }
+
+    void initUI(){
+        if(mViewModel.getVideoNode()==null){
+            jumpToNode(0);
+        }else{
+            jumpToNode(mViewModel.getVideoNode().getIndex());
+        }
+    }
+
+    void init(){
+        long id = getIntent().getLongExtra(getString(R.string.videoProject),-1);
+        if(id==-1){
+            //绑定数据
+            bindDataToViewModel(null);
+            //配置recyclerView
+            modifyRecyclerView();
+            //注册按键功能
+            registerButtonEvents();
+            //初始化
+            initUI();
+        }else{
+            mDisposable.add(mViewModel.findProjectById(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(videoProject -> {
+                        Log.d("mylo",videoProject.toString());
+                        //绑定数据
+                        bindDataToViewModel(videoProject);
+                        //配置recyclerView
+                        modifyRecyclerView();
+                        //注册按键功能
+                        registerButtonEvents();
+                        //初始化
+                        initUI();
+                    }, throwable -> {Toast.makeText(this,"初始化"+id+"失败",Toast.LENGTH_SHORT).show(); throwable.printStackTrace();}));
+        }
     }
 }
