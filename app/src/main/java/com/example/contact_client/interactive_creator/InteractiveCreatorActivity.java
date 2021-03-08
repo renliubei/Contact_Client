@@ -28,6 +28,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -91,10 +92,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         //添加数据
                         sonVideoCutsAdapter.insertData(list);
                         saveVideoCutsToNodes(DO_NOT_CHANGE_NODE);
-                        Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
+                        Toasty.success(this,"添加视频成功",Toasty.LENGTH_SHORT,true).show();
                     }catch (Exception e){
                         e.printStackTrace();
-                        Toast.makeText(this,"添加失败",Toast.LENGTH_SHORT).show();
+                        Toasty.error(this,"添加视频失败",Toast.LENGTH_SHORT,true).show();
                     }
                 }
                 break;
@@ -110,10 +111,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                             }
                         }
                         rebuildSonList(mViewModel.getVideoNode());
-                        Toast.makeText(this,"添加成功",Toast.LENGTH_SHORT).show();
+                        Toasty.success(this,"添加结点成功",Toast.LENGTH_SHORT,true).show();
                     }catch (Exception e){
                         e.printStackTrace();
-                        Toast.makeText(this,"添加失败",Toast.LENGTH_SHORT).show();
+                        Toasty.error(this,"添加结点失败",Toast.LENGTH_SHORT,true).show();
                     }
                 }
                 break;
@@ -175,13 +176,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
         mViewModel.setVideoNode(newNode);
         rebuildSonList(newNode);
-        Toast.makeText(this, "跳转到结点P"+index, Toast.LENGTH_SHORT).show();
+        Toasty.info(this, "跳转到结点P"+index, Toast.LENGTH_SHORT,true).show();
     }
 
     public void goBack(){
         int fatherIndex = mViewModel.getVideoNode().getLastNodeIndex();
         if(fatherIndex==-1){
-            Toast.makeText(this,"没有上一层!",Toast.LENGTH_SHORT).show();
+            Toasty.error(this,"没有上一层!",Toast.LENGTH_SHORT).show();
         }else{
             VideoNode fatherNode = mViewModel.getVideoProject().getVideoNodeList().get(fatherIndex);
             Log.d("mylo", fatherNode.getId() +" "+ fatherIndex);
@@ -310,13 +311,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             Log.d("mylo","sons are: "+fatherNode.getSons().toString());
         }catch (Exception e){
             e.printStackTrace();
-            Toast.makeText(getApplication(),"保存失败",Toast.LENGTH_SHORT).show();
+            Toasty.error(getApplication(),"保存失败",Toast.LENGTH_SHORT).show();
         }
     }
 
     void searchRoom(int requestCode){
         startActivityForResult(new Intent(this, SearchRoomForVideoCutActivity.class),requestCode);
-        overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
+        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
     }
 
     void searchVideoNodeForIndexes(int requestCode){
@@ -330,14 +331,14 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
         intent.putParcelableArrayListExtra(getString(R.string.videoNodes), (ArrayList<? extends Parcelable>) notIsolatedNodes);
         startActivityForResult(intent,requestCode);
-        overridePendingTransition(R.anim.fragment_fade_enter, R.anim.fragment_fade_exit);
+        overridePendingTransition(R.anim.fadein,R.anim.fadeout);
     }
 
     void saveProjectToDataBase(){
         mDisposable.add(mViewModel.insertVideoProject(mViewModel.getVideoProject())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {mViewModel.getVideoProject().setId(aLong); Toast.makeText(this,"保存成功",Toast.LENGTH_SHORT).show();}));
+                .subscribe(aLong -> {mViewModel.getVideoProject().setId(aLong); Toasty.success(this,"保存成功",Toast.LENGTH_SHORT,true).show();}));
     }
 
     void showPopupMenu(View view,int requestCodeVideoCut,int requestCodeVideoNode){
@@ -346,7 +347,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(item -> {
             if(item.getItemId()==R.id.newOne){
                 if(requestCodeVideoCut== CHANGE_VIDEO &&nodeEditor.getIndex()==0){
-                    Toast.makeText(this,"无法改变根结点视频",Toast.LENGTH_SHORT).show();
+                    Toasty.info(this,"无法改变根结点视频",Toast.LENGTH_SHORT).show();
                 }else{
                     searchRoom(requestCodeVideoCut);
                 }
@@ -360,7 +361,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
 
     void bindDataToViewModel(VideoProject videoProject){
         if(mViewModel==null){
-            Toast.makeText(this,"绑定数据失败",Toast.LENGTH_SHORT).show();
+            Toasty.error(this,"绑定数据失败",Toast.LENGTH_SHORT).show();
             return;
         }
         if(videoProject==null){
@@ -470,7 +471,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                         registerButtonEvents();
                         //初始化
                         initUI();
-                    }, throwable -> {Toast.makeText(this,"初始化"+id+"失败",Toast.LENGTH_SHORT).show(); throwable.printStackTrace();}));
+                    }, throwable -> {Toasty.error(this,"初始化"+id+"失败",Toast.LENGTH_SHORT).show(); throwable.printStackTrace();}));
         }
     }
 }

@@ -16,7 +16,8 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".interactive_creator.SearchRoomForVideoCutActivity" />
         <activity android:name=".interactive_creator.SearchVideoNodeActivity" />
-        <activity android:name=".interactive_creator.InteractiveCreatorActivity" />
+        <activity android:name=".interactive_creator.InteractiveCreatorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".video_manager.EditActivity"
             android:launchMode="singleInstance"

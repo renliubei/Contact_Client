@@ -6,45 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".project_manager.ProjectEditorFragment">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/materialEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ems="10"
-        android:hint="我是互动视频的名字"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline48"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline49"
-        app:met_baseColor="@color/colorWhite"
-        app:met_errorColor="#FFC107"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelText="请输入名称"
-        app:met_iconLeft="@drawable/ic_baseline_face_24"
-        app:met_maxCharacters="12"
-        app:met_primaryColor="#E91E63" />
-
-
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/materialEditText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:ems="10"
-        android:hint="我是互动视频的描述"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/guideline47"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline48"
-        app:layout_constraintVertical_bias="0.633"
-        app:met_baseColor="@color/colorWhite"
-        app:met_errorColor="#FFC107"
-        app:met_floatingLabel="highlight"
-        app:met_floatingLabelText="请输入描述"
-        app:met_iconLeft="@drawable/ic_baseline_emoji_people_24"
-        app:met_maxCharacters="20"
-        app:met_primaryColor="#E91E63" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -52,8 +13,10 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/ic_baseline_check_48"
+        app:backgroundTint="#FFC107"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -96,10 +59,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline48"
-        app:layout_constraintEnd_toStartOf="@+id/materialEditText2"
+        android:textColor="@color/floralwhite"
+        app:layout_constraintBottom_toBottomOf="@+id/materialTextField3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline48"
+        app:layout_constraintTop_toBottomOf="@+id/materialTextField2"
         app:texts="@array/nameHints"
         app:timeout="2000" />
 
@@ -107,11 +70,53 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline49"
+        android:textColor="@color/floralwhite"
+        app:layout_constraintBottom_toTopOf="@+id/materialTextField2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/materialEditText"
-        app:layout_constraintTop_toTopOf="@+id/guideline49"
+        app:layout_constraintTop_toTopOf="parent"
         app:texts="@array/decsHints"
         app:timeout="2000" />
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/materialTextField2"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline49"
+        app:mtf_animationDuration="500"
+        app:mtf_image="@drawable/ic_baseline_emoji_people_24"
+        app:mtf_labelColor="@color/floralwhite">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="名字"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
+
+    <com.github.florent37.materialtextfield.MaterialTextField
+        android:id="@+id/materialTextField3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline47"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline48"
+        app:mtf_animationDuration="500"
+        app:mtf_image="@drawable/ic_baseline_face_24"
+        app:mtf_labelColor="@color/floralwhite">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="描述"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+    </com.github.florent37.materialtextfield.MaterialTextField>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

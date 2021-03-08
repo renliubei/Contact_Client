@@ -48,7 +48,7 @@
 
         <Button
             android:id="@+id/btnDisplayProject"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:background="#1F99E6"
             android:text="播放"

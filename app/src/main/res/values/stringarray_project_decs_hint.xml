@@ -2,13 +2,13 @@
 <resources>
 
     <string-array name="nameHints">
-    <item>你好</item>
-    <item>hello today</item>
+    <item>你好，</item>
+    <item>此页面点击很有用</item>
     </string-array>
 
     <string-array name="decsHints">
-        <item>没什么有用的信息</item>
-        <item>以后会有</item>
+        <item>记得保存</item>
+        <item>或者不保存</item>
     </string-array>
 
 </resources>

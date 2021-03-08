@@ -26,7 +26,7 @@ public class VideoProjectActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
         fragmentPageAdapter adapter = new fragmentPageAdapter(this);
         binding.viewPage2ProjectGallery.setAdapter(adapter);
-        binding.viewPage2ProjectGallery.setPageTransformer(new DepthPageTransformer());
+        binding.viewPage2ProjectGallery.setPageTransformer( new DepthPageTransformer());
         binding.viewPage2ProjectGallery.setUserInputEnabled(false);
         TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout2, binding.viewPage2ProjectGallery, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
