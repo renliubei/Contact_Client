@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".project_manager.takePhotoActivity"></activity>
-        <activity android:name=".project_manager.VideoProjectActivity" />
+        <activity android:name=".project_manager.VideoProjectActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".interactive_creator.SearchRoomForVideoCutActivity" />
         <activity android:name=".interactive_creator.SearchVideoNodeActivity" />
         <activity android:name=".interactive_creator.InteractiveCreatorActivity" />
