@@ -31,8 +31,12 @@ public class VideoProjectActivity extends AppCompatActivity {
         TabLayoutMediator mediator = new TabLayoutMediator(binding.tabLayout2, binding.viewPage2ProjectGallery, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if(position==0) tab.setText("画廊");
-                if(position==1) tab.setText("详情");
+                if(position==0){
+                    tab.setIcon(R.drawable.ic_baseline_menu_book_64_white);
+                }
+                if(position==1) {
+                    tab.setIcon(R.drawable.ic_baseline_edit_48_white);
+                }
             }
         });
         mediator.attach();

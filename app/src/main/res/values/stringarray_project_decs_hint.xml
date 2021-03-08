@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="nameHints">
+    <item>你好</item>
+    <item>hello today</item>
+    </string-array>
+
+    <string-array name="decsHints">
+        <item>没什么有用的信息</item>
+        <item>以后会有</item>
+    </string-array>
+
+</resources>
