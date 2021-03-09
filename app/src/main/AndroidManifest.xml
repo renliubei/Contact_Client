@@ -28,10 +28,10 @@
 
             android:launchMode="singleTask" />
         <activity android:name=".video_manager.GetLocalVideoCutActivity" />
+        
         <activity android:name=".video_manager.VideoManagerActivity" />
             android:launchMode="singleTask"></activity>
-        <activity android:name=".video_manager.GetVideoCutActivity" />
-        <activity android:name=".video_manager.VideoManagerActivity" />
+    
         <activity android:name=".myaccount_activity.MyAccountActivity"
             android:parentActivityName=".MainActivity"
             android:label="我的账号"
