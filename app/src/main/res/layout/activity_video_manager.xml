@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_blue_updown">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline22"
@@ -21,6 +22,7 @@
             android:id="@+id/videoCutsRecycleView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/aliceblue"
             app:layout_constraintBottom_toTopOf="@+id/guideline22"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +33,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/DeleteAll"
+            android:textColor="#4366E4"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonInsert"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintEnd_toStartOf="@+id/guideline52"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
@@ -42,11 +44,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Insert"
+            android:textColor="#4366E4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/buttonClear"
+            app:layout_constraintStart_toStartOf="@+id/guideline52"
             app:layout_constraintTop_toTopOf="@+id/guideline22" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline52"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mcxtzhang.swipemenulib.SwipeMenuLayout
+        android:id="@+id/swipeMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:background="#4366E4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerViewProjects"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline46">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewProjectName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="互动视频画廊"
+                android:textColor="@color/floralwhite"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewProjectDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="滑动此处呼出菜单，长按互动视频进入编辑界面"
+                android:textColor="@color/floralwhite"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProjectName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 以下都是侧滑菜单的内容依序排列 -->
+
+        <Button
+            android:id="@+id/btnDisplayProject"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="#1F99E6"
+            android:text="播放"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnEditProject"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_blue"
+            android:text="编辑"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnDeleteProject"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#4366E4"
+            android:text="删除"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
