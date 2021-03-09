@@ -1,6 +1,5 @@
 package com.example.contact_client.project_manager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +23,9 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.FragmentProjectGalleryBinding;
 import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
+import com.example.contact_client.repository.VideoProject;
 
+import es.dmoral.toasty.Toasty;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 
@@ -39,6 +40,7 @@ public class ProjectGalleryFragment extends Fragment {
     private FragmentProjectGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
     private BottomTextAdapter bottomTextAdapter;
+    private fragmentPageAdapter.onLongClickGalleryImage onLongClickGalleryImage;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -49,8 +51,8 @@ public class ProjectGalleryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProjectGalleryFragment() {
-        // Required empty public constructor
+    public ProjectGalleryFragment(fragmentPageAdapter.onLongClickGalleryImage onLongClickGalleryImage) {
+        this.onLongClickGalleryImage = onLongClickGalleryImage;
     }
 
     /**
@@ -62,8 +64,8 @@ public class ProjectGalleryFragment extends Fragment {
      * @return A new instance of fragment ProjectGalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProjectGalleryFragment newInstance(String param1, String param2) {
-        ProjectGalleryFragment fragment = new ProjectGalleryFragment();
+    public static ProjectGalleryFragment newInstance(String param1, String param2,fragmentPageAdapter.onLongClickGalleryImage onLongClickGalleryImage) {
+        ProjectGalleryFragment fragment = new ProjectGalleryFragment(onLongClickGalleryImage);
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -170,6 +172,20 @@ public class ProjectGalleryFragment extends Fragment {
                 }
             }
         });
+
+        //添加回调
+        galleryAdapter.setOnLongClickItem(new GalleryAdapter.onLongClickItem() {
+            @Override
+            public void onLongClickImage(View v, int position) {
+                onLongClickGalleryImage.onLongClick();
+                VideoProject videoProject = galleryAdapter.getVideoProjects().get(position);
+                Toasty.success(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toasty.LENGTH_SHORT).show();
+                mViewModel.setPosition(position);
+                mViewModel.getEditorHintName().setValue(videoProject.getName());
+                mViewModel.getEditorHintDecs().setValue(videoProject.getDescription());
+                mViewModel.getHintCover().setValue(videoProject.getCoverUrl());
+            }
+        });
     }
 
 
@@ -188,18 +204,4 @@ public class ProjectGalleryFragment extends Fragment {
         startActivity(intent);
     }
 
-    class disScrollLinearLayoutManager extends LinearLayoutManager{
-        private boolean isScrollEnabled = true;
-        public disScrollLinearLayoutManager(Context context) {
-            super(context);
-        }
-        public void setScrollEnabled(boolean flag) {
-            this.isScrollEnabled = flag;
-        }
-        @Override
-        public boolean canScrollVertically() {
-            //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
-            return isScrollEnabled && super.canScrollVertically();
-        }
-    }
 }

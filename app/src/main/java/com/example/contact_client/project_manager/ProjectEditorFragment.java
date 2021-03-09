@@ -1,13 +1,23 @@
 package com.example.contact_client.project_manager;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.R;
+import com.example.contact_client.databinding.FragmentProjectEditorBinding;
+
+import java.io.File;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +25,9 @@ import com.example.contact_client.R;
  * create an instance of this fragment.
  */
 public class ProjectEditorFragment extends Fragment {
+
+    private ProjectViewModel mViewModel;
+    private FragmentProjectEditorBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +73,44 @@ public class ProjectEditorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_project_editor, container, false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_project_editor,container,false);
+        binding.setLifecycleOwner(getActivity());
+        return binding.getRoot();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
+        mViewModel.getEditorHintDecs().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.projectDescEditor.setHint(s);
+            }
+        });
+        mViewModel.getEditorHintName().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                binding.projectNameEditor.setHint(s);
+            }
+        });
+        mViewModel.getHintCover().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s==null){
+                    Glide.with(getContext())
+                            .load(R.drawable.defualt_project_cover)
+                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                            .into(binding.imageView2);
+                }else{
+                    Glide.with(getContext())
+                            .load(Uri.fromFile(new File(s)))
+                            .error(R.drawable.defualt_project_cover)
+                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                            .into(binding.imageView2);
+                }
+            }
+        });
+    }
+
 }

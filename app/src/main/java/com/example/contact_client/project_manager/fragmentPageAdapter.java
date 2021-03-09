@@ -9,14 +9,15 @@ public class fragmentPageAdapter extends FragmentStateAdapter {
 
     private final int NUM_PAGES = 2;
 
-    public fragmentPageAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public fragmentPageAdapter(@NonNull FragmentActivity fragmentActivity,onLongClickGalleryImage onLongClickGalleryImage) {
         super(fragmentActivity);
+        this.onLongClickGalleryImage = onLongClickGalleryImage;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        if(position==0) return new ProjectGalleryFragment();
+        if(position==0) return new ProjectGalleryFragment(onLongClickGalleryImage);
         return new ProjectEditorFragment();
     }
 
@@ -24,4 +25,9 @@ public class fragmentPageAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return NUM_PAGES;
     }
+
+    public interface onLongClickGalleryImage{void onLongClick();}
+
+    private onLongClickGalleryImage onLongClickGalleryImage;
+
 }

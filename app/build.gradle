@@ -77,4 +77,6 @@ dependencies {
     implementation 'com.github.florent37:materialtextfield:1.0.7'
     
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
+
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
 }
