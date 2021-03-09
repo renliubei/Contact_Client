@@ -13,6 +13,10 @@ public class InitActivity extends AppCompatActivity {
     protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.init_activity);
+
+        // 隐藏ActionBar
+        getSupportActionBar().hide();
+
         NavController controller = Navigation.findNavController(this, R.id.fragment);
         NavigationUI.setupActionBarWithNavController(this, controller);
     }

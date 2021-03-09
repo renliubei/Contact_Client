@@ -28,4 +28,8 @@
     <string name="Jump">跳转</string>
     <string name="Index">P%d</string>
     <string name="manageProjects">我的互动视频</string>
+    <string name="name">昵称</string>
+    <string name="telephoneNumber">手机号</string>
+    <string name="email">邮箱</string>
+    <string name="birthday">生日</string>
 </resources>

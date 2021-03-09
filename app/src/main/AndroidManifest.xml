@@ -25,9 +25,29 @@
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".MainActivity"
+
             android:launchMode="singleTask" />
         <activity android:name=".video_manager.GetLocalVideoCutActivity" />
         <activity android:name=".video_manager.VideoManagerActivity" />
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".video_manager.GetVideoCutActivity" />
+        <activity android:name=".video_manager.VideoManagerActivity" />
+        <activity android:name=".myaccount_activity.MyAccountActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="我的账号"
+            />
+        <activity android:name=".mywork_activity.MyWorkActivity"
+            android:label="我的作品"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".aboutcontact_activity.AboutContactActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="关于Contact"
+            />
+        <activity android:name=".versiondetail_activity.VersionDetailActivity"
+            android:label="版本信息"
+            android:parentActivityName=".MainActivity"
+            />
         <activity android:name=".loginactivity.InitActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
