@@ -25,6 +25,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.aboutcontact_activity.AboutContactActivity;
 import com.example.contact_client.loginactivity.InitActivity;
+import com.example.contact_client.loginactivity.LoginFragment;
 import com.example.contact_client.myaccount_activity.MyAccountActivity;
 import com.example.contact_client.mywork_activity.MyWorkActivity;
 import com.example.contact_client.versiondetail_activity.VersionDetailActivity;
@@ -89,8 +90,40 @@ public class UserFragment extends Fragment {
         // user界面ButtonView跳转
         myAccount.setItemClickListener(new ButtonView.itemClickListener() {
             @Override
-            public void itemClick(String text) {
+            public void itemClick() {
                 Intent intent = new Intent(getActivity(), MyAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        myWork.setItemClickListener(new ButtonView.itemClickListener() {
+            @Override
+            public void itemClick() {
+                Intent intent = new Intent(getActivity(), MyWorkActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mAbout.setItemClickListener(new ButtonView.itemClickListener() {
+            @Override
+            public void itemClick() {
+                Intent intent = new Intent(getActivity(), AboutContactActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mVersion.setItemClickListener(new ButtonView.itemClickListener() {
+            @Override
+            public void itemClick() {
+                Intent intent = new Intent(getActivity(), VersionDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mLogout.setItemClickListener(new ButtonView.itemClickListener() {
+            @Override
+            public void itemClick() {
+                Intent intent = new Intent(getActivity(), InitActivity.class);
                 startActivity(intent);
             }
         });
@@ -100,11 +133,14 @@ public class UserFragment extends Fragment {
         // 头像控件
         mFront = getView().findViewById(R.id.icon_front);
         mBack = getView().findViewById(R.id.icon_back);
+
         // item控件
         myAccount = getView().findViewById(R.id.myaccount);
         myWork = getView().findViewById(R.id.mywork);
         mAbout = getView().findViewById(R.id.about);
         mVersion = getView().findViewById(R.id.version);
         mLogout = getView().findViewById(R.id.logout);
+        // 退出按钮箭头不显示
+        mLogout.setShowRightArrow(false);
     }
 }

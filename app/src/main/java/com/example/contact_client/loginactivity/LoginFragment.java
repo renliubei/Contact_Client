@@ -39,6 +39,8 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+
+
         telText = getView().findViewById(R.id.editTextPhone);
         pwdText = getView().findViewById(R.id.editPassword);
 
