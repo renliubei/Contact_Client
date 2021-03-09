@@ -22,19 +22,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
                 android:background="#FFEB3B"
-                android:text="新建"
+                android:text="新建互动视频"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline15"
                 app:layout_constraintEnd_toStartOf="@+id/guideline19"
                 app:layout_constraintStart_toStartOf="@+id/guideline18" />
 
             <Button
-                android:id="@+id/buttonManage"
+                android:id="@+id/buttonManageVideoCuts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:background="#00BCD4"
-                android:text="管理"
+                android:text="管理视频素材"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toStartOf="@+id/guideline19"
                 app:layout_constraintStart_toStartOf="@+id/guideline18"
@@ -80,6 +80,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.8" />
+
+            <Button
+                android:id="@+id/buttonManageProjects"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/tomato"
+                android:text="@string/manageProjects"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonManageVideoCuts"
+                app:layout_constraintEnd_toStartOf="@+id/guideline19"
+                app:layout_constraintStart_toStartOf="@+id/guideline18"
+                app:layout_constraintTop_toBottomOf="@+id/buttonNew" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

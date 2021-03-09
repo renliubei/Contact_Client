@@ -7,7 +7,7 @@ android {
     defaultConfig {
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         applicationId "com.example.contact_client"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
@@ -54,5 +55,26 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    implementation 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
+
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
+
+    implementation 'org.devio.takephoto:takephoto_library:4.1.0'
+
+    implementation "com.google.android.material:material:1.1.0"
+
+    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+    implementation 'com.tomer:fadingtextview:2.6'
+
+    implementation 'com.github.florent37:materialtextfield:1.0.7'
+    
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
 }

@@ -1,5 +1,7 @@
 package com.example.contact_client;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,7 +17,6 @@ import android.util.Log;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
 import com.example.contact_client.databinding.FactoryFragmentBinding;
-
 public class MainActivity extends AppCompatActivity {
     FactoryFragmentBinding factoryFragmentBinding;
     ActivityMainBinding activityMainBinding;

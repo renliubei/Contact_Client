@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="videoNodes">videoNodes</string>
+    <string name="videoNodeIndexes">videoNodeIndexes</string>
+    <string name="videoProject">VideoProject</string>
+</resources>
