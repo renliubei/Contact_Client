@@ -1,8 +1,5 @@
 package com.example.contact_client;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 
@@ -24,14 +20,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.aboutcontact_activity.AboutContactActivity;
-import com.example.contact_client.loginactivity.InitActivity;
-import com.example.contact_client.loginactivity.LoginFragment;
+import com.example.contact_client.Login.InitActivity;
 import com.example.contact_client.myaccount_activity.MyAccountActivity;
 import com.example.contact_client.mywork_activity.MyWorkActivity;
 import com.example.contact_client.versiondetail_activity.VersionDetailActivity;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class UserFragment extends Fragment {
     private View view;

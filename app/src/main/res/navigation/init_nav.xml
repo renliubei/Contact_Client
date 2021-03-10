@@ -6,7 +6,7 @@
             app:startDestination="@id/loginFragment">
     <fragment
             android:id="@+id/loginFragment"
-            android:name="com.example.contact_client.loginactivity.LoginFragment"
+            android:name="com.example.contact_client.Login.LoginFragment"
             android:label="登录">
         <action
                 android:id="@+id/action_loginFragment2_to_registerFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
             android:id="@+id/registerFragment"
-            android:name="com.example.contact_client.loginactivity.RegisterFragment"
+            android:name="com.example.contact_client.Login.RegisterFragment"
             android:label="注册">
         <action
                 android:id="@+id/action_registerFragment_to_loginFragment2"

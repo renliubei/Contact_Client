@@ -1,4 +1,4 @@
-package com.example.contact_client.loginactivity;
+package com.example.contact_client.Login;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
