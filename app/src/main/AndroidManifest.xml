@@ -29,8 +29,8 @@
             android:launchMode="singleTask" />
         <activity android:name=".video_manager.GetLocalVideoCutActivity" />
         
-        <activity android:name=".video_manager.VideoManagerActivity" />
-            android:launchMode="singleTask"></activity>
+        <activity android:name=".video_manager.VideoManagerActivity"
+            android:launchMode="singleTask"/>
     
         <activity android:name=".myaccount_activity.MyAccountActivity"
             android:parentActivityName=".MainActivity"
