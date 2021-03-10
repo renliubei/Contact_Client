@@ -1,5 +1,7 @@
 package com.example.contact_client;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -8,12 +10,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
 import com.example.contact_client.databinding.FactoryFragmentBinding;
-
 public class MainActivity extends AppCompatActivity {
     FactoryFragmentBinding factoryFragmentBinding;
     ActivityMainBinding activityMainBinding;
@@ -39,6 +42,6 @@ public class MainActivity extends AppCompatActivity {
 //        userViewModel.getName().setValue("Antonio");
         //
 
-
+        // Log.d("MainActivity", "onCreat execute");
     }
 }

@@ -1,24 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-       package="com.example.contact_client">
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-      <application
+    package="com.example.contact_client">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".project_manager.takePhotoActivity"></activity>
+        <activity android:name=".project_manager.VideoProjectActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".interactive_creator.SearchRoomForVideoCutActivity" />
+        <activity android:name=".interactive_creator.SearchVideoNodeActivity" />
+        <activity android:name=".interactive_creator.InteractiveCreatorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".video_manager.EditActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".MainActivity"
+
+            android:launchMode="singleTask" />
+        <activity android:name=".video_manager.GetLocalVideoCutActivity" />
+        
+        <activity android:name=".video_manager.VideoManagerActivity" />
             android:launchMode="singleTask"></activity>
-        <activity android:name=".video_manager.GetVideoCutActivity" />
-        <activity android:name=".video_manager.VideoManagerActivity" />        
+    
+        <activity android:name=".myaccount_activity.MyAccountActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="我的账号"
+            />
+        <activity android:name=".mywork_activity.MyWorkActivity"
+            android:label="我的作品"
+            android:parentActivityName=".MainActivity"
+            />
+        <activity android:name=".aboutcontact_activity.AboutContactActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="关于Contact"
+            />
+        <activity android:name=".versiondetail_activity.VersionDetailActivity"
+            android:label="版本信息"
+            android:parentActivityName=".MainActivity"
+            />
         <activity android:name=".loginactivity.InitActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
