@@ -1,9 +1,8 @@
 package com.example.contact_client.DataTransform;
 
-
 import com.google.gson.annotations.SerializedName;
 
-public class RegisterData {
+public class LoginData {
     @SerializedName("code")
     private Integer code;
 
@@ -24,9 +23,17 @@ public class RegisterData {
         return returnData;
     }
 
-    public class ReturnData{
+    public class ReturnData {
         private String id;
-        private String password;
-    }
+        private String token;
+        private String username;
 
+        public String getId() {
+            return id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+    }
 }

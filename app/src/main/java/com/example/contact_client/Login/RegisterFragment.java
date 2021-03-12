@@ -16,13 +16,9 @@ import androidx.navigation.Navigation;
 import com.example.contact_client.DataTransform.DataRepository;
 import com.example.contact_client.DataTransform.Status;
 import com.example.contact_client.R;
-import com.example.contact_client.userdata.UserInit;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RegisterFragment extends Fragment {
     private Button button;
     private EditText telText, nameText, pwdText, checkPwdText;
@@ -30,6 +26,7 @@ public class RegisterFragment extends Fragment {
     private String tel, name, pwd, checkPwd;
     private int sex;
     private ArrayList<String> res;
+
     private DataRepository registerRepository;
 
     @Override
@@ -79,15 +76,18 @@ public class RegisterFragment extends Fragment {
                         public void onRegister(int status) {
                             switch (status){
                                 case Status.CONNECT_SUCCESS:
-                                    Toast.makeText(getActivity(),"注册成功！",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"注册成功!",Toast.LENGTH_SHORT).show();
                                     NavController navController = Navigation.findNavController(getView());
                                     navController.navigate(R.id.action_registerFragment_to_loginFragment2);
                                     break;
                                 case Status.TEL_OCCUPIED:
-                                    Toast.makeText(getActivity(),"该手机号已注册",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"该手机号已注册!",Toast.LENGTH_SHORT).show();
                                     break;
                                 case Status.NETWORK_FAIL:
-                                    Toast.makeText(getActivity(),"网络错误",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"网络错误!",Toast.LENGTH_SHORT).show();
+                                    break;
+                                case Status.UNKNOWN:
+                                    Toast.makeText(getActivity(),"？发生未知错误？",Toast.LENGTH_SHORT).show();
                                     break;
                             }
                         }

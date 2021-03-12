@@ -9,25 +9,26 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
+import com.example.contact_client.DataTransform.DataRepository;
+import com.example.contact_client.DataTransform.LoginData;
+import com.example.contact_client.DataTransform.Status;
 import com.example.contact_client.MainActivity;
 import com.example.contact_client.R;
-import com.example.contact_client.userdata.UserInit;
 
 public class LoginFragment extends Fragment {
     private EditText telText, pwdText;
     private Button loginButton;
     private TextView registerText, forgetPwdText;
     private String tel, pwd;
-    private UserInit userInfo;
 
-    public LoginFragment(){
-        // Required empty public constructor
-    }
-
+    private DataRepository loginRepository;
+    private Bundle bundle;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
+        loginRepository = new DataRepository(getContext());
 
         telText = getView().findViewById(R.id.editTextPhone);
         pwdText = getView().findViewById(R.id.editPassword);
@@ -50,16 +51,46 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 tel = telText.getText().toString().trim();
                 pwd = pwdText.getText().toString().trim();
-                userInfo = new UserInit(tel, pwd);
-                // TODO : complete here
-                if (true){
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("account",account);
-//                    bundle.putString("password",password);
-//                    intent.putExtra("userdata",bundle);
-                    startActivity(intent);
-                    Toast.makeText(getActivity(), "登录成功!", Toast.LENGTH_LONG).show();
+
+                if (tel.length() != 11){
+                    Toast.makeText(getActivity(), "请输入正确的电话号码", Toast.LENGTH_SHORT).show();
+                }else if (pwd.equals("")){
+                    Toast.makeText(getActivity(), "请输入密码", Toast.LENGTH_SHORT).show();
+                }else{
+                    loginRepository.postLogin(tel, pwd, new DataRepository.LoginCallBack() {
+                        @Override
+                        public void onUserInfo(LoginData loginData) {
+                            bundle = new Bundle();
+                            bundle.putString("name", loginData.getReturnData().getUsername());
+                            bundle.putString("id", loginData.getReturnData().getId());
+                            bundle.putString("phone", tel);
+                        }
+
+                        @Override
+                        public void onLogin(int status) {
+                            switch (status){
+                                case Status.CONNECT_SUCCESS:
+                                    if (bundle != null){
+                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                                        intent.putExtra("userData", bundle);
+                                        startActivity(intent);
+                                        Toast.makeText(getActivity(), "登录成功!", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(getActivity(),"？发生未知错误？",Toast.LENGTH_SHORT).show();
+                                    }
+                                    break;
+                                case Status.NETWORK_FAIL:
+                                    Toast.makeText(getActivity(),"网络错误!",Toast.LENGTH_SHORT).show();
+                                    break;
+                                case Status.TEL_OCCUPIED:
+                                    Toast.makeText(getActivity(), "密码错误或账号已删除", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case Status.UNKNOWN:
+                                    Toast.makeText(getActivity(),"？发生未知错误？",Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+                    });
                 }
             }
         });
