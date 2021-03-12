@@ -41,24 +41,18 @@ public class DataRepository {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("me", "onResponse: " + response);
-                        RegisterData registerData = new Gson().fromJson(response, RegisterData.class);
-                        if (registerData.getCode() == 200){
-                            registerCallBack.onRegister(Status.CONNECT_SUCCESS);
-                        }else if (registerData.getCode() == 503){
-                            registerCallBack.onRegister(Status.TEL_OCCUPIED);
-                        }else registerCallBack.onRegister(Status.UNKNOWN);
-                    }
+                response -> {
+                    Log.d("me", "onResponse: " + response);
+                    RegisterData registerData = new Gson().fromJson(response, RegisterData.class);
+                    if (registerData.getCode() == 200){
+                        registerCallBack.onRegister(Status.CONNECT_SUCCESS);
+                    }else if (registerData.getCode() == 503){
+                        registerCallBack.onRegister(Status.TEL_OCCUPIED);
+                    }else registerCallBack.onRegister(Status.UNKNOWN);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("me", "onErrorResponse: " + error);
-                        registerCallBack.onRegister(Status.NETWORK_FAIL);
-                    }
+                error -> {
+                    Log.d("me", "onErrorResponse: " + error);
+                    registerCallBack.onRegister(Status.NETWORK_FAIL);
                 });
 
         VolleySingleton.getInstance(context).getQueue().add(stringRequest);
@@ -84,27 +78,21 @@ public class DataRepository {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("me", "onResponse: " + response);
-                        LoginData loginData = new Gson().fromJson(response, LoginData.class);
-                        if (loginData.getCode() == 200){
-                            loginCallBack.onUserInfo(loginData);
-                            loginCallBack.onLogin(Status.CONNECT_SUCCESS);
-                        }else if (loginData.getCode() == 503){
-                            loginCallBack.onLogin(Status.TEL_OCCUPIED);
-                        }else {
-                            loginCallBack.onLogin(Status.UNKNOWN);
-                        }
+                response -> {
+                    Log.d("me", "onResponse: " + response);
+                    LoginData loginData = new Gson().fromJson(response, LoginData.class);
+                    if (loginData.getCode() == 200){
+                        loginCallBack.onUserInfo(loginData);
+                        loginCallBack.onLogin(Status.CONNECT_SUCCESS);
+                    }else if (loginData.getCode() == 503){
+                        loginCallBack.onLogin(Status.TEL_WRONG);
+                    }else {
+                        loginCallBack.onLogin(Status.UNKNOWN);
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("me", "onErrorResponse: " + error);
-                        loginCallBack.onLogin(Status.NETWORK_FAIL);
-                    }
+                error -> {
+                    Log.d("me", "onErrorResponse: " + error);
+                    loginCallBack.onLogin(Status.NETWORK_FAIL);
                 }
         );
 

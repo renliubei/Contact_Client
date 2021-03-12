@@ -82,7 +82,7 @@ public class LoginFragment extends Fragment {
                                 case Status.NETWORK_FAIL:
                                     Toast.makeText(getActivity(),"网络错误!",Toast.LENGTH_SHORT).show();
                                     break;
-                                case Status.TEL_OCCUPIED:
+                                case Status.TEL_WRONG:
                                     Toast.makeText(getActivity(), "密码错误或账号已删除", Toast.LENGTH_SHORT).show();
                                     break;
                                 case Status.UNKNOWN:

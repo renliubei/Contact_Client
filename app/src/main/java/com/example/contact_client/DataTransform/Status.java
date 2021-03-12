@@ -8,5 +8,5 @@ public interface Status {
     //Register
     int TEL_OCCUPIED = 2;
     //Login
-    int TEL_UNKNOWN = 3;
+    int TEL_WRONG = 3;
 }
