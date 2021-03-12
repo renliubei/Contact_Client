@@ -1,9 +1,6 @@
 package com.example.contact_client;
 
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -14,7 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
-import com.example.contact_client.databinding.FactoryFragmentBinding;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding activityMainBinding;
