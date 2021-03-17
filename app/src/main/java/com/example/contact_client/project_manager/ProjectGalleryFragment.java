@@ -24,6 +24,7 @@ import com.example.contact_client.R;
 import com.example.contact_client.databinding.FragmentProjectGalleryBinding;
 import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
 import com.example.contact_client.repository.VideoProject;
+import com.example.contact_client.video_player.VideoPlayerActivity;
 
 import es.dmoral.toasty.Toasty;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
@@ -129,13 +130,12 @@ public class ProjectGalleryFragment extends Fragment {
 
             @Override
             public void onClickDisplay(View v, int position) {
-                Toast.makeText(v.getContext(),"you click display",Toast.LENGTH_SHORT).show();
+                startVideoPlayer(galleryAdapter.getVideoProjects().get(position));
             }
 
             @Override
             public void onClickEdit(View v, int position) {
-                mViewModel.setPosition(position);
-                startProjectCreator();
+                startProjectCreator(galleryAdapter.getVideoProjects().get(position));
             }
         }));
     }
@@ -189,19 +189,24 @@ public class ProjectGalleryFragment extends Fragment {
     }
 
 
-    void startProjectCreator(){
+    void startProjectCreator(VideoProject videoProject){
         if(mViewModel.getPosition()==-1){
             Toast.makeText(getActivity(),"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(getActivity(), InteractiveCreatorActivity.class);
-            intent.putExtra(getString(R.string.videoProject), galleryAdapter.getVideoProjects().get(mViewModel.getPosition()).getId());
+            intent.putExtra(getString(R.string.videoProject), videoProject);
             startActivity(intent);
         }
     }
 
-    void startProjectEditor(){
-        Intent intent = new Intent(getActivity(), takePhotoActivity.class);
-        startActivity(intent);
+    void startVideoPlayer(VideoProject videoProject){
+        if(mViewModel.getPosition()==-1){
+            Toast.makeText(getActivity(),"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+            intent.putExtra(getString(R.string.videoProject),videoProject);
+            startActivity(intent);
+        }
     }
 
 }

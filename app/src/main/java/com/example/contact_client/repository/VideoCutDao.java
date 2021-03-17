@@ -28,9 +28,6 @@ public interface VideoCutDao {
     @Query("DELETE FROM VideoCut")
     public Completable deleteAllVideoCuts();
 
-    @Delete
-    public Single<Integer> deleteUsers(VideoCut... videoCuts);
-
     @Query("SELECT * FROM VideoCut ORDER BY ID DESC")
     public LiveData<List<VideoCut>> getAllLiveDataVideoCuts();
 

@@ -447,31 +447,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
     void init(){
-        long id = getIntent().getLongExtra(getString(R.string.videoProject),-1);
-        if(id==-1){
-            //绑定数据
-            bindDataToViewModel(null);
-            //配置recyclerView
-            modifyRecyclerView();
-            //注册按键功能
-            registerButtonEvents();
-            //初始化
-            initUI();
-        }else{
-            mDisposable.add(mViewModel.findProjectById(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(videoProject -> {
-                        Log.d("mylo",videoProject.toString());
-                        //绑定数据
-                        bindDataToViewModel(videoProject);
-                        //配置recyclerView
-                        modifyRecyclerView();
-                        //注册按键功能
-                        registerButtonEvents();
-                        //初始化
-                        initUI();
-                    }, throwable -> {Toasty.error(this,"初始化"+id+"失败",Toast.LENGTH_SHORT).show(); throwable.printStackTrace();}));
-        }
+        //绑定数据
+        bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
+        //配置recyclerView
+        modifyRecyclerView();
+        //注册按键功能
+        registerButtonEvents();
+        //初始化
+        initUI();
     }
 }

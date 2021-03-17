@@ -1,5 +1,8 @@
 package com.example.contact_client.repository;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -15,7 +18,7 @@ import java.util.List;
 
 @Entity
 @TypeConverters(VideoNodeListConverter.class)
-public class VideoProject {
+public class VideoProject implements Parcelable{
 
     @PrimaryKey(autoGenerate = true)
     private long Id;
@@ -40,6 +43,42 @@ public class VideoProject {
         this.name = name;
         this.description = description;
     }
+
+    protected VideoProject(Parcel in) {
+        Id = in.readLong();
+        videoNodeList = in.createTypedArrayList(VideoNode.CREATOR);
+        isolatedNodes = in.createTypedArrayList(VideoNode.CREATOR);
+        name = in.readString();
+        description = in.readString();
+        coverUrl = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(Id);
+        dest.writeTypedList(videoNodeList);
+        dest.writeTypedList(isolatedNodes);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(coverUrl);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<VideoProject> CREATOR = new Creator<VideoProject>() {
+        @Override
+        public VideoProject createFromParcel(Parcel in) {
+            return new VideoProject(in);
+        }
+
+        @Override
+        public VideoProject[] newArray(int size) {
+            return new VideoProject[size];
+        }
+    };
 
     public long getId() {
         return Id;
@@ -112,7 +151,6 @@ public class VideoProject {
     }
 
     @Ignore
-
     @NonNull
     @Override
     public String toString() {

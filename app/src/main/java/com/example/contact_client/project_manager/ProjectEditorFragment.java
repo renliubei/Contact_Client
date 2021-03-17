@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -82,33 +81,20 @@ public class ProjectEditorFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
-        mViewModel.getEditorHintDecs().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.projectDescEditor.setHint(s);
-            }
-        });
-        mViewModel.getEditorHintName().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                binding.projectNameEditor.setHint(s);
-            }
-        });
-        mViewModel.getHintCover().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if(s==null){
-                    Glide.with(getContext())
-                            .load(R.drawable.defualt_project_cover)
-                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                            .into(binding.imageView2);
-                }else{
-                    Glide.with(getContext())
-                            .load(Uri.fromFile(new File(s)))
-                            .error(R.drawable.defualt_project_cover)
-                            .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                            .into(binding.imageView2);
-                }
+        mViewModel.getEditorHintDecs().observe(this, s -> binding.projectDescEditor.setHint(s));
+        mViewModel.getEditorHintName().observe(this, s -> binding.projectNameEditor.setHint(s));
+        mViewModel.getHintCover().observe(this, s -> {
+            if(s==null){
+                Glide.with(getContext())
+                        .load(R.drawable.defualt_project_cover)
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into(binding.imageView2);
+            }else{
+                Glide.with(getContext())
+                        .load(Uri.fromFile(new File(s)))
+                        .error(R.drawable.defualt_project_cover)
+                        .apply(RequestOptions.bitmapTransform(new CircleCrop()))
+                        .into(binding.imageView2);
             }
         });
     }
