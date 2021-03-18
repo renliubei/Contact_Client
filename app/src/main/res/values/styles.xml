@@ -11,6 +11,7 @@
         <item name="android:background">@drawable/fab_menu_background</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorWhite</item>
+    </style>
 
     <style name="dialogStyle">
         <!--设置dialog的背景-->
