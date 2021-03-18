@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 public class UserViewModel extends ViewModel {
     //管理用户界面的账号，用户名和头像资源
     // TODO: Implement the ViewModel
-    private MutableLiveData<String> name,account,password;
+    private MutableLiveData<String> name, account,password;
     private MutableLiveData<Long> iconResource;
 
     public MutableLiveData<String> getName() {
@@ -22,7 +22,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public MutableLiveData<String> getAccount() {
-        if(account==null){
+        if(account ==null){
             account = new MutableLiveData<>();
             account.setValue("请先登录");
         }

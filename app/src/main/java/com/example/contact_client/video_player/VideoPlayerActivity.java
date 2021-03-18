@@ -55,11 +55,8 @@ public class VideoPlayerActivity extends AppCompatActivity {
                         .subscribe(videoCut -> {
                                 mediaItem = MediaItem.fromUri("/storage/emulated/0/Movies/Aegean_Sea.mp4");
                                 player.addMediaItem(mediaItem);
-                                Log.d("mylo","添加： "+videoCut.getUrlString());
                                 player.prepare();
-                                Log.d("mylo","准备完成： "+videoCut.getUrlString());
                                 player.play();
-                                Log.d("mylo","播放： "+videoCut.getUrlString());
                         }, throwable -> {throwable.printStackTrace();Toasty.error(getApplicationContext(), "加载错误",Toasty.LENGTH_SHORT,true).show();finish();})
         );
     }

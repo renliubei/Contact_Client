@@ -3,19 +3,17 @@ package com.example.contact_client;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-public class ButtonView extends ConstraintLayout {
+public class ButtonView extends RelativeLayout {
     private static String TAG = ButtonView.class.getSimpleName();
 
     private boolean isShowBottomLine = true;
@@ -25,7 +23,7 @@ public class ButtonView extends ConstraintLayout {
     private TextView leftTitle; // 左侧标题
     private ImageView rightArrow;   // 右侧箭头
     private ImageView bottomLine;   // 下划线
-    private ConstraintLayout rootView;  // 整体的view
+    private RelativeLayout rootView;  // 整体的view
 
     public ButtonView(@NonNull Context context) {
         this(context, null);
@@ -37,16 +35,19 @@ public class ButtonView extends ConstraintLayout {
 
     public ButtonView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         // 添加布局文件
         View view = LayoutInflater.from(context).inflate(R.layout.fragment_user_button, null);
         addView(view);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ButtonView);
+
         // 绑定控件
         leftIcon = findViewById(R.id.left_icon);
         leftTitle = findViewById(R.id.left_title);
         rightArrow = findViewById(R.id.right_arrow);
         bottomLine = findViewById(R.id.bottom_line);
         rootView = findViewById(R.id.root_item);
+
         // 设置控件属性
         isShowBottomLine = ta.getBoolean(R.styleable.ButtonView_show_bottom_line, true);
         isShowLeftIcon = ta.getBoolean(R.styleable.ButtonView_show_left_icon, true);
@@ -60,14 +61,14 @@ public class ButtonView extends ConstraintLayout {
         rightArrow.setVisibility(isShowRightArrow ? View.VISIBLE : View.INVISIBLE);
         bottomLine.setVisibility(isShowBottomLine ? View.VISIBLE : View.INVISIBLE);
 
-        // 设计点击时间
+        // 设计点击事件
         // 给整个item设置点击事件
         rootView.setOnClickListener((v) -> {
-            listener.itemClick(leftTitle.getText().toString());
+            listener.itemClick();
         });
         // 给右侧箭头设置点击事件
         rightArrow.setOnClickListener((v) -> {
-            listener.itemClick(leftTitle.getText().toString());
+            listener.itemClick();
         });
 
         ta.recycle();
@@ -96,7 +97,7 @@ public class ButtonView extends ConstraintLayout {
 
     // 接口
     public interface itemClickListener {
-        void itemClick(String text);
+        void itemClick();
     }
 
     private itemClickListener listener;

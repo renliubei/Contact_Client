@@ -1,52 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="50dp"
+    android:layout_gravity="center_vertical"
+    android:background="@color/colorWhite"
+    android:foreground="?android:selectableItemBackground">
 
     <ImageView
         android:id="@+id/left_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/ic_myaccount"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/ic_myaccount" />
 
     <TextView
         android:id="@+id/left_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/left_icon"
         android:text="我的账号"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/left_icon"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textColor="#636363"  />
 
     <ImageView
         android:id="@+id/right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
         android:layout_marginRight="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_right_arrow" />
+        android:background="@drawable/ic_right_arrow" />
 
     <ImageView
         android:id="@+id/bottom_line"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#efeeee"
-        app:layout_constraintTop_toBottomOf="@+id/left_title" />
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#efeeee" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
