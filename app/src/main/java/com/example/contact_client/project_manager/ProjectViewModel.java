@@ -13,6 +13,8 @@ import com.example.contact_client.repository.VideoProjectDao;
 
 import java.util.List;
 
+import io.reactivex.Single;
+
 public class ProjectViewModel extends AndroidViewModel {
     //访问数据库
     private final VideoProjectDao videoProjectDao;
@@ -80,5 +82,9 @@ public class ProjectViewModel extends AndroidViewModel {
             hintCover = new MutableLiveData<>();
         }
         return hintCover;
+    }
+
+    public Single<Long> insertVideoProject(VideoProject videoProject){
+        return videoProjectDao.insertVideoProject(videoProject);
     }
 }

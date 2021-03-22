@@ -154,6 +154,6 @@ public class VideoProject implements Parcelable{
     @NonNull
     @Override
     public String toString() {
-        return Id + name + " " + videoNodeList.toString();
+        return "id: " + Id + "\t" + "name:" +name + "\t" + videoNodeList.toString()+"\t"+coverUrl;
     }
 }

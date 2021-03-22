@@ -2,12 +2,15 @@ package com.example.contact_client.project_manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.contact_client.R;
 
 import org.devio.takephoto.app.TakePhoto;
 import org.devio.takephoto.app.TakePhotoActivity;
 import org.devio.takephoto.model.TResult;
+
+import static com.example.contact_client.project_manager.VideoProjectActivity.IMAGE;
 
 public class takePhotoActivity extends TakePhotoActivity {
 
@@ -23,8 +26,9 @@ public class takePhotoActivity extends TakePhotoActivity {
     public void takeSuccess(TResult result) {
         super.takeSuccess(result);
         Intent intent = new Intent();
-        intent.putExtra("image",result.getImage());
+        intent.putExtra(IMAGE,result.getImage());
         setResult(RESULT_OK,intent);
+        Log.d("mylo","send image data: "+result.getImage().getOriginalPath());
         finish();
     }
 
