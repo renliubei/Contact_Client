@@ -49,39 +49,43 @@
       android:id="@+id/guideline_player_50v"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="411dp"
       android:orientation="vertical"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintGuide_percent="0.5"
-      app:layout_constraintTop_toBottomOf="@+id/videoPlayerView" />
+      app:layout_constraintGuide_percent="0.5" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline_player_60h"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="731dp"
       android:orientation="horizontal"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintGuide_percent="0.6"
-      app:layout_constraintStart_toEndOf="@+id/guideline_player_80h" />
+      app:layout_constraintGuide_percent="0.6" />
 
   <androidx.constraintlayout.widget.Guideline
       android:id="@+id/guideline_player_80h"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:orientation="horizontal"
-      app:layout_constraintEnd_toStartOf="@+id/guideline_player_60h"
-      app:layout_constraintGuide_percent="0.8"
-      app:layout_constraintStart_toEndOf="@+id/videoPlayerView" />
+      app:layout_constraintGuide_percent="0.8" />
+
+  <TextView
+      android:id="@+id/playerPlotNarrator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="这里是剧情！！！"
+      android:textColor="#FF5722"
+      android:textSize="18sp"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="@+id/guideline_player_60h"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
   <com.google.android.exoplayer2.ui.PlayerView
       android:id="@+id/videoPlayerView"
       android:layout_width="0dp"
       android:layout_height="0dp"
       android:visibility="visible"
-      app:layout_constraintBottom_toTopOf="@+id/guideline_player_50v"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/guideline_player_80h"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent">
 

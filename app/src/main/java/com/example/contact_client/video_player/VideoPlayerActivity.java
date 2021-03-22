@@ -3,11 +3,13 @@ package com.example.contact_client.video_player;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.example.contact_client.R;
 import com.example.contact_client.interactive_creator.VideoNode;
@@ -33,21 +35,21 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private MediaItem mediaItem;
     private  SimpleExoPlayer player;
     private mRepository mRepository;
-    private ConstraintLayout constraintLayout;
     private PlayerView playerView;
     private View.OnClickListener onClickBtn;
+    ConstraintSet constraintSet = new ConstraintSet();
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     Button leftUpBtn,leftDownBtn,rightUpBtn,rightDownBtn;
-
+    TextView narrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
         mRepository = new mRepository(this);
-        constraintLayout = getWindow().getDecorView().findViewById(R.id.playerLayout);
         playerView = findViewById(R.id.videoPlayerView);
         getProject();
         initPlayer();
+        narrator = findViewById(R.id.playerPlotNarrator);
         bindBtn();
         playProject();
     }
@@ -59,9 +61,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
     void playCurrentNode(){
         if(currentNode.getId()==ROOT_NODE){
+            playerView.hideController();
             showBtn(currentNode.getSons().size());
+            showPlot();
         }else{
-            playerView.setClickable(false);
             mDisposable.add(
                     mRepository.findVideoCutById(currentNode.getId())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -110,6 +113,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                         stateString = "ExoPlayer.STATE_ENDED     -";
                         playerView.hideController();
                         showBtn(currentNode.getSons().size());
+                        showPlot();
                         break;
                     default:
                         stateString = "UNKNOWN_STATE             -";
@@ -123,6 +127,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
             @Override
             public void onIsPlayingChanged(boolean isPlaying) {
                 if(isPlaying){
+                    hidePlot();
                     hideAllBtn();
                 }
             }
@@ -138,79 +143,88 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     private void relocateBtn(int btnNum){
-
-        ConstraintLayout.LayoutParams leftUpLayoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ConstraintLayout.LayoutParams leftDownLayoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ConstraintLayout.LayoutParams rightUpLayoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        ConstraintLayout.LayoutParams rightDownLayoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        constraintSet.clone(this,R.layout.activity_video_player);
         switch (btnNum){
             case 0:
                 Log.d("mylo","on relocate buttons: no sons");
                 break;
             case 1:
-                leftUpLayoutParams.startToStart = constraintLayout.getId();
-                leftUpLayoutParams.endToEnd = constraintLayout.getId();
-                leftUpLayoutParams.topToTop = R.id.guideline_player_60h;
-                leftUpLayoutParams.bottomToBottom = constraintLayout.getId();
+                constraintSet.clear(R.id.leftUpBtn);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
             case 2:
-                leftUpLayoutParams.startToStart = constraintLayout.getId();
-                leftUpLayoutParams.endToEnd = constraintLayout.getId();
-                leftUpLayoutParams.topToTop = R.id.guideline_player_60h;
-                leftUpLayoutParams.bottomToBottom = R.id.guideline_player_80h;
+                constraintSet.clear(R.id.leftUpBtn);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,R.id.guideline_player_80h,ConstraintSet.BOTTOM);
 
-                rightUpLayoutParams.startToStart = constraintLayout.getId();
-                rightUpLayoutParams.endToEnd = constraintLayout.getId();
-                rightUpLayoutParams.topToTop = R.id.guideline_player_80h;
-                rightUpLayoutParams.bottomToBottom = constraintLayout.getId();
+                constraintSet.clear(R.id.rightUpBtn);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
             case 3:
-                leftUpLayoutParams.startToStart = constraintLayout.getId();
-                leftUpLayoutParams.endToEnd = constraintLayout.getId();
-                leftUpLayoutParams.topToTop = R.id.guideline_player_60h;
-                leftUpLayoutParams.bottomToBottom = R.id.guideline_player_80h;
+                constraintSet.clear(R.id.leftUpBtn);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,R.id.guideline_player_80h,ConstraintSet.BOTTOM);
 
-                rightUpLayoutParams.startToStart = constraintLayout.getId();
-                rightUpLayoutParams.endToEnd = R.id.guideline_player_50v;
-                rightUpLayoutParams.topToTop = R.id.guideline_player_80h;
-                rightUpLayoutParams.bottomToBottom = constraintLayout.getId();
+                constraintSet.clear(R.id.rightUpBtn);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.END,R.id.guideline_player_50v,ConstraintSet.END);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
 
-                leftDownLayoutParams.startToStart = R.id.guideline_player_50v;
-                leftDownLayoutParams.endToEnd = constraintLayout.getId();
-                leftDownLayoutParams.topToTop = R.id.guideline_player_80h;
-                leftDownLayoutParams.bottomToBottom = constraintLayout.getId();
+                constraintSet.clear(R.id.leftDownBtn);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.START,R.id.guideline_player_50v,ConstraintSet.START);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
             default:
-                leftUpLayoutParams.startToStart = constraintLayout.getId();
-                leftUpLayoutParams.endToEnd = R.id.guideline_player_50v;
-                leftUpLayoutParams.topToTop = R.id.guideline_player_60h;
-                leftUpLayoutParams.bottomToBottom = R.id.guideline_player_80h;
+                constraintSet.clear(R.id.leftUpBtn);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,R.id.guideline_player_50v,ConstraintSet.END);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,R.id.guideline_player_80h,ConstraintSet.BOTTOM);
 
-                rightUpLayoutParams.startToStart = R.id.guideline_player_50v;
-                rightUpLayoutParams.endToEnd = constraintLayout.getId();
-                rightUpLayoutParams.topToTop = R.id.guideline_player_60h;
-                rightUpLayoutParams.bottomToBottom = R.id.guideline_player_80h;
+                constraintSet.clear(R.id.rightUpBtn);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.START,R.id.guideline_player_50v,ConstraintSet.START);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.BOTTOM,R.id.guideline_player_80h,ConstraintSet.BOTTOM);
 
-                leftDownLayoutParams.startToStart = constraintLayout.getId();
-                leftDownLayoutParams.endToEnd = R.id.guideline_player_50v;
-                leftDownLayoutParams.topToTop = R.id.guideline_player_80h;
-                leftDownLayoutParams.bottomToBottom = constraintLayout.getId();
+                constraintSet.clear(R.id.leftDownBtn);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.END,R.id.guideline_player_50v,ConstraintSet.END);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.leftDownBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
 
-                rightDownLayoutParams.startToStart = R.id.guideline_player_50v;
-                rightDownLayoutParams.endToEnd = constraintLayout.getId();
-                rightDownLayoutParams.topToTop = R.id.guideline_player_80h;
-                rightDownLayoutParams.bottomToBottom = R.id.guideline_player_50v;
+                constraintSet.clear(R.id.rightDownBtn);
+                constraintSet.connect(R.id.rightDownBtn,ConstraintSet.START,R.id.guideline_player_50v,ConstraintSet.START);
+                constraintSet.connect(R.id.rightDownBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.rightDownBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
+                constraintSet.connect(R.id.rightDownBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
         }
-        leftUpBtn.setLayoutParams(leftUpLayoutParams);
-        rightUpBtn.setLayoutParams(rightUpLayoutParams);
-        leftDownBtn.setLayoutParams(leftDownLayoutParams);
-        rightDownBtn.setLayoutParams(rightDownLayoutParams);
+
+        constraintSet.constrainWidth(R.id.rightUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.rightUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainWidth(R.id.leftUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.leftUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainWidth(R.id.rightDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.rightDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainWidth(R.id.leftDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.leftDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+
+        ConstraintLayout constraintLayout = getWindow().getDecorView().findViewById(R.id.playerLayout);
+        constraintSet.applyTo(constraintLayout);
     }
 
     private void bindBtn(){
@@ -232,9 +246,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 playCurrentNode();
         };
 
-        leftDownBtn.setOnClickListener(onClickBtn);
-        rightDownBtn.setOnClickListener(onClickBtn);
         leftUpBtn.setOnClickListener(onClickBtn);
+        rightDownBtn.setOnClickListener(onClickBtn);
+        rightUpBtn.setOnClickListener(onClickBtn);
         leftDownBtn.setOnClickListener(onClickBtn);
     }
 
@@ -242,41 +256,60 @@ public class VideoPlayerActivity extends AppCompatActivity {
         List<VideoNode> nodes = mVideoProject.getVideoNodeList();
         List<Integer> sons = currentNode.getSons();
         if(showNum>=1){
-            leftDownBtn.setText(nodes.get(sons.get(0)).getName());
+            leftUpBtn.setText(nodes.get(sons.get(0)).getName());
+            leftUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftUpBtn.setVisibility(View.VISIBLE);
-
         }
         if(showNum>=2){
             rightUpBtn.setText(nodes.get(sons.get(1)).getName());
+            rightUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightUpBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=3){
-            leftDownBtn.setText(nodes.get(sons.get(3)).getName());
+            leftDownBtn.setText(nodes.get(sons.get(2)).getName());
+            leftDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftDownBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=4){
-            rightDownBtn.setText(nodes.get(sons.get(4)).getName());
+            rightDownBtn.setText(nodes.get(sons.get(3)).getName());
+            rightDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightDownBtn.setVisibility(View.VISIBLE);
         }
     }
 
     private void showBtn(int bntNum){
+        playerView.setClickable(false);
         relocateBtn(bntNum);
         setBtnVisible(bntNum);
     }
 
     private void hideAllBtn(){
         if(leftUpBtn.getVisibility()==View.VISIBLE){
+            leftUpBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             leftUpBtn.setVisibility(View.GONE);
         }
         if(leftDownBtn.getVisibility()==View.VISIBLE){
+            leftDownBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             leftDownBtn.setVisibility(View.GONE);
         }
         if(rightDownBtn.getVisibility()==View.VISIBLE){
+            rightDownBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             rightDownBtn.setVisibility(View.GONE);
         }
         if(rightUpBtn.getVisibility()==View.VISIBLE){
-            rightDownBtn.setVisibility(View.GONE);
+            rightUpBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
+            rightUpBtn.setVisibility(View.GONE);
         }
+    }
+
+    void showPlot(){
+        narrator.setAnimation(AnimationUtils.makeInAnimation(this,false));
+        narrator.setVisibility(View.VISIBLE);
+        narrator.bringToFront();
+    }
+
+    void hidePlot(){
+        narrator.setAnimation(AnimationUtils.makeOutAnimation(this,true));
+        narrator.setVisibility(View.GONE);
     }
 }
