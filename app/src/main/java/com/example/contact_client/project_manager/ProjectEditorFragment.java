@@ -1,5 +1,6 @@
 package com.example.contact_client.project_manager;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,13 +19,15 @@ import com.example.contact_client.databinding.FragmentProjectEditorBinding;
 
 import java.io.File;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProjectEditorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ProjectEditorFragment extends Fragment {
-
+    protected static final int SEARCH_PHOTO = 1;
     private ProjectViewModel mViewModel;
     private FragmentProjectEditorBinding binding;
 
@@ -74,6 +77,13 @@ public class ProjectEditorFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_project_editor,container,false);
         binding.setLifecycleOwner(getActivity());
+
+        binding.imageViewProjectCover.setOnLongClickListener(v -> {
+            Toasty.info(getActivity().getApplicationContext(),"请选择新图片",Toasty.LENGTH_SHORT,true).show();
+            Intent intent = new Intent(getContext(),takePhotoActivity.class);
+            startActivityForResult(intent,SEARCH_PHOTO);
+            return true;
+        });
         return binding.getRoot();
     }
 
@@ -88,13 +98,13 @@ public class ProjectEditorFragment extends Fragment {
                 Glide.with(getContext())
                         .load(R.drawable.defualt_project_cover)
                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                        .into(binding.imageView2);
+                        .into(binding.imageViewProjectCover);
             }else{
                 Glide.with(getContext())
                         .load(Uri.fromFile(new File(s)))
                         .error(R.drawable.defualt_project_cover)
                         .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                        .into(binding.imageView2);
+                        .into(binding.imageViewProjectCover);
             }
         });
     }

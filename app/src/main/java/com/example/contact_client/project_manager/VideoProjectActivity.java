@@ -1,7 +1,9 @@
 package com.example.contact_client.project_manager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,8 +13,14 @@ import com.example.contact_client.databinding.ActivityVideoProjectBinding;
 import com.example.contact_client.project_manager.pageTransfomers.DepthPageTransformer;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class VideoProjectActivity extends AppCompatActivity {
+import org.devio.takephoto.model.TImage;
 
+import es.dmoral.toasty.Toasty;
+
+import static com.example.contact_client.project_manager.ProjectEditorFragment.SEARCH_PHOTO;
+
+public class VideoProjectActivity extends AppCompatActivity {
+    protected static final String IMAGE = "image";
     private ProjectViewModel mViewModel;
     private ActivityVideoProjectBinding binding;
 
@@ -56,4 +64,20 @@ public class VideoProjectActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case SEARCH_PHOTO:
+                if(resultCode==RESULT_OK){
+                    try {
+                        TImage image = (TImage)data.getSerializableExtra(IMAGE);
+                        mViewModel.getHintCover().setValue(image.getOriginalPath());
+                    }catch (Exception e){
+                        e.printStackTrace();
+                        Toasty.error(this,"更新头像失败",Toasty.LENGTH_SHORT).show();
+                    }
+                }
+        }
+    }
 }
