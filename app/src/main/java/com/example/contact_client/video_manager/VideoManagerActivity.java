@@ -97,7 +97,7 @@ public class VideoManagerActivity extends AppCompatActivity {
     }
 
     //编写按钮逻辑
-    //能否把mDisposable的相关操作移动到数据库中？
+    //todo:能否把mDisposable的相关操作移动到数据库中？
 
     public void ClearVideoCuts() {
         mDisposable.add(videoCutsViewModel.ClearVideoCuts()

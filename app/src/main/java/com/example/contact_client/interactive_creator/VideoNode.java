@@ -19,7 +19,7 @@ public class VideoNode implements Parcelable {
     private long Id;
     //子节点在列表中的index
     private List<Integer> sons;
-    //
+    //结点名称
     private String name;
 
     public VideoNode(int lastNodeIndex, int index, long id, String name) {
