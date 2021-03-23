@@ -94,8 +94,8 @@ public class SearchVideoCutAdapter extends RecyclerView.Adapter<SearchVideoCutAd
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.VideoCutIcon);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
+            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewDescription = itemView.findViewById(R.id.videoNodeCutNameUnfold);
             checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);
         }
     }

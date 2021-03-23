@@ -88,9 +88,9 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
-            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
+            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewDescription = itemView.findViewById(R.id.videoNodeCutNameUnfold);
+            imageViewEdit = itemView.findViewById(R.id.imageViewChange);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
     }

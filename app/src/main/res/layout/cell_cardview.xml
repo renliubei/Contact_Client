@@ -51,7 +51,7 @@
                 app:layout_constraintGuide_percent="0.8" />
 
             <TextView
-                android:id="@+id/videoNodeName"
+                android:id="@+id/videoNodeNameUnfold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="12"
@@ -64,15 +64,15 @@
                 app:layout_constraintTop_toTopOf="@+id/thumbnailOfCardView" />
 
             <TextView
-                android:id="@+id/videoNodeSons"
+                android:id="@+id/videoNodeCutNameUnfold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="25"
                 android:maxLines="2"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/videoNodeName"
-                app:layout_constraintTop_toBottomOf="@+id/videoNodeName" />
+                app:layout_constraintStart_toStartOf="@+id/videoNodeNameUnfold"
+                app:layout_constraintTop_toBottomOf="@+id/videoNodeNameUnfold" />
 
             <ImageView
                 android:id="@+id/thumbnailOfCardView"
@@ -88,7 +88,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
-                android:id="@+id/imageViewEdit"
+                android:id="@+id/imageViewChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -107,7 +107,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline24"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewEdit"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewChange"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
