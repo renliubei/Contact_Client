@@ -170,17 +170,14 @@ public class ProjectGalleryFragment extends Fragment {
         });
 
         //添加回调
-        galleryAdapter.setOnLongClickItem(new GalleryAdapter.onLongClickItem() {
-            @Override
-            public void onLongClickImage(View v, int position) {
-                onLongClickGalleryImage.onLongClick();
-                VideoProject videoProject = galleryAdapter.getVideoProjects().get(position);
-                Toasty.success(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toasty.LENGTH_SHORT).show();
-                mViewModel.setPosition(position);
-                mViewModel.getEditorHintName().setValue(videoProject.getName());
-                mViewModel.getEditorHintDecs().setValue(videoProject.getDescription());
-                mViewModel.getHintCover().setValue(videoProject.getCoverUrl());
-            }
+        galleryAdapter.setOnLongClickItem((v, position) -> {
+            onLongClickGalleryImage.onLongClick();
+            VideoProject videoProject = galleryAdapter.getVideoProjects().get(position);
+            Toasty.success(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toasty.LENGTH_SHORT).show();
+            mViewModel.setPosition(position);
+            mViewModel.getEditorHintName().setValue(videoProject.getName());
+            mViewModel.getEditorHintDecs().setValue(videoProject.getDescription());
+            mViewModel.getHintCover().setValue(videoProject.getCoverUrl());
         });
     }
 

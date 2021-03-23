@@ -32,8 +32,7 @@ public class VideoProjectActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
         mViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
 
-        fragmentPageAdapter adapter = new fragmentPageAdapter(this, () -> binding.viewPage2ProjectGallery.setCurrentItem(1, true),null);
-
+        fragmentPageAdapter adapter = new fragmentPageAdapter(this, () -> binding.viewPage2ProjectGallery.setCurrentItem(1, true), null);
         binding.viewPage2ProjectGallery.setAdapter(adapter);
         binding.viewPage2ProjectGallery.setPageTransformer(new DepthPageTransformer());
         binding.viewPage2ProjectGallery.setUserInputEnabled(false);
