@@ -73,7 +73,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         holder.textViewOrder.setText(String.valueOf(position+1));
         holder.imageViewEdit.setOnClickListener(v->{
             if (onClickItem != null) {
-                onClickItem.onClickEdit(v, position);
+                onClickItem.onClickChangeNode(v, position);
             }
         });
 
@@ -84,7 +84,7 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         });
         holder.imageViewDelete.setOnClickListener(v -> {
             if (onClickItem != null) {
-                onClickItem.onClickDelete(v, position);
+                onClickItem.onClickDeleteNode(v, position);
             }
         });
     }
@@ -96,8 +96,8 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
     }
 
     public interface onClickItem {
-        void onClickDelete(View v, int position);
-        void onClickEdit(View v,int position);
+        void onClickDeleteNode(View v, int position);
+        void onClickChangeNode(View v, int position);
         void onClick(View v,int position);
     }
 

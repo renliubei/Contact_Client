@@ -86,4 +86,9 @@ dependencies {
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.13.2'
+    
+    implementation 'com.ramotion.circlemenu:circle-menu:0.3.2'
+
+    implementation 'com.wang.avi:library:2.1.3'
+
 }

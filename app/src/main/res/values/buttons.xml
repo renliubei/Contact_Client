@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="icons">
+        <item>@drawable/ic_fi_rr_bulb</item>
+        <item>@drawable/ic_fi_rr_play_alt</item>
+        <item>@drawable/ic_fi_rr_resources</item>
+    </array>
+    <array name="colors">
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_red_light</item>
+        <item>@android:color/holo_orange_light</item>
+    </array>
+</resources>

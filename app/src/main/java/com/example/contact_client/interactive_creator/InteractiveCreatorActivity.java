@@ -391,12 +391,12 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void modifyRecyclerViewOnClick(){
         mBinding.recyclerView.post(() -> sonVideoCutsAdapter.setOnClickItem(new SonVideoCutsAdapter.onClickItem() {
             @Override
-            public void onClickEdit(View v, int position) {
+            public void onClickChangeNode(View v, int position) {
                 nodeEditor = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
                 showPopupMenu(v, CHANGE_VIDEO, CHANGE_NODE);
             }
             @Override
-            public void onClickDelete(View v, int position) {
+            public void onClickDeleteNode(View v, int position) {
                 //需要写对数据的删除
                 sonVideoCutsAdapter.removeData(position);
                 //没有保存的情况下删除会出错！
