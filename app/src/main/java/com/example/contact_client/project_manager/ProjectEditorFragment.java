@@ -109,8 +109,8 @@ public class ProjectEditorFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mViewModel = new ViewModelProvider(getActivity()).get(ProjectViewModel.class);
-        mViewModel.getEditorHintDecs().observe(this, s -> binding.projectDescEditor.setHint(s));
-        mViewModel.getEditorHintName().observe(this, s -> binding.projectNameEditor.setHint(s));
+        mViewModel.getEditorHintDecs().observe(this, s -> {binding.projectDescEditor.setHint(s);binding.projectDescEditor.getText().clear();});
+        mViewModel.getEditorHintName().observe(this, s -> {binding.projectNameEditor.setHint(s);binding.projectNameEditor.getText().clear();});
         mViewModel.getHintCover().observe(this, s -> {
             if(s==null){
                 Glide.with(getActivity())

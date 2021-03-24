@@ -56,6 +56,7 @@ public class FactoryFragment extends Fragment {
             @Override
             public void onButtonClickAnimationStart(@NonNull CircleMenuView view, int buttonIndex) {
                 super.onButtonClickAnimationStart(view, buttonIndex);
+                hideFadingText();
             }
 
             @Override

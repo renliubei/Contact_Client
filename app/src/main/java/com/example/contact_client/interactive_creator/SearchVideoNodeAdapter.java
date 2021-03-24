@@ -71,8 +71,8 @@ public class SearchVideoNodeAdapter extends RecyclerView.Adapter<SearchVideoNode
         CheckBox checkBox;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewSons = itemView.findViewById(R.id.videoNodeSons);
+            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewSons = itemView.findViewById(R.id.videoNodeCutNameUnfold);
             textViewIndex = itemView.findViewById(R.id.videoNodeIndex);
             checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);
         }

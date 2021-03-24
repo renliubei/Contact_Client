@@ -20,7 +20,7 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <TextView
-        android:id="@+id/videoNodeName"
+        android:id="@+id/videoNodeNameUnfold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -29,14 +29,14 @@
         android:maxLength="12"
         android:text="TextView"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/videoNodeSons"
+        app:layout_constraintBottom_toTopOf="@+id/videoNodeCutNameUnfold"
         app:layout_constraintEnd_toStartOf="@+id/guideline20"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline16"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/videoNodeSons"
+        android:id="@+id/videoNodeCutNameUnfold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -44,8 +44,8 @@
         android:maxLines="2"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/videoNodeName"
-        app:layout_constraintTop_toBottomOf="@+id/videoNodeName" />
+        app:layout_constraintStart_toStartOf="@+id/videoNodeNameUnfold"
+        app:layout_constraintTop_toBottomOf="@+id/videoNodeNameUnfold" />
 
     <ImageView
         android:id="@+id/VideoCutIcon"

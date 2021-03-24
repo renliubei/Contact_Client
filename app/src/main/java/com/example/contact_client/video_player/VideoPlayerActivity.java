@@ -309,7 +309,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     void hidePlot(){
-        narrator.setAnimation(AnimationUtils.makeOutAnimation(this,true));
-        narrator.setVisibility(View.GONE);
+        if(narrator.getVisibility()==View.VISIBLE){
+            narrator.setAnimation(AnimationUtils.makeOutAnimation(this,true));
+            narrator.setVisibility(View.GONE);
+        }
     }
 }

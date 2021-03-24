@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.R;
 import com.example.contact_client.repository.VideoCut;
+import com.ramotion.foldingcell.FoldingCell;
 
 import java.io.File;
 import java.util.List;
@@ -68,23 +70,27 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
                     .placeholder(R.drawable.ic_baseline_face_24)
                     .into(holder.imageView);
         }
-        holder.textViewName.setText(videoCut.getName());
-        holder.textViewDescription.setText(videoCut.getDescription());
+        holder.textViewCutName.setText(videoCut.getName());
+        holder.textViewCutNameUnfold.setText(videoCut.getName());
+        holder.textViewCutDesc.setText(videoCut.getDescription());
         holder.textViewOrder.setText(String.valueOf(position+1));
-        holder.imageViewEdit.setOnClickListener(v->{
+        holder.imageViewChange.setOnClickListener(v->{
             if (onClickItem != null) {
                 onClickItem.onClickChangeNode(v, position);
             }
         });
-
         holder.itemView.setOnClickListener(v -> {
-            if (onClickItem != null) {
-                onClickItem.onClick(v, position);
-            }
+            holder.foldingCell.toggle(false);
         });
         holder.imageViewDelete.setOnClickListener(v -> {
             if (onClickItem != null) {
                 onClickItem.onClickDeleteNode(v, position);
+            }
+        });
+        holder.enter.setOnClickListener(v -> {
+            holder.foldingCell.toggle(false);
+            if(onClickItem != null){
+                onClickItem.onClick(v,position);
             }
         });
     }
@@ -120,17 +126,29 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         notifyItemRangeInserted(start,videoCuts.size());
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewDescription,textViewOrder;
-        ImageView imageView,imageViewDelete,imageViewEdit;
-
+        TextView textViewNodeNameUnfold, textViewCutNameUnfold,textViewPlot,textViewBtnText,textViewSons,textViewCutDesc;
+        TextView textViewNodeName,textViewOrder, textViewCutName;
+        ImageView imageView,imageViewDelete, imageViewChange,head_image;
+        Button enter,edit;
+        FoldingCell foldingCell;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewCutDesc = itemView.findViewById(R.id.videoNodeCutDesc);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
-            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
+            textViewNodeName = itemView.findViewById(R.id.videoNodeName);
+            textViewCutName = itemView.findViewById(R.id.videoNodeCutName);
+            textViewNodeNameUnfold = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewCutNameUnfold = itemView.findViewById(R.id.videoNodeCutNameUnfold);
+            imageViewChange = itemView.findViewById(R.id.imageViewChange);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+            head_image = itemView.findViewById(R.id.head_image);
+            textViewPlot = itemView.findViewById(R.id.videoNodePlot);
+            textViewBtnText = itemView.findViewById(R.id.videoNodeBtnText);
+            textViewSons = itemView.findViewById(R.id.textViewSons);
             textViewOrder = itemView.findViewById(R.id.textViewOrder);
+            edit = itemView.findViewById(R.id.buttonEditNodeContent);
+            enter = itemView.findViewById(R.id.buttonEnterNode);
+            foldingCell = itemView.findViewById(R.id.foldingCell);
         }
     }
 }
