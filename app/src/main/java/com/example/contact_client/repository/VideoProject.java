@@ -17,11 +17,12 @@ import com.example.contact_client.repository.type_converter.VideoNodeListConvert
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.icu.lang.UCharacter.DecompositionType.ISOLATED;
-
 @Entity
 @TypeConverters(VideoNodeListConverter.class)
 public class VideoProject implements Parcelable{
+
+    @Ignore
+    public static final int ISOLATED = -2;
 
     @PrimaryKey(autoGenerate = true)
     private long Id;
@@ -152,7 +153,8 @@ public class VideoProject implements Parcelable{
         return "id: " + Id + "\t" + "name:" +name + "\t" + videoNodeList.toString()+"\t"+coverUrl;
     }
 
-    public void deleteNode(VideoNode videoNode,int fatherIndex){
+    public void deleteNode(@NonNull VideoNode videoNode,int fatherIndex){
+        if(fatherIndex>videoNode.getSons().size()) return;
         //删除父亲
         videoNode.getFathers().remove(fatherIndex);
         //根节点不能被孤立

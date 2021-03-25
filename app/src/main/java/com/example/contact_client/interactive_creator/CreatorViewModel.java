@@ -97,4 +97,9 @@ public class CreatorViewModel extends AndroidViewModel {
         return videoProjectDao.findById(id);
     }
     //...
+
+    //
+    public void deleteNode(VideoNode videoNode,int fatherIndex){
+        videoProject.deleteNode(videoNode,fatherIndex);
+    }
 }

@@ -46,7 +46,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     //用于指向需要编辑的VideoNode
     private VideoNode nodeEditor;
     //定义常用量
-    private static final int ISOLATED = -2;
     private static final int ROOT_NODE = -1;
     private static final int DO_NOT_CHANGE_NODE = -1;
     private static final int ADD_VIDEO = 1;
@@ -71,6 +70,17 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         mDisposable.clear();
+    }
+
+    void init(){
+        //绑定数据
+        bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
+        //配置recyclerView
+        modifyRecyclerView();
+        //注册按键功能
+        registerButtonEvents();
+        //初始化
+        initUI();
     }
 
     @Override
@@ -201,25 +211,8 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
     }
 
-    void deleteFatherAndCheckIsolation(@NotNull VideoNode videoNode, @NotNull VideoNode fatherNode){
-        //删除父亲
-        videoNode.getFathers().remove((Integer)fatherNode.getIndex());
-        //根节点不能被孤立
-        if(videoNode.getIndex()==0){
-            return;
-        }
-        //如果此结点已经没有任何父亲
-        if(videoNode.getFathers().size()==0){
-            //移动到被删除列表
-            videoNode.setId(ISOLATED);
-            mViewModel.getVideoProject().getIsolatedNodes().add(videoNode);
-            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + mViewModel.getVideoProject().getIsolatedNodes().toString());
-            //递归判断其儿子是否也被孤立
-            for(int i=0;i<videoNode.getSons().size();i++){
-                deleteFatherAndCheckIsolation(mViewModel.getVideoProject().getVideoNodeList().get(videoNode.getSons().get(i)),videoNode);
-            }
-            videoNode.getSons().clear();
-        }
+    void deleteNode(@NotNull VideoNode videoNode, @NotNull VideoNode fatherNode){
+        mViewModel.deleteNode(videoNode,videoNode.getFathers().indexOf(fatherNode));
     }
 
     public void updateFatherNodeUI(@NotNull VideoCut videoCut, int newIndex){
@@ -325,7 +318,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         List<VideoNode> notIsolatedNodes = new ArrayList<>();
         List<VideoNode> allNodes = mViewModel.getVideoProject().getVideoNodeList();
         for(int i=0;i<allNodes.size();i++){
-            if(allNodes.get(i).getId()!=ISOLATED){
+            if(allNodes.get(i).getId()!=VideoProject.ISOLATED){
                 notIsolatedNodes.add(allNodes.get(i));
             }
         }
@@ -405,7 +398,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     //移除此子节点
                     fatherNode.getSons().remove((Integer)targetNode.getIndex());
                     //如果子节点已经没有任何父亲则移动到孤立
-                    deleteFatherAndCheckIsolation(targetNode,fatherNode);
+                    deleteNode(targetNode,fatherNode);
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -444,16 +437,5 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }else{
             jumpToNode(mViewModel.getVideoNode().getIndex());
         }
-    }
-
-    void init(){
-        //绑定数据
-        bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
-        //配置recyclerView
-        modifyRecyclerView();
-        //注册按键功能
-        registerButtonEvents();
-        //初始化
-        initUI();
     }
 }

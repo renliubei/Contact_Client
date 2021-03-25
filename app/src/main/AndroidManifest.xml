@@ -31,8 +31,7 @@
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".MainActivity"
-
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"/>
         <activity android:name=".video_manager.GetLocalVideoCutActivity" />
         
         <activity android:name=".video_manager.VideoManagerActivity"

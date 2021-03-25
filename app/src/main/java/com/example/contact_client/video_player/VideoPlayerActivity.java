@@ -190,7 +190,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 constraintSet.connect(R.id.leftDownBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
                 constraintSet.connect(R.id.leftDownBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
-            default:
+            case 4:
                 constraintSet.clear(R.id.leftUpBtn);
                 constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
                 constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,R.id.guideline_player_50v,ConstraintSet.END);

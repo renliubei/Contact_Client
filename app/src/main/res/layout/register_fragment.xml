@@ -112,7 +112,7 @@
                 android:ems="10"
                 android:hint="@string/enterPhoneNumber"
                 android:inputType="phone"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/tertiary_text_light"
                 android:textSize="@dimen/hintSize"
@@ -132,7 +132,7 @@
                 android:ems="10"
                 android:hint="@string/enterName"
                 android:inputType="textPersonName"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/tertiary_text_light"
                 android:textSize="@dimen/hintSize"
@@ -152,7 +152,7 @@
                 android:ems="@integer/PasswordMaxlen"
                 android:hint="@string/enterPassword"
                 android:inputType="textPassword"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/tertiary_text_light"
                 android:textSize="@dimen/hintSize"
@@ -172,7 +172,7 @@
                 android:ems="@integer/PasswordMaxlen"
                 android:hint="@string/checkPassword"
                 android:inputType="textPassword"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/tertiary_text_light"
                 android:textSize="@dimen/hintSize"
@@ -192,39 +192,44 @@
                     android:id="@+id/sexRadioGroup">
 
                 <RadioButton
-                        android:text="@string/sexMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioMale"
-                        android:layout_weight="0.33"
-                        android:textSize="@dimen/hintSize"
-                        android:checked="true"/>
+                    android:id="@+id/radioMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:checked="true"
+                    android:text="@string/sexMale"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
 
                 <RadioButton
-                        android:text="@string/sexFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioFemale"
-                        android:layout_weight="0.33"
-                        android:textSize="@dimen/hintSize"/>
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="@string/sexFemale"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
 
                 <RadioButton
-                        android:text="@string/sexUnknown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioUnknown"
-                        android:layout_weight="0.34"
-                        android:textSize="@dimen/hintSize"/>
+                    android:id="@+id/radioUnknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="@string/sexUnknown"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
             </RadioGroup>
 
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/registerButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
                 android:text="@string/register"
                 android:textColor="@color/colorWhite"
-                android:textSize="@dimen/hintSize"
                 app:fb_defaultColor="#3b5998"
                 app:fb_focusColor="#5474b8"
                 app:layout_constraintBottom_toTopOf="@+id/guideline35"
@@ -243,8 +248,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/guideline34"
                 app:layout_constraintEnd_toStartOf="@+id/guideline36"
                 app:layout_constraintStart_toStartOf="@+id/guideline28"
-                app:layout_constraintTop_toTopOf="@+id/guideline34"
-                app:layout_constraintVertical_bias="0.894" />
+                app:layout_constraintTop_toTopOf="@+id/guideline34" />
 
             <Button
                 android:id="@+id/buttonCancelRegiser"
@@ -252,10 +256,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/shape_rounded_corner_matrix_white"
-                android:padding="10dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
                 android:text="取消"
                 android:textColor="@android:color/holo_red_dark"
-                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="@+id/registerButton"
                 app:layout_constraintStart_toStartOf="@+id/registerButton"
                 app:layout_constraintTop_toBottomOf="@+id/registerButton" />
@@ -264,7 +270,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:typeface="monospace"
                 app:layout_constraintBottom_toTopOf="@+id/guideline29"
                 app:layout_constraintEnd_toStartOf="@+id/guideline50"

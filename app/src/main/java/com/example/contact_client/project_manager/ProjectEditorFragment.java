@@ -90,18 +90,23 @@ public class ProjectEditorFragment extends Fragment {
         });
 
         binding.floatingActionButton.setOnClickListener(v -> {
-            VideoProject videoProject = mViewModel.getProjectsLiveDataList().getValue().get(mViewModel.getPosition());
-            if(!binding.projectNameEditor.getText().toString().isEmpty()) videoProject.setName(binding.projectNameEditor.getText().toString());
-            if(!binding.projectDescEditor.getText().toString().isEmpty()) videoProject.setDescription(binding.projectDescEditor.getText().toString());
-            if(mViewModel.getHintCover().getValue()!=null) videoProject.setCoverUrl(mViewModel.getHintCover().getValue());
-            Log.d("mylo","this is new pro: "+videoProject.toString());
-            compositeDisposable.add(
-                    mViewModel.insertVideoProject(videoProject)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aLong -> Toasty.success(getContext(),"成功保存到id为"+aLong+"的互动视频",Toasty.LENGTH_SHORT,true).show(),
-                            throwable -> {throwable.printStackTrace();})
-            );
+            try{
+                VideoProject videoProject = mViewModel.getProjectsLiveDataList().getValue().get(mViewModel.getPosition());
+                if(!binding.projectNameEditor.getText().toString().isEmpty()) videoProject.setName(binding.projectNameEditor.getText().toString());
+                if(!binding.projectDescEditor.getText().toString().isEmpty()) videoProject.setDescription(binding.projectDescEditor.getText().toString());
+                if(mViewModel.getHintCover().getValue()!=null) videoProject.setCoverUrl(mViewModel.getHintCover().getValue());
+                Log.d("mylo","this is new pro: "+videoProject.toString());
+                compositeDisposable.add(
+                        mViewModel.insertVideoProject(videoProject)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(aLong -> Toasty.success(getContext(),"成功保存到id为"+aLong+"的互动视频",Toasty.LENGTH_SHORT,true).show(),
+                                        Throwable::printStackTrace)
+                );
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(v.getContext(),"请现在画廊中长按视频",Toast.LENGTH_SHORT).show();
+            }
         });
         return binding.getRoot();
     }

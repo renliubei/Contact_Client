@@ -143,11 +143,13 @@ public class UserFragment extends Fragment {
         Bundle bundle = getActivity().getIntent().getBundleExtra("userData");
         userName = getView().findViewById(R.id.user_name);
         userPhone = getView().findViewById(R.id.user_phone);
-        Log.d("me", "initView");
-        Log.d("me", bundle.getString("name", ""));
-        Log.d("me", bundle.getString("phone", ""));
-        Log.d("me", bundle.getString("id", ""));
-        userName.setText(bundle.getString("name", ""));
-        userPhone.setText(bundle.getString("phone", ""));
+        if(bundle!=null){
+            Log.d("me", "initView");
+            Log.d("me", bundle.getString("name", ""));
+            Log.d("me", bundle.getString("phone", ""));
+            Log.d("me", bundle.getString("id", ""));
+            userName.setText(bundle.getString("name", "用户名"));
+            userPhone.setText(bundle.getString("phone", "12345678910"));
+        }
     }
 }
