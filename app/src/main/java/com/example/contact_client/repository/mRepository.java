@@ -60,4 +60,7 @@ public class mRepository {
         return videoCutDao.getAllById(Ids);
     }
 
+    public Single<Integer> deleteProject(VideoProject videoProject){
+        return videoProjectDao.deleteProject(videoProject);
+    }
 }

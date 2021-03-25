@@ -45,7 +45,6 @@ public class LoginFragment extends Fragment {
 
         telText = getView().findViewById(R.id.editTextPhone);
         pwdText = getView().findViewById(R.id.editPassword);
-
         loginButton = getView().findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +110,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO : finish the fragment for changing password
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

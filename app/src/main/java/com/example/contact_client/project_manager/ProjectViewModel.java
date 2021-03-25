@@ -87,4 +87,8 @@ public class ProjectViewModel extends AndroidViewModel {
     public Single<Long> insertVideoProject(VideoProject videoProject){
         return videoProjectDao.insertVideoProject(videoProject);
     }
+
+    public Single<Integer> deleteProject(VideoProject videoProject){
+        return videoProjectDao.deleteProject(videoProject);
+    }
 }

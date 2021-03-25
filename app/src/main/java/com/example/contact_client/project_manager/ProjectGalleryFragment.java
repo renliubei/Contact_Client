@@ -27,6 +27,9 @@ import com.example.contact_client.repository.VideoProject;
 import com.example.contact_client.video_player.VideoPlayerActivity;
 
 import es.dmoral.toasty.Toasty;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 
@@ -36,7 +39,7 @@ import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
  * create an instance of this fragment.
  */
 public class ProjectGalleryFragment extends Fragment {
-
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private ProjectViewModel mViewModel;
     private FragmentProjectGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
@@ -121,7 +124,7 @@ public class ProjectGalleryFragment extends Fragment {
         binding.recyclerViewBottomText.post(() -> bottomTextAdapter.setOnClickItem(new BottomTextAdapter.onClickItem() {
             @Override
             public void onClickDelete(View v, int position) {
-                Toast.makeText(v.getContext(),"you click delete",Toast.LENGTH_SHORT).show();
+                deleteProject(galleryAdapter.getVideoProjects().get(position));
             }
 
             @Override
@@ -200,6 +203,15 @@ public class ProjectGalleryFragment extends Fragment {
             intent.putExtra(getString(R.string.videoProject),videoProject);
             startActivity(intent);
         }
+    }
+
+    void deleteProject(VideoProject videoProject){
+        disposable.add(
+                mViewModel.deleteProject(videoProject)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+        );
     }
 
     public interface onLongClickGalleryImage{void onLongClick();}

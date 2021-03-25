@@ -30,7 +30,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class VideoPlayerActivity extends AppCompatActivity {
-    public final Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/SIMYOU.TTF");
+    public Typeface typeface;
     private static final int ROOT_NODE = -1;
     private VideoNode currentNode;
     private VideoProject mVideoProject;
@@ -52,7 +52,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
         getProject();
         initPlayer();
         narrator = findViewById(R.id.playerPlotNarrator);
-        narrator.setTypeface(typeface);
         bindBtn();
         playProject();
     }
