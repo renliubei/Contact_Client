@@ -20,10 +20,13 @@ import com.example.contact_client.R;
 
 import java.util.ArrayList;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 public class RegisterFragment extends Fragment {
-    private Button button;
+    private FancyButton registerButton;
     private EditText telText, nameText, pwdText, checkPwdText;
     private RadioGroup sexRadio;
+    private Button returnBtn;
     private String tel, name, pwd, checkPwd;
     private int sex;
     private ArrayList<String> res;
@@ -43,12 +46,18 @@ public class RegisterFragment extends Fragment {
 
         registerRepository = new DataRepository(getContext());
 
-        button = getView().findViewById(R.id.registerButton);
+        registerButton = getView().findViewById(R.id.registerButton);
         telText = getView().findViewById(R.id.editTextPhone2);
         nameText = getView().findViewById(R.id.editTextName);
         pwdText = getView().findViewById(R.id.editTextPassword);
         checkPwdText = getView().findViewById(R.id.editPasswordCheck);
         sexRadio = getView().findViewById(R.id.sexRadioGroup);
+        returnBtn = getView().findViewById(R.id.buttonCancelRegiser);
+
+        returnBtn.setOnClickListener(v -> {
+            NavController controller = Navigation.findNavController(v);
+            controller.navigate(R.id.action_registerFragment_to_loginFragment2);
+        });
 
         sexRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -65,7 +74,7 @@ public class RegisterFragment extends Fragment {
         });
 
 
-        button.setOnClickListener(new View.OnClickListener() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getInfo();
