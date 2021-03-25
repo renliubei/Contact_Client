@@ -1,5 +1,6 @@
 package com.example.contact_client.video_player;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class VideoPlayerActivity extends AppCompatActivity {
+    public final Typeface typeface = Typeface.createFromAsset(getAssets(),"fonts/SIMYOU.TTF");
     private static final int ROOT_NODE = -1;
     private VideoNode currentNode;
     private VideoProject mVideoProject;
@@ -50,6 +52,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         getProject();
         initPlayer();
         narrator = findViewById(R.id.playerPlotNarrator);
+        narrator.setTypeface(typeface);
         bindBtn();
         playProject();
     }
@@ -256,22 +259,22 @@ public class VideoPlayerActivity extends AppCompatActivity {
         List<VideoNode> nodes = mVideoProject.getVideoNodeList();
         List<Integer> sons = currentNode.getSons();
         if(showNum>=1){
-            leftUpBtn.setText(nodes.get(sons.get(0)).getName());
+            leftUpBtn.setText(nodes.get(sons.get(0)).getBtnText());
             leftUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftUpBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=2){
-            rightUpBtn.setText(nodes.get(sons.get(1)).getName());
+            rightUpBtn.setText(nodes.get(sons.get(1)).getBtnText());
             rightUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightUpBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=3){
-            leftDownBtn.setText(nodes.get(sons.get(2)).getName());
+            leftDownBtn.setText(nodes.get(sons.get(2)).getBtnText());
             leftDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftDownBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=4){
-            rightDownBtn.setText(nodes.get(sons.get(3)).getName());
+            rightDownBtn.setText(nodes.get(sons.get(3)).getBtnText());
             rightDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightDownBtn.setVisibility(View.VISIBLE);
         }
@@ -303,6 +306,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     void showPlot(){
+        narrator.setText(currentNode.getPlot());
         narrator.setAnimation(AnimationUtils.makeInAnimation(this,false));
         narrator.setVisibility(View.VISIBLE);
         narrator.bringToFront();

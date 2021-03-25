@@ -2,7 +2,6 @@ package com.example.contact_client;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,42 +22,33 @@ import com.ramotion.circlemenu.CircleMenuView;
 public class FactoryFragment extends Fragment {
     private FactoryFragmentBinding factoryFragmentBinding;
     private FactoryViewModel mViewModel;
-
     public static FactoryFragment newInstance() {
         return new FactoryFragment();
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         factoryFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.factory_fragment, container, false);
         factoryFragmentBinding.setLifecycleOwner(getActivity());
-
         factoryFragmentBinding.circleMenuMain.setEventListener(new CircleMenuView.EventListener(){
-
             @Override
             public void onMenuOpenAnimationEnd(@NonNull CircleMenuView view) {
                 super.onMenuOpenAnimationEnd(view);
                 showFadingText();
-                factoryFragmentBinding.textView.setAnimation(AnimationUtils.makeOutAnimation(view.getContext(),true));
-                factoryFragmentBinding.textView.setVisibility(View.INVISIBLE);
+                hideHeadText();
             }
-
             @Override
             public void onMenuCloseAnimationEnd(@NonNull CircleMenuView view) {
                 super.onMenuCloseAnimationEnd(view);
                 hideFadingText();
-                factoryFragmentBinding.textView.setAnimation(AnimationUtils.makeInAnimation(view.getContext(),true));
-                factoryFragmentBinding.textView.setVisibility(View.VISIBLE);
+                showHeadText();
             }
-
             @Override
             public void onButtonClickAnimationStart(@NonNull CircleMenuView view, int buttonIndex) {
                 super.onButtonClickAnimationStart(view, buttonIndex);
                 hideFadingText();
+                showHeadText();
             }
-
             @Override
             public void onButtonClickAnimationEnd(@NonNull CircleMenuView view, int buttonIndex) {
                 super.onButtonClickAnimationEnd(view, buttonIndex);
@@ -82,7 +72,6 @@ public class FactoryFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("mylo","on start!");
         hideFadingText();
     }
 
@@ -92,6 +81,7 @@ public class FactoryFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(FactoryViewModel.class);
         // TODO: Use the ViewModel
     }
+
     void hideFadingText(){
         factoryFragmentBinding.fadingTextPlay.stop();
         factoryFragmentBinding.fadingTextResource.stop();
@@ -108,5 +98,15 @@ public class FactoryFragment extends Fragment {
         factoryFragmentBinding.fadingTextPlay.setVisibility(View.VISIBLE);
         factoryFragmentBinding.fadingTextCreate.setVisibility(View.VISIBLE);
         factoryFragmentBinding.fadingTextResource.setVisibility(View.VISIBLE);
+    }
+
+    void showHeadText(){
+        factoryFragmentBinding.textView.setAnimation(AnimationUtils.makeInAnimation(getActivity(),true));
+        factoryFragmentBinding.textView.setVisibility(View.VISIBLE);
+    }
+
+    void hideHeadText(){
+        factoryFragmentBinding.textView.setAnimation(AnimationUtils.makeOutAnimation(getActivity(),true));
+        factoryFragmentBinding.textView.setVisibility(View.INVISIBLE);
     }
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -80,7 +81,7 @@ public class ProjectEditorFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_project_editor,container,false);
         binding.setLifecycleOwner(getActivity());
-
+        binding.imageViewProjectCover.setOnClickListener(v -> Toast.makeText(v.getContext(),"长按选择新图片",Toast.LENGTH_SHORT).show());
         binding.imageViewProjectCover.setOnLongClickListener(v -> {
             Toasty.info(getActivity().getApplicationContext(),"请选择新图片",Toasty.LENGTH_SHORT,true).show();
             Intent intent = new Intent(getActivity(),takePhotoActivity.class);

@@ -242,6 +242,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
     public void rebuildSonList(@NotNull VideoNode fatherNode){
+        sonVideoCutsAdapter.setCurrentNode(fatherNode);
         List<Long> ids = new ArrayList<>();
         List<Integer> sons = fatherNode.getSons();
         List<VideoNode> list = mViewModel.getVideoProject().getVideoNodeList();
@@ -292,12 +293,11 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                     //如果有被删除结点，回收
                     if(mViewModel.getVideoProject().getIsolatedNodes().size()>0){
                         videoNode = mViewModel.getVideoProject().getIsolatedNodes().remove(0);
-                        videoNode.setId(videoCut.getId());
-                        videoNode.setName(videoCut.getName());
+                        videoNode.toDefault();
                         videoNode.setLastNodeIndex(fatherNode.getIndex());
                     }else{
                     //不存在删除结点，新增
-                        videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),videoCut.getId(),videoCut.getName());
+                        videoNode = new VideoNode(fatherNode.getIndex(),mViewModel.getVideoProject().getListSize(),videoCut.getId());
                         mViewModel.getVideoProject().addNode(videoNode);
                     }
                     videoNode.addFather(fatherNode.getIndex());
@@ -340,7 +340,6 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {mViewModel.getVideoProject().setId(aLong); Toasty.success(this,"保存成功",Toast.LENGTH_SHORT,true).show();}));
     }
-
     void showPopupMenu(View view,int requestCodeVideoCut,int requestCodeVideoNode){
         PopupMenu popupMenu = new PopupMenu(this,view);
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu_for_creator,popupMenu.getMenu());
@@ -366,7 +365,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }
         if(videoProject==null){
             videoProject = new VideoProject("VideoProject","I am a Project!");
-            VideoNode videoNode = new VideoNode(-1,0,-1,"root");
+            VideoNode videoNode = new VideoNode(-1,0,-1);
             videoProject.addNode(videoNode);
         }
         mViewModel.setVideoProject(videoProject);
@@ -379,7 +378,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
     void modifyRecyclerViewAdapter(){
-        sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts());
+        sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts(),mViewModel.getVideoProject().getVideoNodeList(),mViewModel.getVideoNode());
         SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(sonVideoCutsAdapter);
         slideInLeftAnimationAdapter.setDuration(1000);
         slideInLeftAnimationAdapter.setInterpolator(new OvershootInterpolator());
@@ -429,12 +428,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
     void registerButtonEvents(){
-        mBinding.buttonAdd.setOnClickListener(v->showPopupMenu(v, ADD_VIDEO, ADD_NODE));
+        mBinding.floatingMenuItemAddVideo.setOnClickListener(v -> searchRoom(ADD_VIDEO));
+        mBinding.floatingMenuItemAddNode.setOnClickListener(v -> searchVideoNodeForIndexes(ADD_NODE));
         mBinding.buttonBack.setOnClickListener(v -> {
             saveVideoCutsToNodes(DO_NOT_CHANGE_NODE);
             goBack();
         });
-        mBinding.buttonSave.setOnClickListener(v-> saveProjectToDataBase());
+        mBinding.floatingMenuItemSave.setOnClickListener(v-> saveProjectToDataBase());
         mBinding.buttonJumpTo.setOnClickListener(v->searchVideoNodeForIndexes(JUMP));
     }
 

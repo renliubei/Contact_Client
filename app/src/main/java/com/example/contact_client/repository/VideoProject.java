@@ -2,6 +2,7 @@ package com.example.contact_client.repository;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -15,6 +16,8 @@ import com.example.contact_client.repository.type_converter.VideoNodeListConvert
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.icu.lang.UCharacter.DecompositionType.ISOLATED;
 
 @Entity
 @TypeConverters(VideoNodeListConverter.class)
@@ -130,14 +133,6 @@ public class VideoProject implements Parcelable{
         getVideoNodeList().add(videoNode);
     }
 
-    public void deleteNode(VideoNode videoNode){
-        getVideoNodeList().remove(videoNode);
-    }
-
-    public void deleteNodeById(int id){
-        getVideoNodeList().remove(id);
-    }
-
     public int getListSize(){
         return getVideoNodeList().size();
     }
@@ -155,5 +150,28 @@ public class VideoProject implements Parcelable{
     @Override
     public String toString() {
         return "id: " + Id + "\t" + "name:" +name + "\t" + videoNodeList.toString()+"\t"+coverUrl;
+    }
+
+    public void deleteNode(VideoNode videoNode,int fatherIndex){
+        //删除父亲
+        videoNode.getFathers().remove(fatherIndex);
+        //根节点不能被孤立
+        if(videoNode.getIndex()==0){
+            return;
+        }
+        //如果此结点已经没有任何父亲
+        if(videoNode.getFathers().size()==0){
+            //移动到被删除列表
+            videoNode.setId(ISOLATED);
+            isolatedNodes.add(videoNode);
+            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + isolatedNodes.toString());
+            //递归判断其儿子是否也被孤立
+            VideoNode son;
+            for(int i=0;i<videoNode.getSons().size();i++){
+                son = videoNodeList.get(videoNode.getSons().get(i));
+                deleteNode(son,son.getSons().indexOf(videoNode));
+            }
+            videoNode.getSons().clear();
+        }
     }
 }
