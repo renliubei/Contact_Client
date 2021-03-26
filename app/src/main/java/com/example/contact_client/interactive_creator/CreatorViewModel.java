@@ -69,10 +69,6 @@ public class CreatorViewModel extends AndroidViewModel {
         this.path = path;
     }
 
-    public void setVideoNode(VideoNode videoNode) {
-        this.videoNode = videoNode;
-    }
-
     public VideoProject getVideoProject() {
         return videoProject;
     }
@@ -99,7 +95,16 @@ public class CreatorViewModel extends AndroidViewModel {
     //...
 
     //
-    public void deleteNode(VideoNode videoNode,int fatherIndex){
-        videoProject.deleteNode(videoNode,fatherIndex);
+    public void deleteNode(int nodeIndex,int fatherIndex){
+        videoProject.deleteNode(nodeIndex,fatherIndex);
+    }
+    public boolean saveVideoCutsToCurrentNode(){
+        return videoProject.saveVideoCutsToNode(sonVideoCuts,videoNode.getIndex());
+    }
+    public void setCurrentNode(int nodeIndex){
+        videoNode = videoProject.getVideoNodeList().get(nodeIndex);
+    }
+    public void addSonNodes(List<Integer> sonIndexes){
+        videoProject.addSonNodes(videoNode.getIndex(),sonIndexes);
     }
 }
