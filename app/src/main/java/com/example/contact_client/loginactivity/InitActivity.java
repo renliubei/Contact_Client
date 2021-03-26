@@ -1,11 +1,13 @@
 package com.example.contact_client.loginactivity;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
 import com.example.contact_client.R;
 
 public class InitActivity extends AppCompatActivity {
