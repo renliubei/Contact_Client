@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
-import com.example.contact_client.VideoCut;
+import com.example.contact_client.repository.VideoCut;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View itemview = layoutInflater.inflate(R.layout.cell_cardview, parent, false);
-        return new MyViewHolder(itemview);
+        View itemView = layoutInflater.inflate(R.layout.cell_cardview, parent, false);
+        return new MyViewHolder(itemView);
     }
 
     private onClickItem onClickItem;
@@ -71,7 +71,7 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         });
     }
 
-    public void setOnClickItem(VideoCutsAdapter.onClickItem onClickItem) {
+    public void setOnClickItem(onClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
 
@@ -88,8 +88,8 @@ public class VideoCutsAdapter extends RecyclerView.Adapter<VideoCutsAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-            textViewDescription = itemView.findViewById(R.id.textViewDesc);
+            textViewName = itemView.findViewById(R.id.videoNodeName);
+            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
             imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
         }
