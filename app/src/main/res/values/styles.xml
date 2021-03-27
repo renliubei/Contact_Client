@@ -13,6 +13,14 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="Theme.AppCompat.NoActionBar">
+        <item name="windowActionBar">false</item>
+        //隐藏标题栏
+        <item name="windowNoTitle">true</item>
+        //隐藏状态栏
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="dialogStyle">
         <!--设置dialog的背景-->
         <item name="android:windowBackground">@android:color/transparent</item>

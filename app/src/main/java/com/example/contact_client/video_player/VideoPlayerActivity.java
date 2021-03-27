@@ -341,7 +341,4 @@ public class VideoPlayerActivity extends AppCompatActivity {
             narrator.setVisibility(View.GONE);
         }
     }
-
-    private class WindowManager {
-    }
 }
