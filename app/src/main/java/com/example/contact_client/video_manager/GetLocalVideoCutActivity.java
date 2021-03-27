@@ -105,9 +105,35 @@ public class GetLocalVideoCutActivity extends AppCompatActivity {
         // args for query
         String[] projection = new String[]{
                 MediaStore.Video.Thumbnails.DATA,
+                MediaStore.Video.Media.DISPLAY_NAME,
                 MediaStore.Video.Media._ID,
         };
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
+
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(
+                MediaStore.Video.Media.INTERNAL_CONTENT_URI,
+                projection,
+                null,
+                null,
+                sortOrder
+        )) {
+            // Cache column indices.
+            int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
+            int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
+            while (cursor.moveToNext()) {
+                // Get values of columns for a given video.
+                long id = cursor.getLong(idColumn);
+                String videoThumbnailPath = cursor.getString(dataColumn);
+                String name = cursor.getString(nameColumn);
+                Uri contentUri = ContentUris.withAppendedId(
+                        MediaStore.Video.Media.INTERNAL_CONTENT_URI, id);
+                VideoCut videoCut = new VideoCut(false, name, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
+                videoCut.setId(id);
+                list.add(videoCut);
+            }
+        }
 
         try (Cursor cursor = getApplicationContext().getContentResolver().query(
                 MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
@@ -119,17 +145,21 @@ public class GetLocalVideoCutActivity extends AppCompatActivity {
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
             int dataColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA);
+            int nameColumn =
+                    cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
             while (cursor.moveToNext()) {
                 // Get values of columns for a given video.
                 long id = cursor.getLong(idColumn);
                 String videoThumbnailPath = cursor.getString(dataColumn);
+                String name = cursor.getString(nameColumn);
                 Uri contentUri = ContentUris.withAppendedId(
                         MediaStore.Video.Media.EXTERNAL_CONTENT_URI, id);
-                VideoCut videoCut = new VideoCut(false, "VideoCut" + id, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
+                VideoCut videoCut = new VideoCut(false, name, "Is a VideoCut", contentUri.toString(), videoThumbnailPath);
                 videoCut.setId(id);
                 list.add(videoCut);
             }
         }
+
         return list;
     }
 }

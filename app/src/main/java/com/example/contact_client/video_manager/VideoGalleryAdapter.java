@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,7 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
+        holder.textView.setText(videoCut.getName());
         try {
             Glide.with(holder.itemView)
                     .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
@@ -73,11 +75,12 @@ public class VideoGalleryAdapter extends RecyclerView.Adapter<VideoGalleryAdapte
     static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         CheckBox checkbox;
-
+        TextView textView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.VideoThumbnail);
             checkbox = itemView.findViewById(R.id.videoCheckbutton);
+            textView = itemView.findViewById(R.id.textViewVideoName);
         }
     }
 }
