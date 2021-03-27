@@ -39,7 +39,19 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.mViewHol
 
     @Override
     public void onBindViewHolder(@NonNull mViewHolder holder, int position) {
+
         VideoProject videoProject = videoProjects.get(position);
+
+        holder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(onLongClickItem!=null){
+                    onLongClickItem.onLongClickImage(v,position);
+                }
+                return true;
+            }
+        });
+
         if (videoProject.getCoverUrl() == null) {
             Glide.with(holder.itemView)
                     .load(R.drawable.defualt_project_cover)
@@ -63,5 +75,15 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.mViewHol
             super(itemView);
             imageView = itemView.findViewById(R.id.imageViewProjectThumbnail);
         }
+    }
+
+    private onLongClickItem onLongClickItem;
+
+    public void setOnLongClickItem(GalleryAdapter.onLongClickItem onLongClickItem) {
+        this.onLongClickItem = onLongClickItem;
+    }
+
+    public interface onLongClickItem{
+        void onLongClickImage(View v,int position);
     }
 }

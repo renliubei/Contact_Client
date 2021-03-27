@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -73,74 +74,112 @@
                     app:layout_constraintGuide_percent="0.58"/>
 
             <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guideline35"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent="0.76"/>
+                android:id="@+id/guideline35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/guideline36"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.27"/>
+                android:id="@+id/guideline36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.3" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.2" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.8" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:ems="10"
-                    android:id="@+id/editTextPhone2"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline30"
-                    app:layout_constraintTop_toTopOf="@+id/guideline29"
-                    android:hint="@string/enterPhoneNumber"
-                    android:textSize="@dimen/hintSize"
-                    android:autofillHints=""/>
+                android:id="@+id/editTextPhone2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/shape_rounded_corner_matrix_grey"
+                android:drawableStart="@android:drawable/stat_sys_phone_call"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="@string/enterPhoneNumber"
+                android:inputType="phone"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:textSize="@dimen/hintSize"
+                app:layout_constraintBottom_toTopOf="@+id/guideline30"
+                app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                app:layout_constraintStart_toStartOf="@+id/guideline28"
+                app:layout_constraintTop_toTopOf="@+id/guideline29" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:ems="10"
-                    android:id="@+id/editTextName"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline31"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    app:layout_constraintTop_toTopOf="@+id/guideline30"
-                    android:hint="@string/enterName"
-                    android:textSize="@dimen/hintSize"
-                    android:autofillHints=""/>
+                android:id="@+id/editTextName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/shape_rounded_corner_matrix_grey"
+                android:drawableStart="@drawable/ic_baseline_account_circle_24"
+                android:drawablePadding="10dp"
+                android:ems="10"
+                android:hint="@string/enterName"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:textSize="@dimen/hintSize"
+                app:layout_constraintBottom_toTopOf="@+id/guideline31"
+                app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                app:layout_constraintStart_toStartOf="@+id/guideline28"
+                app:layout_constraintTop_toTopOf="@+id/guideline30" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:ems="@integer/PasswordMaxlen"
-                    android:id="@+id/editTextPassword"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline32"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                    app:layout_constraintTop_toTopOf="@+id/guideline31"
-                    android:hint="@string/enterPassword"
-                    android:textSize="@dimen/hintSize"
-                    android:autofillHints=""/>
+                android:id="@+id/editTextPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/shape_rounded_corner_matrix_grey"
+                android:drawableStart="@drawable/ic_baseline_vpn_key_24"
+                android:drawablePadding="10dp"
+                android:ems="@integer/PasswordMaxlen"
+                android:hint="@string/enterPassword"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:textSize="@dimen/hintSize"
+                app:layout_constraintBottom_toTopOf="@+id/guideline32"
+                app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                app:layout_constraintStart_toStartOf="@+id/guideline28"
+                app:layout_constraintTop_toTopOf="@+id/guideline31" />
 
             <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:ems="@integer/PasswordMaxlen"
-                    android:id="@+id/editPasswordCheck"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline33"
-                    app:layout_constraintTop_toTopOf="@+id/guideline32"
-                    android:hint="@string/checkPassword"
-                    android:textSize="@dimen/hintSize"
-                    android:autofillHints=""/>
+                android:id="@+id/editPasswordCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:background="@drawable/shape_rounded_corner_matrix_grey"
+                android:drawableStart="@drawable/ic_check_white_24dp"
+                android:drawablePadding="10dp"
+                android:ems="@integer/PasswordMaxlen"
+                android:hint="@string/checkPassword"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:textSize="@dimen/hintSize"
+                app:layout_constraintBottom_toTopOf="@+id/guideline33"
+                app:layout_constraintEnd_toStartOf="@+id/guideline26"
+                app:layout_constraintStart_toStartOf="@+id/guideline28"
+                app:layout_constraintTop_toTopOf="@+id/guideline32" />
 
             <RadioGroup
                     android:layout_width="0dp"
@@ -153,56 +192,90 @@
                     android:id="@+id/sexRadioGroup">
 
                 <RadioButton
-                        android:text="@string/sexMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioMale"
-                        android:layout_weight="0.33"
-                        android:textSize="@dimen/hintSize"
-                        android:checked="true"/>
-
-                <RadioButton
-                        android:text="@string/sexFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioFemale"
-                        android:layout_weight="0.33"
-                        android:textSize="@dimen/hintSize"/>
-
-                <RadioButton
-                        android:text="@string/sexUnknown"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioUnknown"
-                        android:layout_weight="0.34"
-                        android:textSize="@dimen/hintSize"/>
-            </RadioGroup>
-
-            <Button
-                    android:text="@string/register"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/registerButton"
-                    app:layout_constraintTop_toTopOf="@+id/guideline35"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline35"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline26"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    android:textSize="@dimen/hintSize"
-                    android:textColor="@color/colorWhite"
-                    android:background="@color/colorOrange"/>
-
-            <TextView
-                    android:text="@string/chooseSex"
+                    android:id="@+id/radioMale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView8"
-                    app:layout_constraintTop_toTopOf="@+id/guideline34"
-                    app:layout_constraintBottom_toTopOf="@+id/guideline34"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline36"
-                    app:layout_constraintVertical_bias="0.894"
-                    app:layout_constraintStart_toStartOf="@+id/guideline28"
-                    android:textSize="@dimen/hintSize"
-                    android:textColor="@color/colorBlack"/>
+                    android:layout_weight="0.33"
+                    android:checked="true"
+                    android:text="@string/sexMale"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
+
+                <RadioButton
+                    android:id="@+id/radioFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="@string/sexFemale"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
+
+                <RadioButton
+                    android:id="@+id/radioUnknown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:text="@string/sexUnknown"
+                    android:textColorLink="#FFFFFF"
+                    android:textSize="@dimen/hintSize" />
+            </RadioGroup>
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/registerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:text="@string/register"
+                android:textColor="@color/colorWhite"
+                app:fb_defaultColor="#3b5998"
+                app:fb_focusColor="#5474b8"
+                app:layout_constraintBottom_toTopOf="@+id/guideline35"
+                app:layout_constraintEnd_toStartOf="@+id/guideline50"
+                app:layout_constraintStart_toStartOf="@+id/guideline11"
+                app:layout_constraintTop_toTopOf="@+id/guideline35"
+                fancy:fb_radius="10dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chooseSex"
+                android:textColor="@android:color/tertiary_text_light"
+                android:textSize="@dimen/hintSize"
+                app:layout_constraintBottom_toTopOf="@+id/guideline34"
+                app:layout_constraintEnd_toStartOf="@+id/guideline36"
+                app:layout_constraintStart_toStartOf="@+id/guideline28"
+                app:layout_constraintTop_toTopOf="@+id/guideline34" />
+
+            <Button
+                android:id="@+id/buttonCancelRegiser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/shape_rounded_corner_matrix_white_red"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:text="取消"
+                android:textColor="@android:color/holo_red_dark"
+                app:layout_constraintEnd_toEndOf="@+id/registerButton"
+                app:layout_constraintStart_toStartOf="@+id/registerButton"
+                app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact"
+                android:textSize="30sp"
+                android:typeface="monospace"
+                app:layout_constraintBottom_toTopOf="@+id/guideline29"
+                app:layout_constraintEnd_toStartOf="@+id/guideline50"
+                app:layout_constraintStart_toStartOf="@+id/guideline11"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

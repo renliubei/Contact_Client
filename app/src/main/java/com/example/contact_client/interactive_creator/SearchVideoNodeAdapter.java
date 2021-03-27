@@ -50,7 +50,7 @@ public class SearchVideoNodeAdapter extends RecyclerView.Adapter<SearchVideoNode
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoNode videoNode = videoNodeList.get(position);
-        holder.textViewName.setText(videoNode.getName());
+        holder.textViewName.setText(videoNode.getNodeName());
         String sons = "sons: "+videoNode.getSons().toString();
         holder.textViewSons.setText(sons);
         String index = "P" + videoNode.getIndex();
@@ -71,8 +71,8 @@ public class SearchVideoNodeAdapter extends RecyclerView.Adapter<SearchVideoNode
         CheckBox checkBox;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewSons = itemView.findViewById(R.id.videoNodeSons);
+            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewSons = itemView.findViewById(R.id.videoNodeCutNameUnfold);
             textViewIndex = itemView.findViewById(R.id.videoNodeIndex);
             checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);
         }

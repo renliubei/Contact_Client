@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,15 +19,19 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.R;
 import com.example.contact_client.repository.VideoCut;
+import com.ramotion.foldingcell.FoldingCell;
 
 import java.io.File;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapter.MyViewHolder> {
 
-    private Transformation<Bitmap> circleCrop = new CircleCrop();
-
+    private final Transformation<Bitmap> circleCrop = new CircleCrop();
     private List<VideoCut> allVideoCuts;
+    private final List<VideoNode> nodes;
+    private VideoNode currentNode;
 
     public List<VideoCut> getAllVideoCuts() {
         return allVideoCuts;
@@ -36,8 +42,15 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         notifyDataSetChanged();
     }
 
-    public SonVideoCutsAdapter(List<VideoCut> allVideoCuts) {
+
+    public void setCurrentNode(VideoNode currentNode) {
+        this.currentNode = currentNode;
+    }
+
+    public SonVideoCutsAdapter(List<VideoCut> allVideoCuts, List<VideoNode> nodes, VideoNode currentNode) {
         this.allVideoCuts = allVideoCuts;
+        this.nodes = nodes;
+        this.currentNode = currentNode;
     }
 
     @NonNull
@@ -56,48 +69,89 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         VideoCut videoCut = allVideoCuts.get(position);
+        VideoNode videoNode = nodes.get(currentNode.getSons().get(position));
+        //图片
         if(videoCut.getId()==-1){
             Glide.with(holder.itemView)
                     .load(R.drawable.ic_baseline_home_48)
                     .placeholder(R.drawable.ic_baseline_face_24)
                     .into(holder.imageView);
-        }else{
             Glide.with(holder.itemView)
-                    .load(Uri.fromFile(new File(videoCut.getThumbnailPath())))
+                    .load(R.drawable.defualt_project_cover)
+                    .into(holder.head_image);
+        }else{
+            File file = new File(videoCut.getThumbnailPath());
+            Glide.with(holder.itemView)
+                    .load(Uri.fromFile(file))
                     .apply(RequestOptions.bitmapTransform(circleCrop))
                     .placeholder(R.drawable.ic_baseline_face_24)
                     .into(holder.imageView);
+            Glide.with(holder.itemView)
+                    .load(Uri.fromFile(file))
+                    .placeholder(R.drawable.ic_baseline_face_24)
+                    .into(holder.head_image);
         }
-        holder.textViewName.setText(videoCut.getName());
-        holder.textViewDescription.setText(videoCut.getDescription());
+        //读入结点信息
+        holder.textViewNodeName.setText(videoNode.getNodeName());
+        holder.textViewNodeNameUnfold.setText(videoNode.getNodeName());
+        holder.textViewPlot.setText(videoNode.getPlot());
+        holder.textViewBtnText.setText(videoNode.getBtnText());
         holder.textViewOrder.setText(String.valueOf(position+1));
-        holder.imageViewEdit.setOnClickListener(v->{
+        holder.textViewSons.setText(videoNode.getSons().toString());
+        //读入视频信息
+        holder.textViewCutName.setText(videoCut.getName());
+        holder.textViewCutNameUnfold.setText(videoCut.getName());
+        holder.textViewCutDesc.setText(videoCut.getDescription());
+        //注册按键事件
+        holder.imageViewChange.setOnClickListener(v->{
             if (onClickItem != null) {
-                onClickItem.onClickEdit(v, position);
+                onClickItem.onClickChangeNode(v, position);
             }
         });
 
         holder.itemView.setOnClickListener(v -> {
-            if (onClickItem != null) {
-                onClickItem.onClick(v, position);
-            }
+            holder.foldingCell.toggle(false);
         });
+
         holder.imageViewDelete.setOnClickListener(v -> {
             if (onClickItem != null) {
-                onClickItem.onClickDelete(v, position);
+                onClickItem.onClickDeleteNode(v, position);
             }
+        });
+
+        holder.enter.setOnClickListener(v -> {
+            holder.foldingCell.toggle(false);
+            if(onClickItem != null){
+                onClickItem.onClick(v,position);
+            }
+        });
+
+        holder.save.setOnClickListener(v -> {
+            if(!holder.textViewNodeNameUnfold.getText().toString().isEmpty()){
+                videoNode.setNodeName(holder.textViewNodeNameUnfold.getText().toString());
+                holder.textViewNodeName.setText(videoNode.getNodeName());
+            }else{
+                Toasty.error(v.getContext(),"名称不能为空",Toasty.LENGTH_SHORT).show();
+            }
+            if(!holder.textViewBtnText.getText().toString().isEmpty()){
+                videoNode.setBtnText(holder.textViewBtnText.getText().toString());
+            }else{
+                Toasty.error(v.getContext(),"选项内容不能为空",Toasty.LENGTH_SHORT).show();
+            }
+            if(!holder.textViewPlot.getText().toString().isEmpty()){
+                videoNode.setPlot(holder.textViewPlot.getText().toString());
+            }
+            Toast.makeText(v.getContext(),"保存成功",Toast.LENGTH_SHORT).show();
         });
     }
 
     private onClickItem onClickItem;
-
     public void setOnClickItem(onClickItem onClickItem) {
         this.onClickItem = onClickItem;
     }
-
     public interface onClickItem {
-        void onClickDelete(View v, int position);
-        void onClickEdit(View v,int position);
+        void onClickDeleteNode(View v, int position);
+        void onClickChangeNode(View v, int position);
         void onClick(View v,int position);
     }
 
@@ -109,28 +163,35 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         }
     }
 
-    public void clearData(){
-        allVideoCuts.clear();
-        notifyDataSetChanged();
-    }
-
     public void insertData(List<VideoCut> videoCuts){
         int start = getItemCount();
         allVideoCuts.addAll(videoCuts);
         notifyItemRangeInserted(start,videoCuts.size());
     }
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName, textViewDescription,textViewOrder;
-        ImageView imageView,imageViewDelete,imageViewEdit;
-
+        TextView textViewNodeNameUnfold, textViewCutNameUnfold,textViewPlot,textViewBtnText,textViewSons,textViewCutDesc;
+        TextView textViewNodeName,textViewOrder, textViewCutName;
+        ImageView imageView,imageViewDelete, imageViewChange,head_image;
+        Button enter,save;
+        FoldingCell foldingCell;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            textViewCutDesc = itemView.findViewById(R.id.videoNodeCutDesc);
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
-            textViewName = itemView.findViewById(R.id.videoNodeName);
-            textViewDescription = itemView.findViewById(R.id.videoNodeSons);
-            imageViewEdit = itemView.findViewById(R.id.imageViewEdit);
+            textViewNodeName = itemView.findViewById(R.id.videoNodeName);
+            textViewCutName = itemView.findViewById(R.id.videoNodeCutName);
+            textViewNodeNameUnfold = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewCutNameUnfold = itemView.findViewById(R.id.videoNodeCutNameUnfold);
+            imageViewChange = itemView.findViewById(R.id.imageViewChange);
             imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+            head_image = itemView.findViewById(R.id.head_image);
+            textViewPlot = itemView.findViewById(R.id.videoNodePlot);
+            textViewBtnText = itemView.findViewById(R.id.videoNodeBtnText);
+            textViewSons = itemView.findViewById(R.id.textViewSons);
             textViewOrder = itemView.findViewById(R.id.textViewOrder);
+            save = itemView.findViewById(R.id.buttonSaveNodeContent);
+            enter = itemView.findViewById(R.id.buttonEnterNode);
+            foldingCell = itemView.findViewById(R.id.foldingCell);
         }
     }
 }

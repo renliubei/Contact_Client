@@ -3,39 +3,46 @@ package com.example.contact_client.interactive_creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class VideoNode implements Parcelable {
+    private static final String DEFAULT_NAME = "新节点";
+    private static final String DEFAULT_PLOT = "从前有座山，山上有座庙";
+    private static final String DEFAULT_BTN_TEXT = "睡上一觉";
     //TODO:返回爹
-    private List<Integer> fathers;
+    private final List<Integer> fathers = new ArrayList<>();
+    //子节点在列表中的index
+    private final List<Integer> sons = new ArrayList<>();
     //最后一个到达这个Node的Node在列表中的index
     private int lastNodeIndex;
     //自身在列表中的index
     private int index;
     //定位到当前应该视频的在数据库中的Id
     private long Id;
-    //子节点在列表中的index
-    private List<Integer> sons;
-    //
-    private String name;
+    //结点名称
+    private String nodeName;
+    //结点选项提示
+    private String btnText;
+    //结点剧情
+    private String plot;
 
-    public VideoNode(int lastNodeIndex, int index, long id, String name) {
-        this.lastNodeIndex = lastNodeIndex;
+    public VideoNode(int lastNodeIndex,int index, long id) {
         this.index = index;
+        this.lastNodeIndex = lastNodeIndex;
         Id = id;
-        this.name = name;
+        toDefault();
     }
 
     protected VideoNode(Parcel in) {
         lastNodeIndex = in.readInt();
         index = in.readInt();
         Id = in.readLong();
-        name = in.readString();
-        in.readList(getSons(),Integer.class.getClassLoader());
-        in.readList(getFathers(),Integer.class.getClassLoader());
+        nodeName = in.readString();
+        btnText = in.readString();
+        plot = in.readString();
+        in.readList(fathers,Integer.class.getClassLoader());
+        in.readList(sons,Integer.class.getClassLoader());
     }
 
     @Override
@@ -43,9 +50,11 @@ public class VideoNode implements Parcelable {
         dest.writeInt(lastNodeIndex);
         dest.writeInt(index);
         dest.writeLong(Id);
-        dest.writeString(name);
-        dest.writeList(getSons());
-        dest.writeList(getFathers());
+        dest.writeString(nodeName);
+        dest.writeString(btnText);
+        dest.writeString(plot);
+        dest.writeList(fathers);
+        dest.writeList(sons);
     }
 
     @Override
@@ -66,9 +75,6 @@ public class VideoNode implements Parcelable {
     };
 
     public List<Integer> getFathers() {
-        if(fathers ==null){
-            fathers = new ArrayList<>();
-        }
         return fathers;
     }
 
@@ -85,44 +91,39 @@ public class VideoNode implements Parcelable {
     }
 
     public List<Integer> getSons() {
-        if(sons==null){
-            sons = new ArrayList<>();
-        }
         return sons;
     }
 
-    public String getName() {
-        return name;
+    public String getNodeName() {
+        return nodeName;
     }
 
-    public void setFathers(List<Integer> fathers) {
-        this.fathers = fathers;
+    public String getBtnText() {
+        return btnText;
+    }
+
+    public String getPlot() {
+        return plot;
+    }
+
+    public void setNodeName(String nodeName) {
+        this.nodeName = nodeName;
+    }
+
+    public void setBtnText(String btnText) {
+        this.btnText = btnText;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
     }
 
     public void setLastNodeIndex(int lastNodeIndex) {
         this.lastNodeIndex = lastNodeIndex;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     public void setId(long id) {
         Id = id;
-    }
-
-    public void setSons(List<Integer> sons) {
-        this.sons = sons;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return getName()+", sons: "+getSons().toString();
     }
 
     public void addSon(int sonIndex){
@@ -131,5 +132,11 @@ public class VideoNode implements Parcelable {
 
     public void addFather(int fatherIndex){
         getFathers().add(fatherIndex);
+    }
+
+    public void toDefault(){
+        nodeName  = DEFAULT_NAME;
+        btnText = DEFAULT_BTN_TEXT;
+        plot = DEFAULT_PLOT;
     }
 }

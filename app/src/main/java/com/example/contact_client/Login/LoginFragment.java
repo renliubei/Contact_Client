@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +20,11 @@ import com.example.contact_client.DataTransform.Status;
 import com.example.contact_client.MainActivity;
 import com.example.contact_client.R;
 
+import mehdi.sakout.fancybuttons.FancyButton;
+
 public class LoginFragment extends Fragment {
     private EditText telText, pwdText;
-    private Button loginButton;
+    private FancyButton loginButton;
     private TextView registerText, forgetPwdText;
     private String tel, pwd;
 
@@ -44,7 +45,6 @@ public class LoginFragment extends Fragment {
 
         telText = getView().findViewById(R.id.editTextPhone);
         pwdText = getView().findViewById(R.id.editPassword);
-
         loginButton = getView().findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +110,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // TODO : finish the fragment for changing password
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
         });
     }

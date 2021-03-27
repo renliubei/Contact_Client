@@ -16,82 +16,84 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/buttonNew"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:background="#FFEB3B"
-                android:text="新建互动视频"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline15"
-                app:layout_constraintEnd_toStartOf="@+id/guideline19"
-                app:layout_constraintStart_toStartOf="@+id/guideline18" />
-
-            <Button
-                android:id="@+id/buttonManageVideoCuts"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:background="#00BCD4"
-                android:text="管理视频素材"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toStartOf="@+id/guideline19"
-                app:layout_constraintStart_toStartOf="@+id/guideline18"
-                app:layout_constraintTop_toTopOf="@+id/guideline15" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline15"
+            <com.ramotion.circlemenu.CircleMenuView
+                android:id="@+id/circleMenuMain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline17"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.2" />
+                app:button_colors="@array/colors"
+                app:button_icons="@array/icons"
+                app:icon_color="#00BCD4"
+                app:icon_menu="@drawable/ic_fi_rr_interactive"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="这里制作和管理互动视频"
-                android:textColor="@color/cardview_dark_background"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/guideline17"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/circleMenuMain"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.5" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.tomer.fadingtextview.FadingTextView
+                android:id="@+id/fadingTextCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/circleMenuMain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/circleMenuMain"
+                app:texts="@array/createHint"
+                app:timeout="2000"
+                tools:visibility="visible" />
+
+            <com.tomer.fadingtextview.FadingTextView
+                android:id="@+id/fadingTextPlay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/circleMenuMain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/guideline9"
+                app:texts="@array/playHint"
+                app:timeout="2000"
+                tools:visibility="visible" />
+
+            <com.tomer.fadingtextview.FadingTextView
+                android:id="@+id/fadingTextResource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:textColor="@android:color/primary_text_light"
+                android:textSize="18sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/circleMenuMain"
+                app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:texts="@array/resourceHint"
+                app:timeout="2000"
+                tools:visibility="visible" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline18"
+                android:id="@+id/guideline9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.2" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline19"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.8" />
-
-            <Button
-                android:id="@+id/buttonManageProjects"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/tomato"
-                android:text="@string/manageProjects"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/buttonManageVideoCuts"
-                app:layout_constraintEnd_toStartOf="@+id/guideline19"
-                app:layout_constraintStart_toStartOf="@+id/guideline18"
-                app:layout_constraintTop_toBottomOf="@+id/buttonNew" />
+                app:layout_constraintGuide_percent="0.5" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

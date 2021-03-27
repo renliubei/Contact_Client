@@ -2,14 +2,10 @@ package com.example.contact_client.ProjectFactory;
 
 import android.content.Context;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.contact_client.repository.VideoProject;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static com.example.contact_client.ProjectFactory.FactoryConstant.NormalCell;
 
 public class VideoTree {
     private final Context context;

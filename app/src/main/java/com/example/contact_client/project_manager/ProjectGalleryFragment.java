@@ -1,6 +1,5 @@
 package com.example.contact_client.project_manager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +23,13 @@ import androidx.recyclerview.widget.SnapHelper;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.FragmentProjectGalleryBinding;
 import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
+import com.example.contact_client.repository.VideoProject;
+import com.example.contact_client.video_player.VideoPlayerActivity;
 
+import es.dmoral.toasty.Toasty;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
 
@@ -34,11 +39,12 @@ import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
  * create an instance of this fragment.
  */
 public class ProjectGalleryFragment extends Fragment {
-
+    private final CompositeDisposable disposable = new CompositeDisposable();
     private ProjectViewModel mViewModel;
     private FragmentProjectGalleryBinding binding;
     private GalleryAdapter galleryAdapter;
     private BottomTextAdapter bottomTextAdapter;
+    private onLongClickGalleryImage onLongClickGalleryImage;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,24 +56,20 @@ public class ProjectGalleryFragment extends Fragment {
     private String mParam2;
 
     public ProjectGalleryFragment() {
-        // Required empty public constructor
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param
+     * @param
      * @return A new instance of fragment ProjectGalleryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProjectGalleryFragment newInstance(String param1, String param2) {
+    public static ProjectGalleryFragment newInstance(onLongClickGalleryImage onLongClickGalleryImage) {
         ProjectGalleryFragment fragment = new ProjectGalleryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+        fragment.onLongClickGalleryImage = onLongClickGalleryImage;
         return fragment;
     }
 
@@ -122,18 +124,17 @@ public class ProjectGalleryFragment extends Fragment {
         binding.recyclerViewBottomText.post(() -> bottomTextAdapter.setOnClickItem(new BottomTextAdapter.onClickItem() {
             @Override
             public void onClickDelete(View v, int position) {
-                Toast.makeText(v.getContext(),"you click delete",Toast.LENGTH_SHORT).show();
+                deleteProject(galleryAdapter.getVideoProjects().get(position));
             }
 
             @Override
             public void onClickDisplay(View v, int position) {
-                Toast.makeText(v.getContext(),"you click display",Toast.LENGTH_SHORT).show();
+                startVideoPlayer(galleryAdapter.getVideoProjects().get(position));
             }
 
             @Override
             public void onClickEdit(View v, int position) {
-                mViewModel.setPosition(position);
-                startProjectCreator();
+                startProjectCreator(galleryAdapter.getVideoProjects().get(position));
             }
         }));
     }
@@ -170,36 +171,48 @@ public class ProjectGalleryFragment extends Fragment {
                 }
             }
         });
+
+        //添加回调
+        galleryAdapter.setOnLongClickItem((v, position) -> {
+            onLongClickGalleryImage.onLongClick();
+            VideoProject videoProject = galleryAdapter.getVideoProjects().get(position);
+            Toasty.success(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toasty.LENGTH_SHORT).show();
+            mViewModel.setPosition(position);
+            mViewModel.getEditorHintName().setValue(videoProject.getName());
+            mViewModel.getEditorHintDecs().setValue(videoProject.getDescription());
+            mViewModel.getHintCover().setValue(videoProject.getCoverUrl());
+        });
     }
 
 
-    void startProjectCreator(){
+    void startProjectCreator(VideoProject videoProject){
         if(mViewModel.getPosition()==-1){
             Toast.makeText(getActivity(),"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
         }else{
             Intent intent = new Intent(getActivity(), InteractiveCreatorActivity.class);
-            intent.putExtra(getString(R.string.videoProject), galleryAdapter.getVideoProjects().get(mViewModel.getPosition()).getId());
+            intent.putExtra(getString(R.string.videoProject), videoProject);
             startActivity(intent);
         }
     }
 
-    void startProjectEditor(){
-        Intent intent = new Intent(getActivity(), takePhotoActivity.class);
-        startActivity(intent);
+    void startVideoPlayer(VideoProject videoProject){
+        if(mViewModel.getPosition()==-1){
+            Toast.makeText(getActivity(),"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(getActivity(), VideoPlayerActivity.class);
+            intent.putExtra(getString(R.string.videoProject),videoProject);
+            startActivity(intent);
+        }
     }
 
-    class disScrollLinearLayoutManager extends LinearLayoutManager{
-        private boolean isScrollEnabled = true;
-        public disScrollLinearLayoutManager(Context context) {
-            super(context);
-        }
-        public void setScrollEnabled(boolean flag) {
-            this.isScrollEnabled = flag;
-        }
-        @Override
-        public boolean canScrollVertically() {
-            //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
-            return isScrollEnabled && super.canScrollVertically();
-        }
+    void deleteProject(VideoProject videoProject){
+        disposable.add(
+                mViewModel.deleteProject(videoProject)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+        );
     }
+
+    public interface onLongClickGalleryImage{void onLongClick();}
 }

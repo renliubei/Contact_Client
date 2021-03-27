@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="nameHints">
-    <item>你好，</item>
-    <item>此页面点击很有用</item>
+    <string-array name="createHint">
+    <item>灵光乍现</item>
+    <item>制作你的互动视频</item>
     </string-array>
 
-    <string-array name="decsHints">
-        <item>记得保存</item>
-        <item>或者不保存</item>
+    <string-array name="playHint">
+        <item>画廊和秘密</item>
+        <item>都有些什么呢？</item>
+    </string-array>
+
+    <string-array name="resourceHint">
+        <item>添加素材</item>
+        <item>永远是第一步</item>
     </string-array>
 
 </resources>

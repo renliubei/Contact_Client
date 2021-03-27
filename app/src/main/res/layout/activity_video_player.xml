@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".video_player.VideoPlayerActivity">
+
+  <Button
+      android:id="@+id/buttonRestart"
+      android:layout_width="200dp"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:text="重播"
+      android:textColor="@color/blue"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="@+id/guideline_player_80h"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/guideline_player_60h"
+      tools:visibility="visible" />
+
+  <Button
+      android:id="@+id/buttonQuit"
+      android:layout_width="200dp"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_red"
+      android:text="退出"
+      android:textColor="@color/darkred"
+      android:visibility="gone"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="@+id/guideline_player_80h"
+      tools:visibility="visible" />
+
+  <Button
+      android:id="@+id/leftUpBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:text="左上"
+      android:textColor="@android:color/primary_text_light_nodisable"
+      android:textStyle="bold"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="parent"
+      app:layout_constraintEnd_toStartOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/leftDownBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:text="左下"
+      android:textColor="@android:color/primary_text_light_nodisable"
+      android:textStyle="bold"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/leftUpBtn"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/rightUpBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:text="右上"
+      android:textColor="@android:color/primary_text_light_nodisable"
+      android:textStyle="bold"
+      android:visibility="gone"
+      app:layout_constraintStart_toStartOf="@+id/leftUpBtn"
+      app:layout_constraintTop_toTopOf="@+id/leftUpBtn" />
+
+  <Button
+      android:id="@+id/rightDownBtn"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:text="右下"
+      android:textColor="@android:color/primary_text_light_nodisable"
+      android:textStyle="bold"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="@+id/leftUpBtn"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline_player_50v"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintGuide_percent="0.5"
+      app:layout_constraintTop_toBottomOf="@+id/videoPlayerView" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline_player_60h"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintGuide_percent="0.6"
+      app:layout_constraintStart_toEndOf="@+id/guideline_player_80h" />
+
+  <androidx.constraintlayout.widget.Guideline
+      android:id="@+id/guideline_player_80h"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      app:layout_constraintEnd_toStartOf="@+id/guideline_player_60h"
+      app:layout_constraintGuide_percent="0.8"
+      app:layout_constraintStart_toEndOf="@+id/videoPlayerView" />
+
+  <TextView
+      android:id="@+id/playerPlotNarrator"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="这里是剧情"
+      android:textColor="#FFAB00"
+      android:textSize="18sp"
+      android:textStyle="bold"
+      android:visibility="gone"
+      app:layout_constraintBottom_toTopOf="@+id/guideline_player_60h"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:visibility="visible" />
+
+  <com.google.android.exoplayer2.ui.PlayerView
+      android:id="@+id/videoPlayerView"
+      android:layout_width="0dp"
+      android:layout_height="0dp"
+      android:visibility="visible"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+  </com.google.android.exoplayer2.ui.PlayerView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
