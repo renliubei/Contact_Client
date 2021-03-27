@@ -15,6 +15,12 @@ import com.example.contact_client.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding activityMainBinding;
     UserViewModel userViewModel;
+
+    // 权限请求
+    private RxPermissions rxPermissions;
+    // 是否拥有权限
+    private boolean hasPermissions = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

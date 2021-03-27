@@ -1,4 +1,4 @@
-package com.example.contact_client.Login;
+package com.example.contact_client.loginactivity;
 
 import android.os.Bundle;
 
