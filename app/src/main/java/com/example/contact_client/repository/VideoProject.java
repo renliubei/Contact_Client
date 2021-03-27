@@ -46,6 +46,8 @@ public class VideoProject implements Parcelable{
     public VideoProject(String name, String description) {
         this.name = name;
         this.description = description;
+        videoNodeList = new ArrayList<>();
+        isolatedNodes = new ArrayList<>();
     }
 
     protected VideoProject(Parcel in) {
@@ -93,9 +95,6 @@ public class VideoProject implements Parcelable{
     }
 
     public List<VideoNode> getVideoNodeList() {
-        if(videoNodeList==null){
-            videoNodeList = new ArrayList<>();
-        }
         return videoNodeList;
     }
 
@@ -104,9 +103,6 @@ public class VideoProject implements Parcelable{
     }
 
     public List<VideoNode> getIsolatedNodes() {
-        if(isolatedNodes ==null){
-            isolatedNodes = new ArrayList<>();
-        }
         return isolatedNodes;
     }
 
@@ -153,27 +149,91 @@ public class VideoProject implements Parcelable{
         return "id: " + Id + "\t" + "name:" +name + "\t" + videoNodeList.toString()+"\t"+coverUrl;
     }
 
-    public void deleteNode(@NonNull VideoNode videoNode,int fatherIndex){
-        if(fatherIndex>videoNode.getSons().size()) return;
+    public void deleteNode(int nodeIndex,int fatherIndex){
+        if(nodeIndex>=videoNodeList.size()) return;
+        VideoNode videoNode = videoNodeList.get(nodeIndex);
+        if(fatherIndex>=videoNodeList.size()|| !videoNode.getFathers().contains(fatherIndex)) return;
+        _deleteNode(nodeIndex,fatherIndex);
+    }
+
+    private void _deleteNode(int nodeIndex,int fatherIndex){
+        VideoNode videoNode = videoNodeList.get(nodeIndex);
         //删除父亲
-        videoNode.getFathers().remove(fatherIndex);
+        videoNode.getFathers().remove((Integer) fatherIndex);
+        Log.d("mylo",fatherIndex + videoNode.getFathers().toString());
         //根节点不能被孤立
         if(videoNode.getIndex()==0){
             return;
         }
         //如果此结点已经没有任何父亲
-        if(videoNode.getFathers().size()==0){
+        if(videoNode.getFathers().isEmpty()){
             //移动到被删除列表
             videoNode.setId(ISOLATED);
             isolatedNodes.add(videoNode);
             Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + isolatedNodes.toString());
             //递归判断其儿子是否也被孤立
-            VideoNode son;
             for(int i=0;i<videoNode.getSons().size();i++){
-                son = videoNodeList.get(videoNode.getSons().get(i));
-                deleteNode(son,son.getSons().indexOf(videoNode));
+                _deleteNode(videoNode.getSons().get(i),videoNode.getIndex());
             }
             videoNode.getSons().clear();
+        }
+    }
+
+    public boolean saveVideoCutsToNode(@NonNull List<VideoCut> list,int nodeIndex){
+        if(nodeIndex>=videoNodeList.size()) return false;
+        if(list.size()==0) return true;
+        return _saveVideoCutsToNode(list,nodeIndex);
+    }
+
+    private boolean _saveVideoCutsToNode(@NonNull List<VideoCut> list,int nodeIndex){
+        try{
+            VideoNode videoNode;
+            VideoCut videoCut;
+            VideoNode fatherNode = videoNodeList.get(nodeIndex);
+            for(int i=0;i<list.size();i++){
+                //替换Id
+                if(i<fatherNode.getSons().size()){
+                    //取出已存的sonNode
+                    videoNode = videoNodeList.get(fatherNode.getSons().get(i));
+                    //将Id替换为点击的VideoCut的Id
+                    videoNode.setId(list.get(i).getId());
+                }else{
+                    videoCut = list.get(i);
+                    //如果有被删除结点，回收
+                    if(isolatedNodes.size()>0){
+                        videoNode = isolatedNodes.remove(0);
+                        videoNode.toDefault();
+                        videoNode.setLastNodeIndex(fatherNode.getIndex());
+                    }else{
+                        //不存在删除结点，新增
+                        videoNode = new VideoNode(fatherNode.getIndex(),getListSize(),videoCut.getId());
+                        addNode(videoNode);
+                    }
+                    videoNode.addFather(fatherNode.getIndex());
+                    fatherNode.addSon(videoNode.getIndex());
+                }
+            }
+            Log.d("mylo","videoNodes are: "+videoNodeList.toString());
+            Log.d("mylo","sons are: "+fatherNode.getSons().toString());
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public void addSonNodes(int nodeIndex,List<Integer> newSons){
+        if(nodeIndex>=videoNodeList.size()) return;
+        for(int i=0;i<newSons.size();i++) if(newSons.get(i)>videoNodeList.size()) return;
+        _addSonNodes(nodeIndex,newSons);
+    }
+
+    private void _addSonNodes(int nodeIndex,List<Integer> newSons){
+        VideoNode node = videoNodeList.get(nodeIndex);
+        for(int i=0;i<newSons.size();i++){
+            if(!node.getSons().contains(newSons.get(i))){
+                node.getSons().add(newSons.get(i));
+            }
         }
     }
 }

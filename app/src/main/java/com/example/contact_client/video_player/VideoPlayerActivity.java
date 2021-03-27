@@ -1,6 +1,5 @@
 package com.example.contact_client.video_player;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +29,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class VideoPlayerActivity extends AppCompatActivity {
-    public Typeface typeface;
     private static final int ROOT_NODE = -1;
     private VideoNode currentNode;
     private VideoProject mVideoProject;
@@ -38,10 +36,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private  SimpleExoPlayer player;
     private mRepository mRepository;
     private PlayerView playerView;
-    private View.OnClickListener onClickBtn;
+    private View.OnClickListener onClickOptionBtn;
     ConstraintSet constraintSet = new ConstraintSet();
     private final CompositeDisposable mDisposable = new CompositeDisposable();
-    Button leftUpBtn,leftDownBtn,rightUpBtn,rightDownBtn;
+    Button leftUpBtn,leftDownBtn,rightUpBtn,rightDownBtn,restart,quit;
     TextView narrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +47,15 @@ public class VideoPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_player);
         mRepository = new mRepository(this);
         playerView = findViewById(R.id.videoPlayerView);
+        narrator = findViewById(R.id.playerPlotNarrator);
         getProject();
         initPlayer();
-        narrator = findViewById(R.id.playerPlotNarrator);
         bindBtn();
         playProject();
     }
-
     void playProject(){
         currentNode = mVideoProject.getVideoNodeList().get(0);
+        player.clearMediaItems();
         playCurrentNode();
     }
 
@@ -145,28 +143,28 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     private void relocateBtn(int btnNum){
+        int MARGIN = 20;
         constraintSet.clone(this,R.layout.activity_video_player);
         switch (btnNum){
             case 0:
                 Log.d("mylo","on relocate buttons: no sons");
-                break;
             case 1:
                 constraintSet.clear(R.id.leftUpBtn);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,MARGIN);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,MARGIN);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP,MARGIN);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM,MARGIN);
                 break;
             case 2:
                 constraintSet.clear(R.id.leftUpBtn);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
-                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,MARGIN);
+                constraintSet.connect(R.id.leftUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,MARGIN);
                 constraintSet.connect(R.id.leftUpBtn,ConstraintSet.TOP,R.id.guideline_player_60h,ConstraintSet.TOP);
                 constraintSet.connect(R.id.leftUpBtn,ConstraintSet.BOTTOM,R.id.guideline_player_80h,ConstraintSet.BOTTOM);
 
                 constraintSet.clear(R.id.rightUpBtn);
-                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START);
-                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.START,ConstraintSet.PARENT_ID,ConstraintSet.START,MARGIN);
+                constraintSet.connect(R.id.rightUpBtn,ConstraintSet.END,ConstraintSet.PARENT_ID,ConstraintSet.END,MARGIN);
                 constraintSet.connect(R.id.rightUpBtn,ConstraintSet.TOP,R.id.guideline_player_80h,ConstraintSet.TOP);
                 constraintSet.connect(R.id.rightUpBtn,ConstraintSet.BOTTOM,ConstraintSet.PARENT_ID,ConstraintSet.BOTTOM);
                 break;
@@ -234,8 +232,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
         rightDownBtn  = findViewById(R.id.rightDownBtn);
         leftUpBtn  = findViewById(R.id.leftUpBtn);
         rightUpBtn  = findViewById(R.id.rightUpBtn);
+        restart = findViewById(R.id.buttonRestart);
+        quit = findViewById(R.id.buttonQuit);
 
-        onClickBtn = v -> {
+        onClickOptionBtn = v -> {
                 if(v==leftUpBtn){
                     currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(0));
                 }else if(v==rightUpBtn){
@@ -245,16 +245,20 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 }else if(v==rightDownBtn){
                     currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(3));
                 }
+                hidePlot();
+                hideAllBtn();
                 playCurrentNode();
         };
 
-        leftUpBtn.setOnClickListener(onClickBtn);
-        rightDownBtn.setOnClickListener(onClickBtn);
-        rightUpBtn.setOnClickListener(onClickBtn);
-        leftDownBtn.setOnClickListener(onClickBtn);
+        leftUpBtn.setOnClickListener(onClickOptionBtn);
+        rightDownBtn.setOnClickListener(onClickOptionBtn);
+        rightUpBtn.setOnClickListener(onClickOptionBtn);
+        leftDownBtn.setOnClickListener(onClickOptionBtn);
+        restart.setOnClickListener(v -> playProject());
+        quit.setOnClickListener(v->finish());
     }
 
-    private void setBtnVisible(int showNum){
+    private void setOptionBtnVisible(int showNum){
         List<VideoNode> nodes = mVideoProject.getVideoNodeList();
         List<Integer> sons = currentNode.getSons();
         if(showNum>=1){
@@ -279,42 +283,65 @@ public class VideoPlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void showBtn(int bntNum){
+    private void showBtn(int sonsNum){
         playerView.setClickable(false);
-        relocateBtn(bntNum);
-        setBtnVisible(bntNum);
+        if(sonsNum==0)
+            showEndBtn();
+        else{
+            relocateBtn(sonsNum);
+            setOptionBtnVisible(sonsNum);
+        }
+    }
+
+    private void showEndBtn(){
+        quit.startAnimation(AnimationUtils.makeInAnimation(this,true));
+        quit.setVisibility(View.VISIBLE);
+
+        restart.startAnimation(AnimationUtils.makeInAnimation(this,true));
+        restart.setVisibility(View.VISIBLE);
     }
 
     private void hideAllBtn(){
         if(leftUpBtn.getVisibility()==View.VISIBLE){
-            leftUpBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             leftUpBtn.setVisibility(View.GONE);
+            leftUpBtn.startAnimation(AnimationUtils.makeOutAnimation(this,true));
         }
         if(leftDownBtn.getVisibility()==View.VISIBLE){
-            leftDownBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             leftDownBtn.setVisibility(View.GONE);
+            leftDownBtn.startAnimation(AnimationUtils.makeOutAnimation(this,true));
         }
         if(rightDownBtn.getVisibility()==View.VISIBLE){
-            rightDownBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             rightDownBtn.setVisibility(View.GONE);
+            rightDownBtn.startAnimation(AnimationUtils.makeOutAnimation(this,true));
         }
         if(rightUpBtn.getVisibility()==View.VISIBLE){
-            rightUpBtn.setAnimation(AnimationUtils.makeOutAnimation(this,true));
             rightUpBtn.setVisibility(View.GONE);
+            rightUpBtn.startAnimation(AnimationUtils.makeOutAnimation(this,true));
+        }
+        if(restart.getVisibility()==View.VISIBLE){
+            restart.setVisibility(View.GONE);
+            restart.startAnimation(AnimationUtils.makeOutAnimation(this,true));
+        }
+        if(quit.getVisibility()==View.VISIBLE){
+            quit.setVisibility(View.GONE);
+            quit.startAnimation(AnimationUtils.makeOutAnimation(this,true));
         }
     }
 
     void showPlot(){
         narrator.setText(currentNode.getPlot());
-        narrator.setAnimation(AnimationUtils.makeInAnimation(this,false));
-        narrator.setVisibility(View.VISIBLE);
         narrator.bringToFront();
+        narrator.startAnimation(AnimationUtils.makeInAnimation(this,false));
+        narrator.setVisibility(View.VISIBLE);
     }
 
     void hidePlot(){
         if(narrator.getVisibility()==View.VISIBLE){
-            narrator.setAnimation(AnimationUtils.makeOutAnimation(this,true));
+            narrator.startAnimation(AnimationUtils.makeOutAnimation(this,true));
             narrator.setVisibility(View.GONE);
         }
+    }
+
+    private class WindowManager {
     }
 }

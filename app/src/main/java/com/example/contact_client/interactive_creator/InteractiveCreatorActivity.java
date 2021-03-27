@@ -236,6 +236,8 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             ids.add(list.get(sons.get(i)).getId());
         }
         Log.d("mylo","sons id are : "+ids.toString());
+        mBinding.rebuildingSonListLoader.bringToFront();
+        mBinding.rebuildingSonListLoader.smoothToShow();
         mDisposable.add(mViewModel.getAllById(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -254,6 +256,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    mBinding.rebuildingSonListLoader.smoothToHide();
                     sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts());
                     Log.d("mylo","update VideoCuts: "+mViewModel.getSonVideoCuts().toString());
                 }, throwable -> Log.d("mylo", "accept: Unable to get sons by id!")));

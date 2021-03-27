@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".video_player.VideoPlayerActivity"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".project_manager.takePhotoActivity"/>
         <activity android:name=".project_manager.VideoProjectActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
@@ -60,6 +60,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

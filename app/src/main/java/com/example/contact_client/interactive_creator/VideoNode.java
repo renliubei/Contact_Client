@@ -11,9 +11,9 @@ public class VideoNode implements Parcelable {
     private static final String DEFAULT_PLOT = "从前有座山，山上有座庙";
     private static final String DEFAULT_BTN_TEXT = "睡上一觉";
     //TODO:返回爹
-    private List<Integer> fathers = new ArrayList<>();
+    private final List<Integer> fathers = new ArrayList<>();
     //子节点在列表中的index
-    private List<Integer> sons = new ArrayList<>();
+    private final List<Integer> sons = new ArrayList<>();
     //最后一个到达这个Node的Node在列表中的index
     private int lastNodeIndex;
     //自身在列表中的index
@@ -27,10 +27,9 @@ public class VideoNode implements Parcelable {
     //结点剧情
     private String plot;
 
-    public VideoNode(int fatherIndex,int index, long id) {
+    public VideoNode(int lastNodeIndex,int index, long id) {
         this.index = index;
-        fathers.add(fatherIndex);
-        lastNodeIndex = fatherIndex;
+        this.lastNodeIndex = lastNodeIndex;
         Id = id;
         toDefault();
     }
