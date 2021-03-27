@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.contact_client.databinding.ActivityMainBinding;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding activityMainBinding;
