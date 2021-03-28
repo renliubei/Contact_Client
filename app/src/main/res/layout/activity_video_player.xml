@@ -40,6 +40,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:padding="10dp"
       android:text="左上"
       android:textColor="@android:color/primary_text_light_nodisable"
       android:textStyle="bold"
@@ -54,6 +55,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:padding="10dp"
       android:text="左下"
       android:textColor="@android:color/primary_text_light_nodisable"
       android:textStyle="bold"
@@ -67,6 +69,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:padding="10dp"
       android:text="右上"
       android:textColor="@android:color/primary_text_light_nodisable"
       android:textStyle="bold"
@@ -79,6 +82,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:background="@drawable/shape_rounded_corner_matrix_white_blue"
+      android:padding="10dp"
       android:text="右下"
       android:textColor="@android:color/primary_text_light_nodisable"
       android:textStyle="bold"
@@ -118,8 +122,10 @@
       android:id="@+id/playerPlotNarrator"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:background="@drawable/shape_rounded_corner_matrix_white_red"
+      android:padding="15dp"
       android:text="这里是剧情"
-      android:textColor="#FFAB00"
+      android:textColor="#D50000"
       android:textSize="18sp"
       android:textStyle="bold"
       android:visibility="gone"
@@ -137,7 +143,8 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      app:layout_constraintTop_toTopOf="parent"
+      app:resize_mode="fill">
 
   </com.google.android.exoplayer2.ui.PlayerView>
 

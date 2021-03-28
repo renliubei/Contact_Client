@@ -215,13 +215,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
         }
 
         constraintSet.constrainWidth(R.id.rightUpBtn,ConstraintSet.MATCH_CONSTRAINT);
-        constraintSet.constrainHeight(R.id.rightUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.rightUpBtn,ConstraintSet.WRAP_CONTENT);
         constraintSet.constrainWidth(R.id.leftUpBtn,ConstraintSet.MATCH_CONSTRAINT);
-        constraintSet.constrainHeight(R.id.leftUpBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.leftUpBtn,ConstraintSet.WRAP_CONTENT);
         constraintSet.constrainWidth(R.id.rightDownBtn,ConstraintSet.MATCH_CONSTRAINT);
-        constraintSet.constrainHeight(R.id.rightDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.rightDownBtn,ConstraintSet.WRAP_CONTENT);
         constraintSet.constrainWidth(R.id.leftDownBtn,ConstraintSet.MATCH_CONSTRAINT);
-        constraintSet.constrainHeight(R.id.leftDownBtn,ConstraintSet.MATCH_CONSTRAINT);
+        constraintSet.constrainHeight(R.id.leftDownBtn,ConstraintSet.WRAP_CONTENT);
 
         ConstraintLayout constraintLayout = getWindow().getDecorView().findViewById(R.id.playerLayout);
         constraintSet.applyTo(constraintLayout);
