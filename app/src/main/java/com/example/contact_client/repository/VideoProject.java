@@ -11,18 +11,26 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.example.contact_client.interactive_creator.Condition.Condition;
 import com.example.contact_client.interactive_creator.VideoNode;
+import com.example.contact_client.repository.type_converter.ConditionListConverter;
 import com.example.contact_client.repository.type_converter.VideoNodeListConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 保存互动视频
+ */
 @Entity
-@TypeConverters(VideoNodeListConverter.class)
+@TypeConverters({VideoNodeListConverter.class, ConditionListConverter.class})
 public class VideoProject implements Parcelable{
 
     @Ignore
     public static final int ISOLATED = -2;
+
+    @ColumnInfo
+    private List<Condition> conditions;
 
     @PrimaryKey(autoGenerate = true)
     private long Id;
@@ -48,12 +56,14 @@ public class VideoProject implements Parcelable{
         this.description = description;
         videoNodeList = new ArrayList<>();
         isolatedNodes = new ArrayList<>();
+        conditions = new ArrayList<>();
     }
 
     protected VideoProject(Parcel in) {
         Id = in.readLong();
         videoNodeList = in.createTypedArrayList(VideoNode.CREATOR);
         isolatedNodes = in.createTypedArrayList(VideoNode.CREATOR);
+        conditions = in.createTypedArrayList(Condition.CREATOR);
         name = in.readString();
         description = in.readString();
         coverUrl = in.readString();
@@ -64,6 +74,7 @@ public class VideoProject implements Parcelable{
         dest.writeLong(Id);
         dest.writeTypedList(videoNodeList);
         dest.writeTypedList(isolatedNodes);
+        dest.writeTypedList(conditions);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeString(coverUrl);
@@ -86,6 +97,22 @@ public class VideoProject implements Parcelable{
         }
     };
 
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
+    public void setConditions(List<Condition> conditions) {
+        this.conditions = conditions;
+    }
+
+    public void setVideoNodeList(List<VideoNode> videoNodeList) {
+        this.videoNodeList = videoNodeList;
+    }
+
+    public void setIsolatedNodes(List<VideoNode> isolatedNodes) {
+        this.isolatedNodes = isolatedNodes;
+    }
+
     public long getId() {
         return Id;
     }
@@ -98,16 +125,8 @@ public class VideoProject implements Parcelable{
         return videoNodeList;
     }
 
-    public void setVideoNodeList(List<VideoNode> videoNodeList) {
-        this.videoNodeList = videoNodeList;
-    }
-
     public List<VideoNode> getIsolatedNodes() {
         return isolatedNodes;
-    }
-
-    public void setIsolatedNodes(List<VideoNode> isolatedNodes) {
-        this.isolatedNodes = isolatedNodes;
     }
 
     public String getName() {
@@ -149,6 +168,11 @@ public class VideoProject implements Parcelable{
         return "id: " + Id + "\t" + "name:" +name + "\t" + videoNodeList.toString()+"\t"+coverUrl;
     }
 
+    /**
+     * 删除某个结点与某个父亲的联系，同时判断该结点是否孤立，是则移动到孤立列表中，无法被访问
+     * @param nodeIndex 结点下标
+     * @param fatherIndex 结点父亲的下标
+     */
     public void deleteNode(int nodeIndex,int fatherIndex){
         if(nodeIndex>=videoNodeList.size()) return;
         VideoNode videoNode = videoNodeList.get(nodeIndex);
@@ -179,6 +203,12 @@ public class VideoProject implements Parcelable{
         }
     }
 
+    /**
+     * 将videoCut列表保存为某个结点的孩子
+     * @param list 需要保存为孩子的列表
+     * @param nodeIndex 需要保存到结点的下标
+     * @return 成功返回true，失败返回false
+     */
     public boolean saveVideoCutsToNode(@NonNull List<VideoCut> list,int nodeIndex){
         if(nodeIndex>=videoNodeList.size()) return false;
         if(list.size()==0) return true;
@@ -222,6 +252,12 @@ public class VideoProject implements Parcelable{
         }
     }
 
+    /**
+     * 为某个结点添加已存在的子结点
+     * 确保每个新节点是该互动视频的结点
+     * @param nodeIndex 结点下标
+     * @param newSons 新节点下标数组
+     */
     public void addSonNodes(int nodeIndex,List<Integer> newSons){
         if(nodeIndex>=videoNodeList.size()) return;
         for(int i=0;i<newSons.size();i++) if(newSons.get(i)>videoNodeList.size()) return;

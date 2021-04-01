@@ -3,17 +3,29 @@ package com.example.contact_client.interactive_creator;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
+import com.example.contact_client.interactive_creator.Condition.ConditionChanger;
+import com.example.contact_client.interactive_creator.Condition.ConditionJudge;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 互动视频每个结点的信息
+ */
 public class VideoNode implements Parcelable {
     private static final String DEFAULT_NAME = "新节点";
-    private static final String DEFAULT_PLOT = "从前有座山，山上有座庙";
-    private static final String DEFAULT_BTN_TEXT = "睡上一觉";
+    private static final String DEFAULT_PLOT = "默认剧情";
+    private static final String DEFAULT_BTN_TEXT = "默认选项内容";
     //TODO:返回爹
-    private final List<Integer> fathers = new ArrayList<>();
+    private  List<Integer> fathers = new ArrayList<>();
     //子节点在列表中的index
-    private final List<Integer> sons = new ArrayList<>();
+    private  List<Integer> sons = new ArrayList<>();
+    //条件判断者
+    private List<ConditionJudge> judges = new ArrayList<>();
+    //条件改变者
+    private List<ConditionChanger> changers = new ArrayList<>();
     //最后一个到达这个Node的Node在列表中的index
     private int lastNodeIndex;
     //自身在列表中的index
@@ -27,6 +39,7 @@ public class VideoNode implements Parcelable {
     //结点剧情
     private String plot;
 
+
     public VideoNode(int lastNodeIndex,int index, long id) {
         this.index = index;
         this.lastNodeIndex = lastNodeIndex;
@@ -35,26 +48,30 @@ public class VideoNode implements Parcelable {
     }
 
     protected VideoNode(Parcel in) {
+        judges = in.createTypedArrayList(ConditionJudge.CREATOR);
+        changers = in.createTypedArrayList(ConditionChanger.CREATOR);
+        in.readList(sons,Integer.class.getClassLoader());
+        in.readList(fathers,Integer.class.getClassLoader());
         lastNodeIndex = in.readInt();
         index = in.readInt();
         Id = in.readLong();
         nodeName = in.readString();
         btnText = in.readString();
         plot = in.readString();
-        in.readList(fathers,Integer.class.getClassLoader());
-        in.readList(sons,Integer.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(judges);
+        dest.writeTypedList(changers);
+        dest.writeList(sons);
+        dest.writeList(fathers);
         dest.writeInt(lastNodeIndex);
         dest.writeInt(index);
         dest.writeLong(Id);
         dest.writeString(nodeName);
         dest.writeString(btnText);
         dest.writeString(plot);
-        dest.writeList(fathers);
-        dest.writeList(sons);
     }
 
     @Override
@@ -127,11 +144,11 @@ public class VideoNode implements Parcelable {
     }
 
     public void addSon(int sonIndex){
-        getSons().add(sonIndex);
+        sons.add(sonIndex);
     }
 
     public void addFather(int fatherIndex){
-        getFathers().add(fatherIndex);
+        fathers.add(fatherIndex);
     }
 
     public void toDefault(){
@@ -139,4 +156,18 @@ public class VideoNode implements Parcelable {
         btnText = DEFAULT_BTN_TEXT;
         plot = DEFAULT_PLOT;
     }
+
+    public void addJudge(@NonNull ConditionJudge judge){
+        judges.add(judge);
+    }
+    public void removeJudge(@NonNull ConditionJudge judge){
+        judges.remove(judge);
+    }
+    public void addChanger(@NonNull ConditionChanger changer){
+        changers.add(changer);
+    }
+    public void removeChanger(@NonNull ConditionChanger changer){
+        changers.remove(changer);
+    }
+
 }
