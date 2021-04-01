@@ -76,27 +76,27 @@ public class Condition implements Parcelable {
     /**
      * 使条件值恢复默认
      */
-    public void toDefault(){
+    protected void toDefault(){
         value = defaultValue;
     }
 
-    public String getConditionName() {
+    protected String getConditionName() {
         return conditionName;
     }
 
-    public void setConditionName(String conditionName) {
+    protected void setConditionName(String conditionName) {
         this.conditionName = conditionName;
     }
 
-    public int getDefaultValue() {
+    protected int getDefaultValue() {
         return defaultValue;
     }
 
-    public void setDefaultValue(int defaultValue) {
+    protected void setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
     }
 
-    public int getValue() {
+    protected int getValue() {
         return value;
     }
 

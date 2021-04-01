@@ -123,6 +123,14 @@ public class VideoNode implements Parcelable {
         return plot;
     }
 
+    public List<ConditionJudge> getJudges() {
+        return judges;
+    }
+
+    public List<ConditionChanger> getChangers() {
+        return changers;
+    }
+
     public void setNodeName(String nodeName) {
         this.nodeName = nodeName;
     }
