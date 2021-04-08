@@ -131,6 +131,7 @@ public class ProjectEditorFragment extends Fragment {
                         .into(binding.imageViewProjectCover);
             }
         });
+        mViewModel.getHeadInfo().observe(this, s -> binding.textViewProjectEditiorHead.setText(s));
     }
 
     public interface onClickItem{

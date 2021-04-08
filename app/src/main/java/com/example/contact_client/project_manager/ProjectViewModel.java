@@ -28,6 +28,8 @@ public class ProjectViewModel extends AndroidViewModel {
     private MutableLiveData<String> editorHintDecs;
     //编辑界面的封面提示
     private MutableLiveData<String> hintCover;
+    //编辑界面的封面提示
+    private MutableLiveData<String> headInfo;
 
     public ProjectViewModel(@NonNull Application application) {
         super(application);
@@ -47,18 +49,6 @@ public class ProjectViewModel extends AndroidViewModel {
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    public void setEditorHintName(MutableLiveData<String> editorHintName) {
-        this.editorHintName = editorHintName;
-    }
-
-    public void setEditorHintDecs(MutableLiveData<String> editorHintDecs) {
-        this.editorHintDecs = editorHintDecs;
-    }
-
-    public void setHintCover(MutableLiveData<String> hintCover) {
-        this.hintCover = hintCover;
     }
 
     public MutableLiveData<String> getEditorHintName() {
@@ -82,6 +72,13 @@ public class ProjectViewModel extends AndroidViewModel {
             hintCover = new MutableLiveData<>();
         }
         return hintCover;
+    }
+
+    public MutableLiveData<String> getHeadInfo() {
+        if(headInfo==null){
+            headInfo = new MutableLiveData<>();
+        }
+        return headInfo;
     }
 
     public Single<Long> insertVideoProject(VideoProject videoProject){

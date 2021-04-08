@@ -27,7 +27,6 @@ import com.example.contact_client.project_creator.MainActivity;
 import com.example.contact_client.repository.VideoProject;
 import com.example.contact_client.video_player.VideoPlayerActivity;
 
-import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -178,11 +177,12 @@ public class ProjectGalleryFragment extends Fragment {
         galleryAdapter.setOnLongClickItem((v, position) -> {
             onLongClickGalleryImage.onLongClick();
             VideoProject videoProject = galleryAdapter.getVideoProjects().get(position);
-            Toasty.success(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toasty.LENGTH_SHORT).show();
+            Toast.makeText(getContext(),"编辑No."+videoProject.getId()+"号互动视频",Toast.LENGTH_SHORT).show();
             mViewModel.setPosition(position);
             mViewModel.getEditorHintName().setValue(videoProject.getName());
             mViewModel.getEditorHintDecs().setValue(videoProject.getDescription());
             mViewModel.getHintCover().setValue(videoProject.getCoverUrl());
+            mViewModel.getHeadInfo().setValue(videoProject.getId()+"号互动视频");
         });
     }
 

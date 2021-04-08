@@ -168,6 +168,11 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
         allVideoCuts.addAll(videoCuts);
         notifyItemRangeInserted(start,videoCuts.size());
     }
+    public void insertData(VideoCut videoCut){
+        int pos = getItemCount();
+        allVideoCuts.add(videoCut);
+        notifyItemInserted(pos);
+    }
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textViewNodeNameUnfold, textViewCutNameUnfold,textViewPlot,textViewBtnText,textViewSons,textViewCutDesc;
         TextView textViewNodeName,textViewOrder, textViewCutName;

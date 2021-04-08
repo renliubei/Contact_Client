@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,7 +52,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.mViewHol
                 return true;
             }
         });
-
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(),"长按进入编辑界面",Toast.LENGTH_SHORT).show();
+            }
+        });
         if (videoProject.getCoverUrl() == null) {
             Glide.with(holder.itemView)
                     .load(R.drawable.defualt_project_cover)

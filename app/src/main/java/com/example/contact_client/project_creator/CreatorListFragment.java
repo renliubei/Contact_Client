@@ -29,6 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,7 +37,7 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -161,18 +162,22 @@ public class CreatorListFragment extends Fragment {
                     //添加从数据库中获取的data
                     List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
                     //添加数据
-                    sonVideoCutsAdapter.insertData(list);
-                    Toast.makeText(getContext(), "添加了" + list.size() + "个视频", Toast.LENGTH_SHORT).show();
-                    saveVideoCutsToCurrentNode();
+                    if(list!=null&&list.size()>0){
+                        sonVideoCutsAdapter.insertData(list);
+                        Toast.makeText(getContext(), "添加了" + list.size() + "个视频", Toast.LENGTH_SHORT).show();
+                        saveVideoCutsToCurrentNode();
+                    }
                 }
                 break;
             case ADD_NODE:
                 if (resultCode == RESULT_OK) {
                     //直接添加儿子节点
                     List<Integer> newList = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-                    mViewModel.addSonNodes(newList);
-                    rebuildSonList(mViewModel.getVideoNode());
-                    Toasty.success(getContext(), "添加结点成功", Toast.LENGTH_SHORT, true).show();
+                    if(newList!=null&&newList.size()>0){
+                        mViewModel.addSonNodes(newList);
+                        rebuildSonList(mViewModel.getVideoNode());
+                        Toast.makeText(getContext(), "添加了"+newList.size()+"个结点", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
                 break;
@@ -216,7 +221,6 @@ public class CreatorListFragment extends Fragment {
             Toasty.error(getContext(),"没有上一层!",Toast.LENGTH_SHORT).show();
         }else{
             VideoNode fatherNode = mViewModel.getVideoProject().getVideoNodeList().get(fatherIndex);
-            Log.d("mylo", fatherNode.getId() +" "+ fatherIndex);
             updateCardUI(fatherNode);
             mViewModel.setCurrentNode(fatherIndex);
             rebuildSonList(fatherNode);
@@ -282,28 +286,25 @@ public class CreatorListFragment extends Fragment {
         for(int index:sons){
             ids.add(list.get(index).getId());
         }
-        Log.d("mylo","sons id are : "+ids.toString());
         mDisposable.add(mViewModel.getAllById(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videoCuts -> {
-                    mViewModel.getSonVideoCuts().clear();
+                    sonVideoCutsAdapter.getAllVideoCuts().clear();
+                    sonVideoCutsAdapter.notifyDataSetChanged();
                     //存在较大的性能隐患，可以考虑添加进度条显示
                     HashMap<Long,VideoCut> map = new HashMap<>();
                     for(VideoCut cut:videoCuts)
                         map.put(cut.getId(),cut);
                     for(Long id:ids){
                         if(id==ROOT_NODE){
-                            mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
-                            Log.d("mylo","foo!!!");
+                            sonVideoCutsAdapter.insertData(mViewModel.getRootVideoCut());
                         }else{
                             VideoCut cut = map.get(id);
                             if(cut!=null)
-                                mViewModel.getSonVideoCuts().add(map.get(id));
+                                sonVideoCutsAdapter.insertData(cut);
                         }
                     }
-                    sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts());
-                    Log.d("mylo","update VideoCuts: "+mViewModel.getSonVideoCuts().toString());
                 }, throwable -> Log.d("mylo", "accept: Unable to get sons by id!")));
     }
 
@@ -360,7 +361,8 @@ public class CreatorListFragment extends Fragment {
             return;
         }
         if(videoProject==null){
-            videoProject = new VideoProject("VideoProject","I am a Project!");
+            Calendar calendar = Calendar.getInstance();
+            videoProject = new VideoProject("互动视频","创建于"+calendar.get(Calendar.YEAR)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DAY_OF_MONTH)+"\t"+calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE));
             VideoNode videoNode = new VideoNode(-1,0,-1);
             videoProject.addNode(videoNode);
         }
@@ -375,11 +377,11 @@ public class CreatorListFragment extends Fragment {
 
     void modifyRecyclerViewAdapter(){
         sonVideoCutsAdapter = new SonVideoCutsAdapter(mViewModel.getSonVideoCuts(),mViewModel.getVideoProject().getVideoNodeList(),mViewModel.getVideoNode());
-        SlideInLeftAnimationAdapter slideInLeftAnimationAdapter = new SlideInLeftAnimationAdapter(sonVideoCutsAdapter);
-        slideInLeftAnimationAdapter.setDuration(1000);
-        slideInLeftAnimationAdapter.setInterpolator(new OvershootInterpolator());
-        slideInLeftAnimationAdapter.setFirstOnly(false);
-        mBinding.recyclerView.setAdapter(slideInLeftAnimationAdapter);
+        AlphaInAnimationAdapter alphaAnimationAdapter = new AlphaInAnimationAdapter(sonVideoCutsAdapter);
+        alphaAnimationAdapter.setDuration(1000);
+        alphaAnimationAdapter.setInterpolator(new OvershootInterpolator());
+        alphaAnimationAdapter.setFirstOnly(false);
+        mBinding.recyclerView.setAdapter(alphaAnimationAdapter);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -397,7 +399,6 @@ public class CreatorListFragment extends Fragment {
                 //移除此子节点
                 mViewModel.getVideoNode().getSons().remove((Integer)targetNodeIndex);
                 //如果子节点已经没有任何父亲则移动到孤立
-                Log.d("mylo",targetNodeIndex +" "+mViewModel.getVideoNode().getIndex());
                 deleteNode(targetNodeIndex,mViewModel.getVideoNode().getIndex());
             }
             @Override
