@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.contact_client.databinding.FactoryFragmentBinding;
-import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
+import com.example.contact_client.project_creator.MainActivity;
 import com.example.contact_client.project_manager.VideoProjectActivity;
 import com.example.contact_client.video_manager.VideoManagerActivity;
 import com.ramotion.circlemenu.CircleMenuView;
@@ -55,7 +55,7 @@ public class FactoryFragment extends Fragment {
                 Intent intent;
                 switch (buttonIndex){
                     case 0:
-                        intent = new Intent(getActivity(), InteractiveCreatorActivity.class);
+                        intent = new Intent(getActivity(), MainActivity.class);
                         break;
                     case 1:
                         intent = new Intent(getActivity(), VideoProjectActivity.class);

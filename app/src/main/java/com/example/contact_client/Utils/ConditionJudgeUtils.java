@@ -1,7 +1,7 @@
 package com.example.contact_client.Utils;
 
-import com.example.contact_client.interactive_creator.Condition.ConditionJudge;
-import com.example.contact_client.interactive_creator.VideoNode;
+import com.example.contact_client.project_creator.Condition.ConditionJudge;
+import com.example.contact_client.project_creator.VideoNode;
 
 /**
  * 用于各种条件判断

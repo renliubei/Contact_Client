@@ -11,8 +11,8 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.contact_client.interactive_creator.Condition.Condition;
-import com.example.contact_client.interactive_creator.VideoNode;
+import com.example.contact_client.project_creator.Condition.Condition;
+import com.example.contact_client.project_creator.VideoNode;
 import com.example.contact_client.repository.type_converter.ConditionListConverter;
 import com.example.contact_client.repository.type_converter.VideoNodeListConverter;
 

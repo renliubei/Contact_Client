@@ -2,7 +2,7 @@ package com.example.contact_client.repository.type_converter;
 
 import androidx.room.TypeConverter;
 
-import com.example.contact_client.interactive_creator.Condition.Condition;
+import com.example.contact_client.project_creator.Condition.Condition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

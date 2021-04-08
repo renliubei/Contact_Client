@@ -12,7 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.example.contact_client.R;
-import com.example.contact_client.interactive_creator.VideoNode;
+import com.example.contact_client.project_creator.VideoNode;
 import com.example.contact_client.repository.VideoProject;
 import com.example.contact_client.repository.mRepository;
 import com.google.android.exoplayer2.ExoPlaybackException;

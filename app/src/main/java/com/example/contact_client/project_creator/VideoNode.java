@@ -1,12 +1,12 @@
-package com.example.contact_client.interactive_creator;
+package com.example.contact_client.project_creator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.contact_client.interactive_creator.Condition.ConditionChanger;
-import com.example.contact_client.interactive_creator.Condition.ConditionJudge;
+import com.example.contact_client.project_creator.Condition.ConditionChanger;
+import com.example.contact_client.project_creator.Condition.ConditionJudge;
 
 import java.util.ArrayList;
 import java.util.List;

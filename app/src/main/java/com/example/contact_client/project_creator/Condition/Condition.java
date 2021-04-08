@@ -1,4 +1,4 @@
-package com.example.contact_client.interactive_creator.Condition;
+package com.example.contact_client.project_creator.Condition;
 
 import android.os.Parcel;
 import android.os.Parcelable;

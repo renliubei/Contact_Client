@@ -1,4 +1,4 @@
-package com.example.contact_client.interactive_creator;
+package com.example.contact_client.project_creator;
 
 import android.view.LayoutInflater;
 import android.view.View;

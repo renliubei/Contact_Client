@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.FragmentProjectGalleryBinding;
-import com.example.contact_client.interactive_creator.InteractiveCreatorActivity;
+import com.example.contact_client.project_creator.MainActivity;
 import com.example.contact_client.repository.VideoProject;
 import com.example.contact_client.video_player.VideoPlayerActivity;
 
@@ -191,7 +191,7 @@ public class ProjectGalleryFragment extends Fragment {
         if(mViewModel.getPosition()==-1){
             Toast.makeText(getActivity(),"无互动视频 or 请先滑动选中",Toast.LENGTH_SHORT).show();
         }else{
-            Intent intent = new Intent(getActivity(), InteractiveCreatorActivity.class);
+            Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.putExtra(getString(R.string.videoProject), videoProject);
             startActivity(intent);
         }

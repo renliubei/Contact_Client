@@ -12,8 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_blue_updown"
-        tools:context=".interactive_creator.InteractiveCreatorActivity">
+        android:background="@drawable/gradient_blue_updown">
 
         <Button
             android:id="@+id/buttonBack"
