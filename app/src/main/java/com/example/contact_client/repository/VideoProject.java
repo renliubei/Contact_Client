@@ -206,20 +206,19 @@ public class VideoProject implements Parcelable{
     /**
      * 将videoCut列表保存为某个结点的孩子
      * @param list 需要保存为孩子的列表
-     * @param nodeIndex 需要保存到结点的下标
+     * @param node 需要保存到结点
      * @return 成功返回true，失败返回false
      */
-    public boolean saveVideoCutsToNode(@NonNull List<VideoCut> list,int nodeIndex){
-        if(nodeIndex>=videoNodeList.size()) return false;
+    public boolean saveVideoCutsToNode(@NonNull List<VideoCut> list,VideoNode node){
+        if(!videoNodeList.contains(node)) return false;
         if(list.size()==0) return true;
-        return _saveVideoCutsToNode(list,nodeIndex);
+        return _saveVideoCutsToNode(list,node);
     }
 
-    private boolean _saveVideoCutsToNode(@NonNull List<VideoCut> list,int nodeIndex){
+    private boolean _saveVideoCutsToNode(@NonNull List<VideoCut> list,VideoNode fatherNode){
         try{
             VideoNode videoNode;
             VideoCut videoCut;
-            VideoNode fatherNode = videoNodeList.get(nodeIndex);
             for(int i=0;i<list.size();i++){
                 //替换Id
                 if(i<fatherNode.getSons().size()){

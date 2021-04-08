@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -63,6 +64,18 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
         //初始化
         init();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mViewModel.getVideoNodeMutableLiveData().observe(this, new Observer<VideoNode>() {
+            @Override
+            public void onChanged(VideoNode node) {
+                updateCardUI(node);
+                rebuildSonList(node);
+            }
+        });
     }
 
     @Override
@@ -167,19 +180,20 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     }
 
     public void jumpToNode(int index) {
-        VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(index);
-        newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
-        if (index == 0) {
-            updateRootNodeUI();
-        } else {
-            mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
-        }
-        mViewModel.setCurrentNode(index);
-        rebuildSonList(newNode);
-        Toasty.info(this, "跳转到结点P"+index, Toast.LENGTH_SHORT,true).show();
+        mViewModel.jumpToNode(index);
+//        VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(index);
+//        newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
+//        if (index == 0) {
+//            updateRootNodeUI();
+//        } else {
+//            mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
+//        }
+//        mViewModel.setCurrentNode(index);
+//        rebuildSonList(newNode);
+//        Toasty.info(this, "跳转到结点P"+index, Toast.LENGTH_SHORT,true).show();
     }
 
     public void goBack(){
@@ -189,16 +203,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         }else{
             VideoNode fatherNode = mViewModel.getVideoProject().getVideoNodeList().get(fatherIndex);
             Log.d("mylo", fatherNode.getId() +" "+ fatherIndex);
-            if(fatherIndex==0){
-                //返回根节点
-                updateRootNodeUI();
-            }else{
-                //返回父节点
-                mDisposable.add(mViewModel.getVideoCutById(fatherNode.getId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(videoCut -> updateFatherNodeUI(videoCut,fatherNode.getIndex()), Throwable::printStackTrace));
-            }
+            updateCardUI(fatherNode);
             mViewModel.setCurrentNode(fatherIndex);
             rebuildSonList(fatherNode);
         }
@@ -208,7 +213,26 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
         mViewModel.deleteNode(videoNode.getIndex(),fatherNode.getIndex());
     }
 
-    public void updateFatherNodeUI(@NotNull VideoCut videoCut, int newIndex){
+    /**
+     * 根据该结点更新上方铭牌
+     * @param node 结点
+     */
+    public void updateCardUI(VideoNode node){
+        if(node.getIndex()==0) updateCardUIToRoot();
+        else{
+            mDisposable.add(mViewModel.getVideoCutById(node.getId())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(videoCut -> updateCardUIByCut(videoCut,node.getIndex()), Throwable::printStackTrace));
+        }
+    }
+
+    /**
+     * 通过给定的cut来更新铭牌
+     * @param videoCut 提供信息的cut
+     * @param newIndex 展示在铭牌上的结点编号
+     */
+    public void updateCardUIByCut(@NotNull VideoCut videoCut, int newIndex){
         mBinding.fatherName.setText(videoCut.getName());
         mBinding.fatherDescription.setText(videoCut.getDescription());
         mBinding.textViewIndex.setText(getString(R.string.Index,newIndex));
@@ -218,7 +242,10 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .into(mBinding.fatherIcon);
     }
 
-    public void updateRootNodeUI(){
+    /**
+     * 将铭牌更新为根节点
+     */
+    public void updateCardUIToRoot(){
         mBinding.fatherName.setText(R.string.startVideos);
         mBinding.fatherDescription.setText(R.string.startHint);
         mBinding.textViewIndex.setText(R.string.Root);
@@ -244,15 +271,13 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .subscribe(videoCuts -> {
                     mViewModel.getSonVideoCuts().clear();
                     //存在较大的性能隐患，可以考虑添加进度条显示
-                    for(int i=0;i<ids.size();i++){
-                        if(ids.get(i)== ROOT_NODE){
-                            mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
-                        }else{
-                            for(int j=0;j<videoCuts.size();j++){
-                                if(videoCuts.get(j).getId()==ids.get(i)){
-                                    mViewModel.getSonVideoCuts().add(videoCuts.get(j));
-                                    break;
-                                }
+                    if(ids.contains(ROOT_NODE))
+                        mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
+                    for(Long id:ids){
+                        for(VideoCut cut:videoCuts){
+                            if(cut.getId()==id){
+                                mViewModel.getSonVideoCuts().add(cut);
+                                break;
                             }
                         }
                     }
@@ -366,9 +391,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 //更新父亲节点
                 VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
                 if(videoCut.getId()==-1){
-                    updateRootNodeUI();
+                    updateCardUIToRoot();
                 }else{
-                    updateFatherNodeUI(videoCut,mViewModel.getVideoNode().getIndex());
+                    updateCardUIByCut(videoCut,mViewModel.getVideoNode().getIndex());
                 }
                 //更新列表并通知Adapter
                 rebuildSonList(mViewModel.getVideoNode());
