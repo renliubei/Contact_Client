@@ -20,12 +20,9 @@ import io.reactivex.Single;
 public class CreatorViewModel extends AndroidViewModel {
 
     //todo：path的相关逻辑
-    //互动视频的路径
-    private List<String> path;
     //显示添加的子节点
     private final List<VideoCut> sonVideoCuts;
     //当前节点
-    private VideoNode videoNode;
     private MutableLiveData<VideoNode> videoNodeMutableLiveData;
     //访问数据库
     private final mRepository mRepository;
@@ -38,7 +35,6 @@ public class CreatorViewModel extends AndroidViewModel {
         super(application);
         //初始化列表
         sonVideoCuts = new ArrayList<>();
-        path = new ArrayList<>();
         //绑定数据库
         mRepository = new mRepository(application);
         //用于显示根节点
@@ -53,15 +49,11 @@ public class CreatorViewModel extends AndroidViewModel {
     }
 
     public VideoNode getVideoNode() {
-        return videoNode;
+        return videoNodeMutableLiveData.getValue();
     }
 
     public VideoCut getRootVideoCut() {
         return rootVideoCut;
-    }
-
-    public List<String> getPath() {
-        return path;
     }
 
     public MutableLiveData<VideoNode> getVideoNodeMutableLiveData() {
@@ -70,9 +62,6 @@ public class CreatorViewModel extends AndroidViewModel {
 
     //setter
     //
-    public void setPath(List<String> path) {
-        this.path = path;
-    }
 
     public VideoProject getVideoProject() {
         return videoProject;
@@ -101,27 +90,26 @@ public class CreatorViewModel extends AndroidViewModel {
         videoProject.deleteNode(nodeIndex,fatherIndex);
     }
     public boolean saveVideoCutsToCurrentNode(){
-        return videoProject.saveVideoCutsToNode(sonVideoCuts,videoNode);
+        return videoProject.saveVideoCutsToNode(sonVideoCuts,getVideoNode());
     }
     public void setCurrentNode(int nodeIndex){
-        videoNode = videoProject.getVideoNodeList().get(nodeIndex);
-        videoNodeMutableLiveData.setValue(videoNode);
+        videoNodeMutableLiveData.setValue(videoProject.getVideoNodeList().get(nodeIndex));
     }
     public void setCurrentNode(VideoNode node){
-        videoNode = node;
         videoNodeMutableLiveData.setValue(node);
     }
     public void addSonNodes(List<Integer> sonIndexes){
-        videoProject.addSonNodes(videoNode.getIndex(),sonIndexes);
+        videoProject.addSonNodes(getVideoNode().getIndex(),sonIndexes);
     }
 
     /**
-     * 设置新节点
+     * 跳转到新节点
      * @param index 新节点下标
      */
     public void jumpToNode(int index) {
+        if(index>videoProject.getVideoNodeList().size()) return;
         VideoNode newNode = videoProject.getVideoNodeList().get(index);
-        newNode.setLastNodeIndex(videoNode.getIndex());
+        newNode.setLastNodeIndex(getVideoNode().getIndex());
         setCurrentNode(newNode);
         Toasty.info(getApplication(), "跳转到结点P"+index, Toast.LENGTH_SHORT,true).show();
     }

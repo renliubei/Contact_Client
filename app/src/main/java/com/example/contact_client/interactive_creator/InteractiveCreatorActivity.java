@@ -27,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -98,7 +99,7 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             /*
                 1:从数据库中添加视频
                 2:从结点列表中添加结点
@@ -107,93 +108,57 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 5:跳转到某个结点
              */
             case ADD_VIDEO:
-                if(resultCode==RESULT_OK){
-                    try {
-                        //添加从数据库中获取的data
-                        List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
-                        //添加数据
-                        sonVideoCutsAdapter.insertData(list);
-                        Toast.makeText(this,"添加了"+list.size()+"个视频",Toast.LENGTH_SHORT).show();
-                        saveVideoCutsToCurrentNode();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                if (resultCode == RESULT_OK) {
+                    //添加从数据库中获取的data
+                    List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
+                    //添加数据
+                    sonVideoCutsAdapter.insertData(list);
+                    Toast.makeText(this, "添加了" + list.size() + "个视频", Toast.LENGTH_SHORT).show();
+                    saveVideoCutsToCurrentNode();
                 }
                 break;
             case ADD_NODE:
-                if(resultCode==RESULT_OK){
-                    try {
-                        //直接添加儿子节点
-                        List<Integer> newList = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-                        mViewModel.addSonNodes(newList);
-                        rebuildSonList(mViewModel.getVideoNode());
-                        Toasty.success(this,"添加结点成功",Toast.LENGTH_SHORT,true).show();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                        Toasty.error(this,"添加结点失败",Toast.LENGTH_SHORT,true).show();
-                    }
+                if (resultCode == RESULT_OK) {
+                    //直接添加儿子节点
+                    List<Integer> newList = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                    mViewModel.addSonNodes(newList);
+                    rebuildSonList(mViewModel.getVideoNode());
+                    Toasty.success(this, "添加结点成功", Toast.LENGTH_SHORT, true).show();
+
                 }
                 break;
             case CHANGE_VIDEO:
-                if(resultCode==RESULT_OK){
-                    try{
-                        //修改儿子视频
-                        List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
-                        if(list.get(0)!=null){
-                            nodeEditor.setId(list.get(0).getId());
-                            rebuildSonList(mViewModel.getVideoNode());
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
+                if (resultCode == RESULT_OK) {
+                    List<VideoCut> list = data.getParcelableArrayListExtra("videoCuts");
+                    if (list!=null&&list.get(0) != null) {
+                        nodeEditor.setId(list.get(0).getId());
+                        rebuildSonList(mViewModel.getVideoNode());
                     }
                 }
                 break;
             case CHANGE_NODE:
-                if(resultCode==RESULT_OK){
-                    try{
-                        //修改儿子节点
-                        List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-                        if(list.get(0)!=null){
-                            List<Integer> sons = mViewModel.getVideoNode().getSons();
-                            //改儿子
-                            sons.set(sons.indexOf(nodeEditor.getIndex()),list.get(0));
-                            rebuildSonList(mViewModel.getVideoNode());
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
+                if (resultCode == RESULT_OK) {
+                    //修改儿子节点
+                    List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                    if (list!=null&&list.get(0) != null) {
+                        List<Integer> sons = mViewModel.getVideoNode().getSons();
+                        //改儿子
+                        sons.set(sons.indexOf(nodeEditor.getIndex()), list.get(0));
+                        rebuildSonList(mViewModel.getVideoNode());
                     }
                 }
                 break;
             case JUMP:
-                if(resultCode==RESULT_OK){
-                    //跳转
-                    try{
-                            List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
-                            if(list.get(0)!=null){
-                                jumpToNode(list.get(0));
-                            }
-                        } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (resultCode == RESULT_OK) {
+                    List<Integer> list = data.getIntegerArrayListExtra(getString(R.string.videoNodeIndexes));
+                    if (list != null && list.size() > 0)
+                        jumpToNode(list.get(0));
                 }
         }
     }
 
     public void jumpToNode(int index) {
         mViewModel.jumpToNode(index);
-//        VideoNode newNode = mViewModel.getVideoProject().getVideoNodeList().get(index);
-//        newNode.setLastNodeIndex(mViewModel.getVideoNode().getIndex());
-//        if (index == 0) {
-//            updateRootNodeUI();
-//        } else {
-//            mDisposable.add(mViewModel.getVideoCutById(newNode.getId())
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe(videoCut -> updateFatherNodeUI(videoCut, newNode.getIndex())));
-//        }
-//        mViewModel.setCurrentNode(index);
-//        rebuildSonList(newNode);
-//        Toasty.info(this, "跳转到结点P"+index, Toast.LENGTH_SHORT,true).show();
     }
 
     public void goBack(){
@@ -212,7 +177,9 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
     void deleteNode(@NotNull VideoNode videoNode, @NotNull VideoNode fatherNode){
         mViewModel.deleteNode(videoNode.getIndex(),fatherNode.getIndex());
     }
-
+    void deleteNode(int nodeIndex,int fatherIndex){
+        mViewModel.deleteNode(nodeIndex,fatherIndex);
+    }
     /**
      * 根据该结点更新上方铭牌
      * @param node 结点
@@ -254,34 +221,33 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
                 .into(mBinding.fatherIcon);
     }
 
-    public void rebuildSonList(@NotNull VideoNode fatherNode){
-        sonVideoCutsAdapter.setCurrentNode(fatherNode);
+    /**
+     * 根据提供的结点更新列表
+     * @param node 结点信息
+     */
+    public void rebuildSonList(@NotNull VideoNode node){
+        sonVideoCutsAdapter.setCurrentNode(node);
         List<Long> ids = new ArrayList<>();
-        List<Integer> sons = fatherNode.getSons();
+        List<Integer> sons = node.getSons();
         List<VideoNode> list = mViewModel.getVideoProject().getVideoNodeList();
-        for(int i=0;i<fatherNode.getSons().size();i++){
-            ids.add(list.get(sons.get(i)).getId());
+        for(int index:sons){
+            ids.add(list.get(index).getId());
         }
         Log.d("mylo","sons id are : "+ids.toString());
-        mBinding.rebuildingSonListLoader.bringToFront();
-        mBinding.rebuildingSonListLoader.smoothToShow();
         mDisposable.add(mViewModel.getAllById(ids)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(videoCuts -> {
                     mViewModel.getSonVideoCuts().clear();
                     //存在较大的性能隐患，可以考虑添加进度条显示
-                    if(ids.contains(ROOT_NODE))
-                        mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
+                    HashMap<Long,VideoCut> map = new HashMap<>();
+                    for(VideoCut cut:videoCuts) map.put(cut.getId(),cut);
+                    if(ids.contains(ROOT_NODE)) mViewModel.getSonVideoCuts().add(mViewModel.getRootVideoCut());
                     for(Long id:ids){
-                        for(VideoCut cut:videoCuts){
-                            if(cut.getId()==id){
-                                mViewModel.getSonVideoCuts().add(cut);
-                                break;
-                            }
-                        }
+                        VideoCut cut = map.get(id);
+                        if(cut!=null)
+                            mViewModel.getSonVideoCuts().add(map.get(id));
                     }
-                    mBinding.rebuildingSonListLoader.smoothToHide();
                     sonVideoCutsAdapter.setAllVideoCuts(mViewModel.getSonVideoCuts());
                     Log.d("mylo","update VideoCuts: "+mViewModel.getSonVideoCuts().toString());
                 }, throwable -> Log.d("mylo", "accept: Unable to get sons by id!")));
@@ -374,13 +340,12 @@ public class InteractiveCreatorActivity extends AppCompatActivity {
             @Override
             public void onClickDeleteNode(View v, int position) {
                 sonVideoCutsAdapter.removeData(position);
-                VideoNode targetNode = mViewModel.getVideoProject().getVideoNodeList().get(mViewModel.getVideoNode().getSons().get(position));
-                VideoNode fatherNode = mViewModel.getVideoNode();
+                int targetNodeIndex = mViewModel.getVideoNode().getSons().get(position);
                 //移除此子节点
-                fatherNode.getSons().remove((Integer)targetNode.getIndex());
+                mViewModel.getVideoNode().getSons().remove((Integer)targetNodeIndex);
                 //如果子节点已经没有任何父亲则移动到孤立
-                Log.d("mylo",targetNode.getIndex() +" "+fatherNode.getIndex());
-                deleteNode(targetNode,fatherNode);
+                Log.d("mylo",targetNodeIndex +" "+mViewModel.getVideoNode().getIndex());
+                deleteNode(targetNodeIndex,mViewModel.getVideoNode().getIndex());
             }
             @Override
             public void onClick(View v, int position) {

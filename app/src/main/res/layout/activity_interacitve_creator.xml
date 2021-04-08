@@ -15,18 +15,6 @@
         android:background="@drawable/gradient_blue_updown"
         tools:context=".interactive_creator.InteractiveCreatorActivity">
 
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/rebuildingSonListLoader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:indicatorColor="@color/royalblue"
-            app:indicatorName="SquareSpinIndicator"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/recyclerView"
-            app:layout_constraintTop_toTopOf="@+id/guideline40" />
-
         <Button
             android:id="@+id/buttonBack"
             android:layout_width="0dp"
