@@ -271,4 +271,20 @@ public class VideoProject implements Parcelable{
             }
         }
     }
+
+    /**
+     * 根据Condition的符合情况过滤孩子结点
+     * @param videoNode 父节点
+     * @return 符合条件的孩子结点数组，如果不存在该结点，返回null
+     */
+    public List<VideoNode> filterSons(VideoNode videoNode){
+        if(!videoNodeList.contains(videoNode)) return null;
+        List<VideoNode> list = new ArrayList<>();
+        for(int i:videoNode.getSons()){
+            VideoNode node = videoNodeList.get(i);
+            if(node.judgeNode())
+                list.add(node);
+        }
+        return list;
+    }
 }

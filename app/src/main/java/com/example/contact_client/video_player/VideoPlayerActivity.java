@@ -21,6 +21,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.toasty.Toasty;
@@ -31,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class VideoPlayerActivity extends AppCompatActivity {
     private static final int ROOT_NODE = -1;
     private VideoNode currentNode;
+    private List<VideoNode> sonNodes=new ArrayList<>();
     private VideoProject mVideoProject;
     private MediaItem mediaItem;
     private  SimpleExoPlayer player;
@@ -59,10 +61,17 @@ public class VideoPlayerActivity extends AppCompatActivity {
         playCurrentNode();
     }
 
+    private List<VideoNode> filterSons(){
+        return mVideoProject.filterSons(currentNode);
+    }
+
     void playCurrentNode(){
+        sonNodes = mVideoProject.filterSons(currentNode);
+        if(sonNodes==null)
+            finish();
         if(currentNode.getId()==ROOT_NODE){
             playerView.hideController();
-            showBtn(currentNode.getSons().size());
+            showBtn();
             showPlot();
         }else{
             mDisposable.add(
@@ -112,7 +121,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
                     case Player.STATE_ENDED:
                         stateString = "ExoPlayer.STATE_ENDED     -";
                         playerView.hideController();
-                        showBtn(currentNode.getSons().size());
+                        showBtn();
                         showPlot();
                         break;
                     default:
@@ -142,8 +151,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
         player.release();
     }
 
-    private void relocateBtn(int btnNum){
+    private void relocateBtn(){
         int MARGIN = 20;
+        int btnNum=sonNodes.size();
         constraintSet.clone(this,R.layout.activity_video_player);
         switch (btnNum){
             case 0:
@@ -237,13 +247,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
 
         onClickOptionBtn = v -> {
                 if(v==leftUpBtn){
-                    currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(0));
+                    currentNode = sonNodes.get(0);
                 }else if(v==rightUpBtn){
-                    currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(1));
+                    currentNode = sonNodes.get(1);
                 }else if(v==leftDownBtn){
-                    currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(2));
+                    currentNode = sonNodes.get(2);
                 }else if(v==rightDownBtn){
-                    currentNode = mVideoProject.getVideoNodeList().get(currentNode.getSons().get(3));
+                    currentNode = sonNodes.get(3);
                 }
                 hidePlot();
                 hideAllBtn();
@@ -258,38 +268,38 @@ public class VideoPlayerActivity extends AppCompatActivity {
         quit.setOnClickListener(v->finish());
     }
 
-    private void setOptionBtnVisible(int showNum){
-        List<VideoNode> nodes = mVideoProject.getVideoNodeList();
-        List<Integer> sons = currentNode.getSons();
+    private void setOptionBtnVisible(){
+        int showNum=sonNodes.size();
         if(showNum>=1){
-            leftUpBtn.setText(nodes.get(sons.get(0)).getBtnText());
+            leftUpBtn.setText(sonNodes.get(0).getBtnText());
             leftUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftUpBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=2){
-            rightUpBtn.setText(nodes.get(sons.get(1)).getBtnText());
+            rightUpBtn.setText(sonNodes.get(1).getBtnText());
             rightUpBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightUpBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=3){
-            leftDownBtn.setText(nodes.get(sons.get(2)).getBtnText());
+            leftDownBtn.setText(sonNodes.get(2).getBtnText());
             leftDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             leftDownBtn.setVisibility(View.VISIBLE);
         }
         if(showNum>=4){
-            rightDownBtn.setText(nodes.get(sons.get(3)).getBtnText());
+            rightDownBtn.setText(sonNodes.get(3).getBtnText());
             rightDownBtn.setAnimation(AnimationUtils.makeInAnimation(this,true));
             rightDownBtn.setVisibility(View.VISIBLE);
         }
     }
 
-    private void showBtn(int sonsNum){
+    private void showBtn(){
         playerView.setClickable(false);
+        int sonsNum=sonNodes.size();
         if(sonsNum==0)
             showEndBtn();
         else{
-            relocateBtn(sonsNum);
-            setOptionBtnVisible(sonsNum);
+            relocateBtn();
+            setOptionBtnVisible();
         }
     }
 

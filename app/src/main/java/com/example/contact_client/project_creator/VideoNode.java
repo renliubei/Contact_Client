@@ -178,4 +178,11 @@ public class VideoNode implements Parcelable {
         changers.remove(changer);
     }
 
+    public boolean judgeNode(){
+        for(ConditionJudge judge:judges){
+            if(!judge.judgeNode())
+                return false;
+        }
+        return true;
+    }
 }
