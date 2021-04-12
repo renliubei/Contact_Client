@@ -1,4 +1,4 @@
-package com.example.contact_client.video_manager;
+package com.example.contact_client;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityDigalogBinding;
 
+/**
+ * 返回需要填写的数值
+ */
 public class EditActivity extends AppCompatActivity {
     private String newName,newDes;
     @Override

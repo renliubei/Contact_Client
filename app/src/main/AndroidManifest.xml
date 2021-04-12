@@ -30,7 +30,7 @@
             android:name=".project_creator.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".video_manager.EditActivity"
+            android:name=".EditActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog" />

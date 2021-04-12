@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"
-        android:background="#4366E4"
+        android:background="@drawable/shape_white_stroke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/recyclerViewProjects"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,9 +48,9 @@
 
         <Button
             android:id="@+id/btnDisplayProject"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="#1F99E6"
+            android:background="#73616D"
             android:text="播放"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
@@ -59,7 +59,7 @@
             android:id="@+id/btnEditProject"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="@drawable/gradient_blue"
+            android:background="#B48285"
             android:text="编辑"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
@@ -68,7 +68,7 @@
             android:id="@+id/btnDeleteProject"
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:background="#4366E4"
+            android:background="#F6C6B0"
             android:text="删除"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
