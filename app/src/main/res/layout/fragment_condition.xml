@@ -11,6 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="5dp"
+        app:cardBackgroundColor="#E3E5F2"
         app:cardCornerRadius="4dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline53"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +22,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:background="@color/ivory">
+            android:layout_margin="4dp">
 
             <View
                 android:layout_width="1.5dp"
@@ -148,7 +148,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="15dp"
         android:autoText="true"
-        android:background="@drawable/gradient_blue"
+        android:background="#464475"
         android:text="添加参数"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
