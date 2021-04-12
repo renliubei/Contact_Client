@@ -54,4 +54,8 @@ public class ConditionChanger implements Parcelable {
     public void changeValue(int changeBy){
         condition.changeValue(changeBy);
     }
+
+    public Condition getCondition() {
+        return condition;
+    }
 }

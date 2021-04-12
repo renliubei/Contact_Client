@@ -27,6 +27,7 @@ public class Condition implements Parcelable {
     }
 
     /**
+     * 请保证最大值大于等于最小值
      * @param conditionName 条件名，作为唯一标识
      * @param defaultValue 默认值
      * @param max 最大值
@@ -80,7 +81,7 @@ public class Condition implements Parcelable {
         value = defaultValue;
     }
 
-    protected String getConditionName() {
+    public String getConditionName() {
         return conditionName;
     }
 
@@ -88,7 +89,7 @@ public class Condition implements Parcelable {
         this.conditionName = conditionName;
     }
 
-    protected int getDefaultValue() {
+    public int getDefaultValue() {
         return defaultValue;
     }
 
@@ -98,6 +99,22 @@ public class Condition implements Parcelable {
 
     protected int getValue() {
         return value;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMax(int max) {
+        this.max = max;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
     }
 
     /**

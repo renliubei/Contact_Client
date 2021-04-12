@@ -1,4 +1,4 @@
-package com.example.contact_client.project_creator;
+package com.example.contact_client.project_creator.adapters;
 
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -94,7 +94,7 @@ public class SearchVideoCutAdapter extends RecyclerView.Adapter<SearchVideoCutAd
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.VideoCutIcon);
-            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewName = itemView.findViewById(R.id.conditionName);
             textViewDescription = itemView.findViewById(R.id.videoNodeCutNameUnfold);
             checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);
         }

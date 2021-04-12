@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
+import com.example.contact_client.project_creator.adapters.SearchVideoNodeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.contact_client.project_creator;
+package com.example.contact_client.project_creator.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
+import com.example.contact_client.project_creator.VideoNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class SearchVideoNodeAdapter extends RecyclerView.Adapter<SearchVideoNode
         CheckBox checkBox;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewName = itemView.findViewById(R.id.conditionName);
             textViewSons = itemView.findViewById(R.id.videoNodeCutNameUnfold);
             textViewIndex = itemView.findViewById(R.id.videoNodeIndex);
             checkBox = itemView.findViewById(R.id.checkBoxNodeDecided);

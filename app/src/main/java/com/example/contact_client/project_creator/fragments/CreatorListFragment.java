@@ -1,4 +1,4 @@
-package com.example.contact_client.project_creator;
+package com.example.contact_client.project_creator.fragments;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.bumptech.glide.Glide;
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityInteracitveCreatorBinding;
+import com.example.contact_client.project_creator.CreatorViewModel;
+import com.example.contact_client.project_creator.SearchRoomForVideoCutActivity;
+import com.example.contact_client.project_creator.SearchVideoNodeActivity;
+import com.example.contact_client.project_creator.VideoNode;
+import com.example.contact_client.project_creator.adapters.SonVideoCutsAdapter;
 import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.repository.VideoProject;
 
@@ -29,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,8 +140,6 @@ public class CreatorListFragment extends Fragment {
 
 
     void init(){
-        //绑定数据
-        bindDataToViewModel(getActivity().getIntent().getParcelableExtra(getString(R.string.videoProject)));
         //配置recyclerView
         modifyRecyclerView();
         //注册按键功能
@@ -353,21 +355,6 @@ public class CreatorListFragment extends Fragment {
             return false;
         });
         popupMenu.show();
-    }
-
-    void bindDataToViewModel(VideoProject videoProject){
-        if(mViewModel==null){
-            Toasty.error(getContext(),"绑定数据失败",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(videoProject==null){
-            Calendar calendar = Calendar.getInstance();
-            videoProject = new VideoProject("互动视频","创建于"+calendar.get(Calendar.YEAR)+"/"+calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DAY_OF_MONTH)+"\t"+calendar.get(Calendar.HOUR_OF_DAY)+":"+calendar.get(Calendar.MINUTE));
-            VideoNode videoNode = new VideoNode(-1,0,-1);
-            videoProject.addNode(videoNode);
-        }
-        mViewModel.setVideoProject(videoProject);
-        mViewModel.setCurrentNode(0);
     }
 
     void modifyRecyclerView(){

@@ -76,7 +76,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/imageViewDelete"
+            android:id="@+id/ConditionDelete"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:padding="0dp"
@@ -87,7 +87,7 @@
             app:srcCompat="@drawable/ic_baseline_delete_24" />
 
         <ImageView
-            android:id="@+id/imageViewChange"
+            android:id="@+id/ConditionEdit"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

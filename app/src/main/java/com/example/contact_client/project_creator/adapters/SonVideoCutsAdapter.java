@@ -1,4 +1,4 @@
-package com.example.contact_client.project_creator;
+package com.example.contact_client.project_creator.adapters;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -18,6 +18,7 @@ import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.contact_client.R;
+import com.example.contact_client.project_creator.VideoNode;
 import com.example.contact_client.repository.VideoCut;
 import com.ramotion.foldingcell.FoldingCell;
 
@@ -185,10 +186,10 @@ public class SonVideoCutsAdapter extends RecyclerView.Adapter<SonVideoCutsAdapte
             imageView = itemView.findViewById(R.id.thumbnailOfCardView);
             textViewNodeName = itemView.findViewById(R.id.videoNodeName);
             textViewCutName = itemView.findViewById(R.id.videoNodeCutName);
-            textViewNodeNameUnfold = itemView.findViewById(R.id.videoNodeNameUnfold);
+            textViewNodeNameUnfold = itemView.findViewById(R.id.conditionName);
             textViewCutNameUnfold = itemView.findViewById(R.id.videoNodeCutNameUnfold);
-            imageViewChange = itemView.findViewById(R.id.imageViewChange);
-            imageViewDelete = itemView.findViewById(R.id.imageViewDelete);
+            imageViewChange = itemView.findViewById(R.id.ConditionEdit);
+            imageViewDelete = itemView.findViewById(R.id.ConditionDelete);
             head_image = itemView.findViewById(R.id.head_image);
             textViewPlot = itemView.findViewById(R.id.videoNodePlot);
             textViewBtnText = itemView.findViewById(R.id.videoNodeBtnText);

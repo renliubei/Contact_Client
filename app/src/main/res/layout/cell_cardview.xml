@@ -51,7 +51,7 @@
                 app:layout_constraintGuide_percent="0.8" />
 
             <TextView
-                android:id="@+id/videoNodeNameUnfold"
+                android:id="@+id/conditionName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLength="12"
@@ -71,8 +71,8 @@
                 android:maxLines="2"
                 android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/videoNodeNameUnfold"
-                app:layout_constraintTop_toBottomOf="@+id/videoNodeNameUnfold" />
+                app:layout_constraintStart_toStartOf="@+id/conditionName"
+                app:layout_constraintTop_toBottomOf="@+id/conditionName" />
 
             <ImageView
                 android:id="@+id/thumbnailOfCardView"
@@ -88,11 +88,11 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
-                android:id="@+id/imageViewChange"
+                android:id="@+id/ConditionEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                app:layout_constraintBottom_toTopOf="@+id/imageViewDelete"
+                app:layout_constraintBottom_toTopOf="@+id/ConditionDelete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/guideline24"
@@ -100,14 +100,14 @@
                 app:srcCompat="@drawable/ic_baseline_create_24" />
 
             <ImageView
-                android:id="@+id/imageViewDelete"
+                android:id="@+id/ConditionDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline24"
-                app:layout_constraintTop_toBottomOf="@+id/imageViewChange"
+                app:layout_constraintTop_toBottomOf="@+id/ConditionEdit"
                 app:srcCompat="@drawable/ic_baseline_delete_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

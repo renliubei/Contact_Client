@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
+import com.example.contact_client.project_creator.adapters.SearchVideoCutAdapter;
 import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.video_manager.VideoCutsViewModel;
 

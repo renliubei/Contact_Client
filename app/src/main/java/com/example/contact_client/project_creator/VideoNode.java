@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.contact_client.project_creator.Condition.Condition;
 import com.example.contact_client.project_creator.Condition.ConditionChanger;
 import com.example.contact_client.project_creator.Condition.ConditionJudge;
 
@@ -178,6 +179,31 @@ public class VideoNode implements Parcelable {
         changers.remove(changer);
     }
 
+    /**
+     * 通过Condition获取判断
+     * @param condition Judge持有的Condition
+     * @return 找到返回Judge 找不到返回null
+     */
+    public ConditionJudge findJudgeByCondition(@NonNull Condition condition){
+        for(int i=0;i<judges.size();i++){
+            if(judges.get(i).getCondition().equals(condition))
+                return judges.get(i);
+        }
+        return null;
+    }
+
+    /**
+     * 根据Condition获取修改
+     * @param condition Changer持有的Condition
+     * @return 找到返回Changer 找不到返回null
+     */
+    public ConditionChanger findChangerByCondition(@NonNull Condition condition){
+        for(int i=0;i<changers.size();i++){
+            if(changers.get(i).getCondition().equals(condition))
+                return changers.get(i);
+        }
+        return null;
+    }
     public boolean judgeNode(){
         for(ConditionJudge judge:judges){
             if(!judge.judgeNode())
@@ -185,4 +211,5 @@ public class VideoNode implements Parcelable {
         }
         return true;
     }
+
 }
