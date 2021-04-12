@@ -70,7 +70,7 @@
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:padding="20dp"
             android:text="详情页"
             android:textColor="@android:color/white"
             android:textSize="14sp"
@@ -94,7 +94,7 @@
 
         <ImageView
             android:id="@+id/head_image"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/defualt_project_cover"
