@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.contact_client.project_creator.Condition.Condition;
 import com.example.contact_client.repository.VideoCut;
 import com.example.contact_client.repository.VideoProject;
 import com.example.contact_client.repository.mRepository;
@@ -30,6 +31,8 @@ public class CreatorViewModel extends AndroidViewModel {
     private VideoProject videoProject;
     //根节点的VideoCut
     private final VideoCut rootVideoCut;
+    //当前参数
+    private final MutableLiveData<Condition> conditionMutableLiveData;
 
     public CreatorViewModel(@NonNull Application application) {
         super(application);
@@ -42,6 +45,18 @@ public class CreatorViewModel extends AndroidViewModel {
         rootVideoCut.setId(-1);
         //
         videoNodeMutableLiveData = new MutableLiveData<>();
+        conditionMutableLiveData = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<Condition> getConditionMutableLiveData() {
+        return conditionMutableLiveData;
+    }
+
+    public void setCondition(Condition condition) {
+        conditionMutableLiveData.setValue(condition);
+    }
+    public Condition getCondition() {
+        return conditionMutableLiveData.getValue();
     }
 
     public List<VideoCut> getSonVideoCuts() {

@@ -13,7 +13,7 @@
         tools:context=".EditActivity">
 
         <EditText
-            android:id="@+id/videoCutEditNewName"
+            android:id="@+id/videoCutEditFirst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="名称"
             app:layout_constraintBottom_toTopOf="@+id/guideline37"
-            app:layout_constraintEnd_toStartOf="@+id/videoCutEditNewName"
+            app:layout_constraintEnd_toStartOf="@+id/videoCutEditFirst"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline38" />
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:text="描述"
             app:layout_constraintBottom_toTopOf="@+id/guideline27"
-            app:layout_constraintEnd_toStartOf="@+id/videoCutEditNewDes"
+            app:layout_constraintEnd_toStartOf="@+id/videoCutEditSecond"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline37" />
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline27" />
 
         <EditText
-            android:id="@+id/videoCutEditNewDes"
+            android:id="@+id/videoCutEditSecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"

@@ -21,17 +21,16 @@ public class EditActivity extends AppCompatActivity {
         ActivityDigalogBinding binding;
         binding = DataBindingUtil.setContentView(this,R.layout.activity_digalog);
         binding.setLifecycleOwner(this);
-
         binding.videoCutEditDecide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                if(!binding.videoCutEditNewName.getText().toString().isEmpty()){
-                    newName = binding.videoCutEditNewName.getText().toString();
+                if(!binding.videoCutEditFirst.getText().toString().isEmpty()){
+                    newName = binding.videoCutEditFirst.getEditableText().toString();
                     intent.putExtra("newName",newName);
                 }
-                if(!binding.videoCutEditNewDes.getText().toString().isEmpty()){
-                    newDes = binding.videoCutEditNewDes.getText().toString();
+                if(!binding.videoCutEditSecond.getText().toString().isEmpty()){
+                    newDes = binding.videoCutEditSecond.getEditableText().toString();
                     intent.putExtra("newDes",newDes);
                 }
                 Log.d("mylo","new things are"+newDes+" "+newName);

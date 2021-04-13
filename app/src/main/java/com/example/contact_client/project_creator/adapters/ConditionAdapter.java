@@ -1,6 +1,5 @@
 package com.example.contact_client.project_creator.adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,24 +20,28 @@ import com.example.contact_client.project_creator.Condition.ConditionChanger;
 import com.example.contact_client.project_creator.Condition.ConditionJudge;
 import com.example.contact_client.project_creator.VideoNode;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyViewHolder>{
-    private static List<Condition> conditionList;
+    private List<Condition> conditionList;
     private VideoNode currentNode;
-    private Context context;
-    static{
-        conditionList = new ArrayList<>();
-        Condition condition1 = new Condition("test1",50,100,0);
-        Condition condition2 = new Condition("test2",50,100,0);
-        Condition condition3 = new Condition("test3",50,100,0);
-        conditionList.add(condition1);conditionList.add(condition2);conditionList.add(condition3);
-    }
-
-    public ConditionAdapter(VideoNode currentNode,Context context) {
+    private HashMap<Integer,Integer> hashMapJudge,hashMapChanger;
+    public ConditionAdapter(VideoNode currentNode,List<Condition> conditions) {
         this.currentNode = currentNode;
-        this.context = context;
+        conditionList = conditions;
+        hashMapChanger = new HashMap<>();
+        hashMapJudge = new HashMap<>();
+        ConditionJudge judge;
+        ConditionChanger changer;
+        for(int i=0;i<conditionList.size();i++){
+            if((judge=currentNode.findJudgeByCondition(conditionList.get(i)))!=null){
+                hashMapJudge.put(i,judge.getRequiredValue());
+            }
+            if((changer=currentNode.findChangerByCondition(conditionList.get(i)))!=null){
+                hashMapChanger.put(i,changer.getChange());
+            }
+        }
     }
 
     public List<Condition> getConditionList() {
@@ -67,8 +70,10 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
                 if(b){
                     if(!holder.editTextJudge.getEditableText().toString().isEmpty()){
                         holder.editTextJudge.setEnabled(false);
-                        ConditionJudge judge = new ConditionJudge(condition,ConditionJudge.OVER,Integer.parseInt(holder.editTextJudge.getEditableText().toString().trim()));
+                        int value = Integer.parseInt(holder.editTextJudge.getEditableText().toString().trim());
+                        ConditionJudge judge = new ConditionJudge(condition,ConditionJudge.OVER,value);
                         currentNode.addJudge(judge);
+                        hashMapJudge.put(position,value);
                         holder.textViewJudge.setTextColor(Color.BLUE);
                     }
                     else{
@@ -78,6 +83,7 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
                 }else{
                         ConditionJudge conditionJudge = currentNode.findJudgeByCondition(condition);
                         currentNode.removeJudge(conditionJudge);
+                        hashMapJudge.remove(position);
                         holder.editTextJudge.setEnabled(true);
                         holder.textViewJudge.setTextColor(Color.GRAY);
                 }
@@ -89,8 +95,10 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
                 if(b){
                     if(!holder.editTextChanger.getEditableText().toString().isEmpty()){
                         holder.editTextChanger.setEnabled(false);
-                        ConditionChanger changer = new ConditionChanger(condition,Integer.parseInt(holder.editTextChanger.getEditableText().toString().trim()));
+                        int value = Integer.parseInt(holder.editTextChanger.getEditableText().toString().trim());
+                        ConditionChanger changer = new ConditionChanger(condition,value);
                         currentNode.addChanger(changer);
+                        hashMapChanger.put(position,value);
                         holder.textViewChanger.setTextColor(Color.BLUE);
                     } else{
                         compoundButton.setChecked(false);
@@ -99,20 +107,29 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
                 }else{
                     ConditionChanger conditionChanger = currentNode.findChangerByCondition(condition);
                     currentNode.removeChanger(conditionChanger);
+                    hashMapChanger.remove(position);
                     holder.editTextChanger.setEnabled(true);
                     holder.textViewChanger.setTextColor(Color.GRAY);
                 }
             }
         });
-        if(currentNode.findChangerByCondition(condition)!=null)
-            holder.asChanger.setChecked(true);
-        else
-            holder.asChanger.setChecked(false);
-        if(currentNode.findJudgeByCondition(condition)!=null)
+        if(hashMapJudge.containsKey(position)){
+            holder.editTextChanger.getEditableText().clear();
+            holder.editTextChanger.getEditableText().append(String.valueOf(hashMapJudge.get(position)));
             holder.asJudge.setChecked(true);
-        else
+        }else{
+            holder.editTextJudge.getEditableText().clear();
             holder.asJudge.setChecked(false);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        }
+        if(hashMapChanger.containsKey(position)){
+            holder.editTextChanger.getEditableText().clear();
+            holder.editTextChanger.getEditableText().append(String.valueOf(hashMapChanger.get(position)));
+            holder.asChanger.setChecked(true);
+        }else{
+            holder.editTextChanger.getEditableText().clear();
+            holder.asChanger.setChecked(false);
+        }
+        holder.textViewName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(onClick!=null)
@@ -124,6 +141,12 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
     @Override
     public int getItemCount() {
         return conditionList.size();
+    }
+
+    public void addCondition(Condition condition) {
+        int pos = getItemCount();
+        conditionList.add(condition);
+        notifyItemInserted(pos);
     }
 
 

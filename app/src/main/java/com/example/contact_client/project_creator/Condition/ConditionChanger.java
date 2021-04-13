@@ -19,6 +19,10 @@ public class ConditionChanger implements Parcelable {
         this.change = change;
     }
 
+    public int getChange() {
+        return change;
+    }
+
     protected ConditionChanger(Parcel in) {
         condition = in.readParcelable(Condition.class.getClassLoader());
         change = in.readInt();

@@ -14,6 +14,18 @@ public class Condition implements Parcelable {
     private int defaultValue;
     private int value;
     private int max,min;
+
+    /**
+     * 返回默认参数 默认值50 最大值100 最小值50
+     */
+    public Condition() {
+        this.conditionName  = "新参数";
+        this.defaultValue = 50;
+        this.value = 50;
+        this.max = 100;
+        this.min = 0;
+    }
+
     /**
      * 最大值100，最小值0
      * @param conditionName 条件名，作为唯一标识
@@ -22,6 +34,7 @@ public class Condition implements Parcelable {
     public Condition(@NonNull String conditionName, int defaultValue) {
         this.conditionName = conditionName;
         this.defaultValue = defaultValue;
+        this.value = defaultValue;
         max = 100;
         min = 0;
     }
@@ -36,6 +49,7 @@ public class Condition implements Parcelable {
     public Condition(@NonNull String conditionName, int defaultValue, int max, int min) {
         this.conditionName = conditionName;
         this.defaultValue = defaultValue;
+        this.value = defaultValue;
         this.max = max;
         this.min = min;
     }
@@ -77,7 +91,7 @@ public class Condition implements Parcelable {
     /**
      * 使条件值恢复默认
      */
-    protected void toDefault(){
+    public void toDefault(){
         value = defaultValue;
     }
 
@@ -85,7 +99,7 @@ public class Condition implements Parcelable {
         return conditionName;
     }
 
-    protected void setConditionName(String conditionName) {
+    public void setConditionName(String conditionName) {
         this.conditionName = conditionName;
     }
 
@@ -93,11 +107,11 @@ public class Condition implements Parcelable {
         return defaultValue;
     }
 
-    protected void setDefaultValue(int defaultValue) {
+    public void setDefaultValue(int defaultValue) {
         this.defaultValue = defaultValue;
     }
 
-    protected int getValue() {
+    public int getValue() {
         return value;
     }
 
@@ -126,4 +140,5 @@ public class Condition implements Parcelable {
         if(value<min) value = min;
         else if(value>max) value = max;
     }
+
 }
