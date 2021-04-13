@@ -19,10 +19,10 @@
             android:layout_margin="5dp"
             app:cardBackgroundColor="#E3E5F2"
             app:cardCornerRadius="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline53"
+            app:layout_constraintBottom_toTopOf="@+id/buttonAddCondition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/guideline53">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
@@ -31,14 +31,14 @@
                 android:layout_margin="4dp">
 
                 <ImageView
-                    android:id="@+id/conditionEdit"
+                    android:id="@+id/conditionSave"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     app:layout_constraintBottom_toTopOf="@+id/ConditionDelete"
                     app:layout_constraintStart_toStartOf="@+id/conditionDelete"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_create_24" />
+                    app:srcCompat="@drawable/ic_baseline_save_24" />
 
                 <ImageView
                     android:id="@+id/conditionDelete"
@@ -66,16 +66,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.25" />
+                    app:layout_constraintGuide_percent="0.3" />
 
                 <EditText
                     android:id="@+id/conditionName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
-                    android:maxLength="12"
+                    android:maxLength="6"
+                    android:padding="20dp"
                     android:text="参数名"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline44"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="默认值"
-                    app:layout_constraintEnd_toStartOf="@+id/conditionEdit"
+                    app:layout_constraintEnd_toStartOf="@+id/conditionSave"
                     app:layout_constraintStart_toStartOf="@+id/guideline44"
                     app:layout_constraintTop_toTopOf="parent"
                     android:inputType="number" />
@@ -138,29 +139,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.75" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline51"
+            app:layout_constraintBottom_toTopOf="@+id/guideline53"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonAddCondition"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="15dp"
-            android:autoText="true"
             android:background="#464475"
             android:text="添加参数"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
+            app:layout_constraintTop_toBottomOf="@+id/guideline51" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
