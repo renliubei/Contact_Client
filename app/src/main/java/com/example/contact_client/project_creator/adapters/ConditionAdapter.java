@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contact_client.R;
@@ -25,8 +26,15 @@ import java.util.List;
 
 public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyViewHolder>{
     private List<Condition> conditionList;
-    private VideoNode currentNode;
-    private HashMap<Integer,Integer> hashMapJudge,hashMapChanger;
+    private final VideoNode currentNode;
+    private final HashMap<Integer,Integer> hashMapJudge;
+    private final HashMap<Integer,Integer> hashMapChanger;
+    private static final int yellow = Color.argb(100,242,166,82);
+    private static final int green = Color.argb(100,117,185,110);
+    private static final int red = Color.argb(100,233,106,53);
+    private static final int purple = Color.argb(100,119,84,38);
+    private static final int blue = Color.argb(100,66,193,226);
+    private final int[] colors = new int[]{yellow,green,purple,red,blue};
     public ConditionAdapter(VideoNode currentNode,List<Condition> conditions) {
         this.currentNode = currentNode;
         conditionList = conditions;
@@ -62,6 +70,7 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Condition condition = conditionList.get(position);
+        holder.constraintLayout.setBackgroundColor(colors[position%5]);
         holder.textViewName.setText(condition.getConditionName());
         holder.asJudge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -154,6 +163,7 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
         TextView textViewName,textViewChanger,textViewJudge;
         EditText editTextChanger, editTextJudge;
         Switch asJudge,asChanger;
+        ConstraintLayout constraintLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             editTextChanger = itemView.findViewById(R.id.editTextNumberConditionChanger);
@@ -163,6 +173,7 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
             textViewName = itemView.findViewById(R.id.conditionName);
             asChanger = itemView.findViewById(R.id.switchConditionAsChanger);
             asJudge = itemView.findViewById(R.id.switchConditionAsJudge);
+            constraintLayout=itemView.findViewById(R.id.ViewCondition);
         }
     }
 
