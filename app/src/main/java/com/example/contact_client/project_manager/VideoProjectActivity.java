@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.contact_client.R;
 import com.example.contact_client.databinding.ActivityVideoProjectBinding;
-import com.example.contact_client.project_manager.pageTransfomers.DepthPageTransformer;
+import com.example.contact_client.pageTransfomers.DepthPageTransformer;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.devio.takephoto.model.TImage;

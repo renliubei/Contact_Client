@@ -5,8 +5,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.contact_client.R;
+import com.example.contact_client.pageTransfomers.DepthPageTransformer;
+import com.example.contact_client.project_creator.adapters.FragmentAdapter;
 import com.example.contact_client.repository.VideoProject;
 
 import java.util.Calendar;
@@ -21,6 +24,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         mViewModel = new ViewModelProvider(this).get(CreatorViewModel.class);
         bindDataToViewModel(getIntent().getParcelableExtra(getString(R.string.videoProject)));
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(this,mViewModel);
+        ViewPager2 viewPager2 = findViewById(R.id.viewPager2Creator);
+        viewPager2.setPageTransformer(new DepthPageTransformer());
+        viewPager2.setAdapter(fragmentAdapter);
     }
 
     void bindDataToViewModel(VideoProject videoProject){
