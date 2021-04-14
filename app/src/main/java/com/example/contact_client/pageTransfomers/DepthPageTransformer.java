@@ -1,4 +1,4 @@
-package com.example.contact_client.project_manager.pageTransfomers;
+package com.example.contact_client.pageTransfomers;
 
 import android.view.View;
 
