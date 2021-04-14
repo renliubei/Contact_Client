@@ -16,7 +16,6 @@
             android:id="@+id/cardView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="5dp"
             app:cardBackgroundColor="#E3E5F2"
             app:cardCornerRadius="4dp"
             app:layout_constraintBottom_toTopOf="@+id/buttonAddCondition"
@@ -70,11 +69,11 @@
 
                 <EditText
                     android:id="@+id/conditionName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
-                    android:maxLength="6"
-                    android:padding="20dp"
+                    android:maxLength="10"
+                    android:padding="15dp"
                     android:text="参数名"
                     android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -109,12 +108,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="默认值"
+                    android:inputType="number"
                     app:layout_constraintEnd_toStartOf="@+id/conditionSave"
                     app:layout_constraintStart_toStartOf="@+id/guideline44"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:inputType="number" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="3dp"

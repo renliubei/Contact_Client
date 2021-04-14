@@ -128,6 +128,7 @@ public class ConditionFragment extends Fragment {
                     int defaultValue = Integer.parseInt(binding.conditionDefault.getEditableText().toString().trim());
                     mViewModel.getCondition().setDefaultValue(defaultValue);
                 }
+                conditionAdapter.notifyDataSetChanged();
             }
         });
     }

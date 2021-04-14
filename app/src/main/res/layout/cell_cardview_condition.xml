@@ -14,10 +14,10 @@
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ViewCondition"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp">
@@ -58,12 +58,13 @@
 
             <TextView
                 android:id="@+id/conditionName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:maxLength="12"
                 android:maxLines="2"
                 android:text="参数名"
                 android:textSize="18sp"
+                android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline14"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -98,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="判断值"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
                 app:layout_constraintTop_toBottomOf="@+id/textViewConditionAsChanger" />
@@ -108,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="修改值"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textViewConditionAsJudge"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
                 app:layout_constraintTop_toTopOf="parent" />
