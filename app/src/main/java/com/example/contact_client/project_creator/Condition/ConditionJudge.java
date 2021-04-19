@@ -6,9 +6,9 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class ConditionJudge implements Parcelable {
-    public static final int  OVER = 1;
-    public static final int BELOW = 2;
-    public static final int EQUAL = 3;
+    public static final int  OVER = 0;
+    public static final int BELOW = 1;
+    public static final int EQUAL = 2;
     private Condition condition;
     private int judgeWay;
     private int requiredValue;

@@ -62,7 +62,7 @@ public class ConditionFragment extends Fragment {
 
     private void init(){
         mViewModel.setCondition(defaultCondition);
-        conditionAdapter = new ConditionAdapter(mViewModel.getVideoNode(),mViewModel.getVideoProject().getConditions());
+        conditionAdapter = new ConditionAdapter(mViewModel.getVideoNode(),mViewModel.getVideoProject().getConditions(),getActivity());
         conditionAdapter.setOnClick(new ConditionAdapter.onClick() {
             @Override
             public void onClick(View v, int position) {

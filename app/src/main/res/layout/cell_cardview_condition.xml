@@ -93,12 +93,11 @@
                 app:layout_constraintStart_toStartOf="@+id/guideline55"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textViewConditionAsJudge"
+            <Spinner
+                android:id="@+id/spinnerJudgeConditions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:text="判断值"
                 android:textColor="@android:color/darker_gray"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,9 +110,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="修改值"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/colorBlack"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textViewConditionAsJudge"
+                app:layout_constraintBottom_toTopOf="@+id/spinnerJudgeConditions"
                 app:layout_constraintStart_toStartOf="@+id/guideline14"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -138,7 +137,7 @@
                 android:inputType="number"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline55"
-                app:layout_constraintStart_toEndOf="@+id/textViewConditionAsJudge"
+                app:layout_constraintStart_toEndOf="@+id/spinnerJudgeConditions"
                 app:layout_constraintTop_toBottomOf="@+id/editTextNumberConditionChanger" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
