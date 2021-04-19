@@ -3,7 +3,6 @@ package com.example.contact_client.project_manager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,7 +162,6 @@ public class ProjectGalleryFragment extends Fragment {
                 if (recyclerView.getChildCount() > 0 && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     try {
                         int position = recyclerView.getChildAdapterPosition(snapHelper.findSnapView(recyclerView.getLayoutManager()));
-                        Log.d("mylo","here"+position);
                         mViewModel.setPosition(position);
                         binding.recyclerViewBottomText.smoothScrollToPosition(position);
                     } catch (Exception e) {

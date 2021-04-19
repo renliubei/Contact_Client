@@ -285,6 +285,7 @@ public class VideoProject implements Parcelable{
             if(node.judgeNode())
                 list.add(node);
         }
+        Log.d("mylo",list.toString());
         return list;
     }
 }

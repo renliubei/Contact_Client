@@ -20,8 +20,8 @@ public class ConditionJudge implements Parcelable {
      */
     public boolean judgeNode(){
         switch (judgeWay){
-            case OVER: return requiredValue>condition.getValue();
-            case BELOW:return requiredValue<condition.getValue();
+            case OVER: return requiredValue<condition.getValue();
+            case BELOW:return requiredValue>condition.getValue();
             case EQUAL:return requiredValue==condition.getValue();
         }
         return true;
@@ -95,5 +95,14 @@ public class ConditionJudge implements Parcelable {
 
     public int getCurrentValue(){
         return condition.getValue();
+    }
+
+    @Override
+    public String toString() {
+        return "ConditionJudge{" +
+                "condition=" + condition +
+                ", judgeWay=" + judgeWay +
+                ", requiredValue=" + requiredValue +
+                '}';
     }
 }

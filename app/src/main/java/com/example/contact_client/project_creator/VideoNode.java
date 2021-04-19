@@ -2,6 +2,7 @@ package com.example.contact_client.project_creator;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -206,6 +207,7 @@ public class VideoNode implements Parcelable {
     }
     public boolean judgeNode(){
         for(ConditionJudge judge:judges){
+            Log.d("mylo",judge.toString());
             if(!judge.judgeNode())
                 return false;
         }

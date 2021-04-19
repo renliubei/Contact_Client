@@ -15,6 +15,7 @@ import com.example.contact_client.R;
 import com.example.contact_client.databinding.FragmentConditionBinding;
 import com.example.contact_client.project_creator.Condition.Condition;
 import com.example.contact_client.project_creator.CreatorViewModel;
+import com.example.contact_client.project_creator.VideoNode;
 import com.example.contact_client.project_creator.adapters.ConditionAdapter;
 
 /**
@@ -116,6 +117,12 @@ public class ConditionFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        mViewModel.getVideoNodeMutableLiveData().observe(this, new Observer<VideoNode>() {
+            @Override
+            public void onChanged(VideoNode videoNode) {
+                conditionAdapter.changeNode(videoNode);
+            }
+        });
         mViewModel.getConditionMutableLiveData().observe(this, new Observer<Condition>() {
             @Override
             public void onChanged(Condition condition) {

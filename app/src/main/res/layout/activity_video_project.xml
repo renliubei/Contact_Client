@@ -29,7 +29,7 @@
                 android:id="@+id/tabLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#72D8F0"
+                android:background="#1B88FF"
                 app:tabIndicatorColor="@color/floralwhite"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:tabTextColor="#FBD664">

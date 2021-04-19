@@ -200,10 +200,7 @@ public class CreatorListFragment extends Fragment {
         if(fatherIndex==-1){
             Toasty.error(getContext(),"没有上一层!",Toast.LENGTH_SHORT).show();
         }else{
-            VideoNode fatherNode = mViewModel.getVideoProject().getVideoNodeList().get(fatherIndex);
-            updateCardUI(fatherNode);
             mViewModel.setCurrentNode(fatherIndex);
-            rebuildSonList(fatherNode);
         }
     }
 
@@ -372,15 +369,6 @@ public class CreatorListFragment extends Fragment {
                 saveVideoCutsToCurrentNode();
                 //设置新父亲
                 mViewModel.setCurrentNode(mViewModel.getVideoNode().getSons().get(position));
-                //更新父亲节点
-                VideoCut videoCut = sonVideoCutsAdapter.getAllVideoCuts().get(position);
-                if(videoCut.getId()==-1){
-                    updateCardUIToRoot();
-                }else{
-                    updateCardUIByCut(videoCut,mViewModel.getVideoNode().getIndex());
-                }
-                //更新列表并通知Adapter
-                rebuildSonList(mViewModel.getVideoNode());
             }
         }));
     }

@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyViewHolder>{
     private List<Condition> conditionList;
-    private final VideoNode currentNode;
+    private  VideoNode currentNode;
     private final HashMap<Integer,Integer> hashMapJudge;
     private final HashMap<Integer,Integer> hashMapChanger;
     private static final int yellow = Color.argb(100,242,166,82);
@@ -35,23 +35,39 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
     private static final int purple = Color.argb(100,119,84,38);
     private static final int blue = Color.argb(100,66,193,226);
     private final int[] colors = new int[]{yellow,green,purple,red,blue};
+
     public ConditionAdapter(VideoNode currentNode,List<Condition> conditions) {
         this.currentNode = currentNode;
         conditionList = conditions;
         hashMapChanger = new HashMap<>();
         hashMapJudge = new HashMap<>();
+        buildMap();
+    }
+    public void changeNode(VideoNode node){
+        currentNode=node;
+        buildMap();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 根据当前节点获取条件器情况
+     */
+    public void buildMap(){
         ConditionJudge judge;
         ConditionChanger changer;
+        hashMapChanger.clear();
+        hashMapJudge.clear();
         for(int i=0;i<conditionList.size();i++){
             if((judge=currentNode.findJudgeByCondition(conditionList.get(i)))!=null){
+                Log.d("mylo","add judge");
                 hashMapJudge.put(i,judge.getRequiredValue());
             }
             if((changer=currentNode.findChangerByCondition(conditionList.get(i)))!=null){
+                Log.d("mylo","add change");
                 hashMapChanger.put(i,changer.getChange());
             }
         }
     }
-
     public List<Condition> getConditionList() {
         return conditionList;
     }
@@ -123,8 +139,8 @@ public class ConditionAdapter extends RecyclerView.Adapter<ConditionAdapter.MyVi
             }
         });
         if(hashMapJudge.containsKey(position)){
-            holder.editTextChanger.getEditableText().clear();
-            holder.editTextChanger.getEditableText().append(String.valueOf(hashMapJudge.get(position)));
+            holder.editTextJudge.getEditableText().clear();
+            holder.editTextJudge.getEditableText().append(String.valueOf(hashMapJudge.get(position)));
             holder.asJudge.setChecked(true);
         }else{
             holder.editTextJudge.getEditableText().clear();
