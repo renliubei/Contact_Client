@@ -2,7 +2,6 @@ package com.example.contact_client.repository;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -12,6 +11,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.example.contact_client.project_creator.Condition.Condition;
+import com.example.contact_client.project_creator.Condition.ConditionChanger;
 import com.example.contact_client.project_creator.VideoNode;
 import com.example.contact_client.repository.type_converter.ConditionListConverter;
 import com.example.contact_client.repository.type_converter.VideoNodeListConverter;
@@ -184,7 +184,6 @@ public class VideoProject implements Parcelable{
         VideoNode videoNode = videoNodeList.get(nodeIndex);
         //删除父亲
         videoNode.getFathers().remove((Integer) fatherIndex);
-        Log.d("mylo",fatherIndex + videoNode.getFathers().toString());
         //根节点不能被孤立
         if(videoNode.getIndex()==0){
             return;
@@ -194,7 +193,6 @@ public class VideoProject implements Parcelable{
             //移动到被删除列表
             videoNode.setId(ISOLATED);
             isolatedNodes.add(videoNode);
-            Log.d("mylo","P" + videoNode.getIndex() + " deleted: " + isolatedNodes.toString());
             //递归判断其儿子是否也被孤立
             for(int i=0;i<videoNode.getSons().size();i++){
                 _deleteNode(videoNode.getSons().get(i),videoNode.getIndex());
@@ -242,8 +240,6 @@ public class VideoProject implements Parcelable{
                     fatherNode.addSon(videoNode.getIndex());
                 }
             }
-            Log.d("mylo","videoNodes are: "+videoNodeList.toString());
-            Log.d("mylo","sons are: "+fatherNode.getSons().toString());
             return true;
         }catch(Exception e){
             e.printStackTrace();
@@ -285,7 +281,13 @@ public class VideoProject implements Parcelable{
             if(node.judgeNode())
                 list.add(node);
         }
-        Log.d("mylo",list.toString());
         return list;
+    }
+
+    public void changeConditions(VideoNode videoNode){
+        if(!videoNodeList.contains(videoNode)) return;
+        for(ConditionChanger changer:videoNode.getChangers()){
+            changer.doChange();
+        }
     }
 }

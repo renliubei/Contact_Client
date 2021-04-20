@@ -66,6 +66,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     void playCurrentNode(){
+        mVideoProject.changeConditions(currentNode);
         sonNodes = mVideoProject.filterSons(currentNode);
         if(sonNodes==null)
             finish();

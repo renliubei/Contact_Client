@@ -53,10 +53,9 @@ public class ConditionChanger implements Parcelable {
 
     /**
      * 改变条件值，不会超出大小界限
-     * @param changeBy 改变幅度
      */
-    public void changeValue(int changeBy){
-        condition.changeValue(changeBy);
+    public void doChange(){
+        condition.changeValue(change);
     }
 
     public Condition getCondition() {
