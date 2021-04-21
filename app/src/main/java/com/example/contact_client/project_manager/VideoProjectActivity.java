@@ -48,6 +48,11 @@ public class VideoProjectActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onBackPressed() {
         if (binding.viewPage2ProjectGallery.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
