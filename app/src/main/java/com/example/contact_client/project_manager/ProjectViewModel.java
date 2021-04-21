@@ -21,7 +21,7 @@ public class ProjectViewModel extends AndroidViewModel {
     //保存访问到的project
     private final LiveData<List<VideoProject>>  projectsLiveDataList;
     //保存中心item的position
-    private int position = -1;
+    private int position=0;
     //编辑界面的名字提示
     private MutableLiveData<String> editorHintName;
     //编辑界面的描述提示

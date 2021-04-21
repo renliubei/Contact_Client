@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/gradient_blue2"
+        android:background="#C1556F"
         android:padding="0dp"
         tools:context=".project_manager.VideoProjectActivity">
 
@@ -29,7 +29,7 @@
                 android:id="@+id/tabLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#1B88FF"
+                android:background="#F8B477"
                 app:tabIndicatorColor="@color/floralwhite"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium"
                 app:tabTextColor="#FBD664">

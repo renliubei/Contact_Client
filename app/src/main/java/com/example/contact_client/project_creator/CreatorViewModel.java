@@ -46,6 +46,7 @@ public class CreatorViewModel extends AndroidViewModel {
         //
         videoNodeMutableLiveData = new MutableLiveData<>();
         conditionMutableLiveData = new MutableLiveData<>();
+        //
     }
 
     public MutableLiveData<Condition> getConditionMutableLiveData() {
